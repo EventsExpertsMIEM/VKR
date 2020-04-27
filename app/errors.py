@@ -1,5 +1,4 @@
-from .rest_api import *
-from .util import send_500_email
+from .api import *
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
 from flask import abort
@@ -9,7 +8,7 @@ def add_error_handlers(app):
     app.register_error_handler(401, unauthorized)
     app.register_error_handler(404, not_found)
     app.register_error_handler(405, method_not_allowed)
-    app.register_error_handler(500, server_500_error)
+    #app.register_error_handler(500, server_500_error)
 
     app.register_error_handler(HTTPException, http_error_handler)
 

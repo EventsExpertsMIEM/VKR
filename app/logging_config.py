@@ -1,5 +1,6 @@
 import os
 
+
 log_levels = {
     'DISABLED': 9000,
     'CRITICAL': 50,

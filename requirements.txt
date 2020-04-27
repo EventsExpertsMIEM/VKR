@@ -3,6 +3,8 @@ colorama
 Flask
 flask-cors
 Flask-Login
+Flask-Mail
+Flask-WTF
 gevent
 nanoid
 pg8000
@@ -10,4 +12,3 @@ psycopg2-binary
 requests
 SQLAlchemy
 urllib3
-Flask-Mail
