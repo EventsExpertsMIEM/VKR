@@ -15,6 +15,6 @@ bp = Blueprint('events_web', __name__)
 @bp.route('/')
 def home():
     return render_template(
-        '_blank.html',
+        '_events.html',
         current_user=current_user,
     )

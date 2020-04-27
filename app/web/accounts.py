@@ -32,4 +32,4 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
     form = forms.RegisterForm(request.form)
-    return render_template('_blank.html', form=form)
+    return render_template('_register.html', form=form)
