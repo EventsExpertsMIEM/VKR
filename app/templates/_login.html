@@ -15,6 +15,8 @@
                 <div class="p-5">
                     {% from "_formhelpers.html" import render_field %}
                   <form class="user" id="f_login">
+                    <fieldset>
+                                    {{form.hidden_tag()}}
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user login_user_email" id="Email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                     </div>
@@ -22,8 +24,8 @@
                       <input type="password" class="form-control form-control-user login_user_password" id="Password" placeholder="Password">
                     </div>
                     <p id="message"></p>
-                    <button type="submit" class="btn btn-primary btn-user btn-block" style="border-radius: 10rem;">Login</button>
-                    <hr>
+                    <button type="submit" class="btn btn-primary" style="border-radius: 10rem;">Login</button>
+                    </fieldset>
                   </form>
                   <hr>
                   <div class="text-center">
