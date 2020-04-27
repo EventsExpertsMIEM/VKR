@@ -41,7 +41,6 @@ def pre_login(email, password):
         if not bcrypt.checkpw(pw, upw):
             abort(422, 'Invalid password')
         return user
-            
 
 
 def register_user(email, name, surname, password, service_status='user'):

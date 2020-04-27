@@ -1,7 +1,7 @@
 from .logic.accounts import user_loader
 from .config import cfg
 
-from .web import accounts as accounts_web
+from .web import accounts as accounts_web, events as events_web
 from .api import accounts as accounts_api
 
 from .errors import add_error_handlers, on_json_loading_failed
@@ -24,7 +24,9 @@ app.config.update(
 )
 
 app.register_blueprint(accounts_web.bp)
-app.register_blueprint(accounts_api.bp)
+app.register_blueprint(events_web.bp)
+
+app.register_blueprint(accounts_api.bp, url_prefix='/api')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed

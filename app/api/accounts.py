@@ -5,7 +5,7 @@ from . import *
 from ..logic import accounts as accounts_logic
 
 
-bp = Blueprint('accounts', __name__, url_prefix='/api')
+bp = Blueprint('accounts', __name__)
 
 
 @bp.route('/login', methods=['POST'])
