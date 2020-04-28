@@ -51,6 +51,6 @@ def run():
         error_log = logger
     )
     logging.info('Started server')
-    from logging_tree import printout
+    # from logging_tree import printout
     # printout()
     http_server.serve_forever()
