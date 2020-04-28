@@ -54,3 +54,25 @@ class User(Base, UserMixin):
 
     def get_id(self):
         return self.cookie_id
+
+
+class Event(Base):
+    __tablename__ = 'events'
+
+    id = Column(Integer, primary_key=True)
+    status = Column(Status, default='active', nullable=False)
+    views = Column(Integer, default=0, nullable=False)
+
+    name = Column(String, nullable=False)
+    sm_description = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+
+    start_date = Column(Date, nullable=False)
+    end_date = Column(Date, nullable=False)
+    start_time = Column(Time, nullable=False)
+
+    location = Column(String, nullable=False)
+    site_link = Column(String, nullable=False)
+
+    additional_info = Column(TEXT, nullable=False)
+    guests_info = Column(TEXT, nullable=True)

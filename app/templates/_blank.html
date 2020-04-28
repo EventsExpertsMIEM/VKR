@@ -61,17 +61,27 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{current_user.name}} {{current_user.surname}}</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <div class="text-center">
+                  <img class="rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/120x120" class="img-fluid" alt="">
+                </div>
+                <h5 class="dropdown-item-text text-center text-muted font-weight-bold" style="padding-bottom: 0;">{{current_user.name}} {{current_user.surname}}</h5>
+                <h6 class="dropdown-item-text text-center text-muted text-uppercase font-weight-bold"  style="padding-top: 0;">{{current_user.email}}</h6>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-center" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item text-center" href="/create_event">
+                  <i class="fas fa-calendar-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Create event
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-center" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
