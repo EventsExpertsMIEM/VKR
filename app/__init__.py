@@ -39,12 +39,18 @@ login_manager.user_loader(user_loader)
 
 def run():
     monkey.patch_all(ssl=False)
-    logger = logging.getLogger('gevent') if cfg.DISABLE_EXISTING_LOGGERS is False else None
+    logger = None
+    if cfg.DISABLE_EXISTING_LOGGERS is False:
+        logger = logging.getLogger('gevent')
+    if cfg.LOGGING['loggers']['gevent'] is not None:
+        logger = logging.getLogger('gevent')
     http_server = WSGIServer(
         (cfg.HOST, cfg.PORT),
         app,
-        log = logger,
+        # log = logger,
         error_log = logger
     )
     logging.info('Started server')
+    from logging_tree import printout
+    # printout()
     http_server.serve_forever()

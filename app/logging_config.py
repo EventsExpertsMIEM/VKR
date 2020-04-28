@@ -55,6 +55,11 @@ LOGGING = {
         'level': LOG_LEVEL
     },
     'loggers': { 
+        'gevent': {
+            'handlers': ['default'],
+            'propagate': True,
+            'level': 0
+        }
         # 'requests': {  # root logger
         #     'handlers': ['default'],
         #     'propagate': True,
