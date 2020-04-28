@@ -24,7 +24,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('events_web.create_event'))
+    return redirect(url_for('events_web.home'))
 
 
 @bp.route('/register')
