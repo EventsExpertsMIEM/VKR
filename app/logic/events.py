@@ -41,7 +41,7 @@ def get_event_info(e_id):
         }
 
 
-def get_events(offset, size):
+def get_events(offset="", size=""):
     result = []
     with get_session() as s:
         events = s.query(Event).filter(Event.status == 'active').order_by(desc(Event.start_date))

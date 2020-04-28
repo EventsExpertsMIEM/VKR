@@ -10,12 +10,15 @@ $(function() {
                                   "start_date": $(".create_event_start_date").val(),
                                   "end_date": $(".create_event_end_date").val(),
                                   "start_time": $(".create_event_start_time").val(),
+                                  "location": $(".create_event_location").val(),
+                                  "site_link": $(".create_event_site_link").val(),
                                   "additional_info": $(".create_event_additional_info").val()
                                 }),
             contentType: "application/json",
             dataType: "json",
             success: function(data){
-                $('#message').html(data["description"]);
+                $('#message').html("Event was created");
+                $("#f_create_event").trigger('reset');
                 setTimeout(
                     function() {
                     window.location = '/event/' + data["description"];
@@ -26,6 +29,5 @@ $(function() {
                 $('#message').html(data.responseJSON['error']);
             }
         });
-        $("#f_create_event").trigger('reset');
     });
 });

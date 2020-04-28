@@ -11,6 +11,7 @@ $(function() {
             dataType: "json",
             success: function(data){
                 $('#message').html(data["description"]);
+                $("#f_login").trigger('reset');
                 setTimeout(
                     function() {
                     window.location = '/';
@@ -21,6 +22,5 @@ $(function() {
                 $('#message').html(data.responseJSON['error']);
             }
         });
-        $("#f_login").trigger('reset');
     });
 });

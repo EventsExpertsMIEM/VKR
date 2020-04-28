@@ -76,3 +76,23 @@ class Event(Base):
 
     additional_info = Column(TEXT, nullable=False)
     guests_info = Column(TEXT, nullable=True)
+
+
+class Participation(Base):
+    __tablename__ = 'participations'
+
+    id = Column(Integer, primary_key=True)
+    e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    participation_role = Column(
+                                Participation_role,
+                                default='viewer',
+                                nullable=False
+                            )
+    report_name = Column(TEXT, nullable=True)
+    report_id = Column(TEXT, nullable=True, unique=True)
+    last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
+    presenter_description = Column(TEXT, nullable=True)
+    report = Column(TEXT, nullable=True)
+    report_description = Column(TEXT, nullable=True)
+    report_status = Column(Report_status, nullable=True)
