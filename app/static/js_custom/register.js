@@ -7,7 +7,7 @@ $(function() {
             data: JSON.stringify({"email": $(".register_user_mail").val(),
                                   "name": $(".register_user_name").val(),
                                   "surname": $(".register_user_surname").val(),
-                                  "password": $(".register_user_password").val()
+                                  "password": $(".register_user_password").val(),
                                 }),
             contentType: "application/json",
             dataType: "json",

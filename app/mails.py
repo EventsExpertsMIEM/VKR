@@ -5,11 +5,11 @@ from .config import cfg
 
 
 def send_confirm_email(email, link):
-
+    
     msg = Message(
-        body = '{}"/confirm/"{}'.format(cfg.SITE_ADDR, link),
+        body = cfg.SITE_ADDR + '/confirm/' + link,
         subject = 'Congress Events confirmation link',
-        recipients = [email],
+        recipients = [email]
     )
 
     logging.info('Sending confirmation message to ' + email)
@@ -20,7 +20,7 @@ def send_confirm_email(email, link):
 def send_reset_email(email, new_password):
 
     msg = Message(
-        body = 'Your new password - '.format(new_password),
+        body = 'Your new password - ' + new_password,
         subject = 'Congress Events password reset',
         recipients = [email]
     )
@@ -35,7 +35,7 @@ def send_500_email(e, error):
     msg = Message(
         body = error,
         subject = 'Congress Events 500 server error',
-        recipients = [cfg.SUPER_ADMIN_MAIL],
+        recipients = [cfg.SUPER_ADMIN_MAIL]
     )
 
     logging.info('Sending 500 error message')

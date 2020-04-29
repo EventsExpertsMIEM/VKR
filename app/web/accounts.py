@@ -32,3 +32,10 @@ def register():
         return redirect(url_for('events_web.home'))
     form = RegisterForm(request.form)
     return render_template('/_register.html', form=form)
+
+
+@bp.route('/confirm/<string:link>')
+def confirm(link):
+    return render_template(
+        '_confirm.html',
+    )

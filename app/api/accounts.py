@@ -35,3 +35,9 @@ def register():
     accounts_logic.register_user(data['email'], data['name'],
                                  data['surname'], data['password'])
     return make_ok(201, 'User was registered')
+
+
+@bp.route('/confirm/<link>', methods=['GET'])
+def confirm(link):
+    accounts_logic.confirm_user(link)
+    return make_ok(200, 'User was confirmed')

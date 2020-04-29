@@ -37,6 +37,8 @@ def pre_login(email, password):
             abort(409, 'Trying to login banned user')
         if user.status == 'deleted':
             abort(404, 'Invalid user')
+        if user.status == 'unconfirmed':
+            abort(409, 'Trying to login unconfirmed user')
 
         pw = str(password).encode('utf-8')
         upw = str(user.password).encode('utf-8')
@@ -89,3 +91,16 @@ def register_user(email, name, surname, password, service_status='user'):
         if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
             mails.send_confirm_email(email, confirmation_link)
         logging.info('Registering new user [{}]'.format(email))
+
+
+def confirm_user(confirmation_link):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.confirmation_link == confirmation_link
+        ).one_or_none()
+        if not user:
+            abort(404, 'No user with this confirmation link')
+        if user.status is not 'unconfirmed':
+            abort(409, "User is currently confirmed by this link or can't be confirmed")
+        user.status = 'active'
+        logging.info('User [{}] is confirmed'.format(user.email))
