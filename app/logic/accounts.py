@@ -104,3 +104,20 @@ def confirm_user(confirmation_link):
             abort(409, "User is currently confirmed by this link or can't be confirmed")
         user.status = 'active'
         logging.info('User [{}] is confirmed'.format(user.email))
+
+
+def reset_password(email):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.email == email,
+                User.status == 'active'
+        ).one_or_none()
+        
+        if not user:
+            abort(404, 'Invalid user')
+        
+        new_password = nanoid.generate(size=20)
+        npw = bcrypt.hashpw(str(new_password).encode('utf-8'), bcrypt.gensalt())
+        user.password = npw.decode('utf-8')
+        user.cookie_id = uuid.uuid4()
+        mails.send_reset_email(email, new_password)

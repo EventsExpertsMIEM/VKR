@@ -12,10 +12,11 @@ $(function() {
             success: function(data){
                 $('#message').html(data["description"]);
                 $("#f_login").trigger('reset');
+                $("#btnsubmit").attr("disabled", true);
                 setTimeout(
                     function() {
                     window.location = '/';
-                    }, 2000
+                    }, 1000
                 )
             },
             error: function(data){

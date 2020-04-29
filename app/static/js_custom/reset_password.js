@@ -1,19 +1,16 @@
 $(function() {
-    $("#f_register").submit(function(e) {
+    $("#f_reset").submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: "/api/register",
+            url: "/api/reset_password",
             type: "POST",
-            data: JSON.stringify({"email": $(".register_user_mail").val(),
-                                  "name": $(".register_user_name").val(),
-                                  "surname": $(".register_user_surname").val(),
-                                  "password": $(".register_user_password").val(),
+            data: JSON.stringify({"email": $(".reset_user_email").val(),
                                 }),
             contentType: "application/json",
             dataType: "json",
             success: function(data){
                 $('#message').html(data["description"]);
-                $("#f_register").trigger('reset');
+                $("#f_reset").trigger('reset');
                 $("#btnsubmit").attr("disabled", true);
                 setTimeout(
                     function() {

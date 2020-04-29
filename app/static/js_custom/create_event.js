@@ -19,10 +19,11 @@ $(function() {
             success: function(data){
                 $('#message').html("Event was created");
                 $("#f_create_event").trigger('reset');
+                $("#btnsubmit").attr("disabled", true);
                 setTimeout(
                     function() {
                     window.location = '/event/' + data["description"];
-                    }, 2000
+                    }, 1000
                 )
             },
             error: function(data){

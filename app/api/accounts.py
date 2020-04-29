@@ -41,3 +41,10 @@ def register():
 def confirm(link):
     accounts_logic.confirm_user(link)
     return make_ok(200, 'User was confirmed')
+
+
+@bp.route('/reset_password', methods=['POST'])
+def reset_password():
+    data = get_json()
+    accounts_logic.reset_password(data['email'])
+    return make_ok(200, 'Successfully reset password - see new in your email')

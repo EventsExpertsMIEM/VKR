@@ -53,6 +53,10 @@ class RegisterForm(FlaskForm):
     password_repeat = PasswordField('Password', [validators.DataRequired()])
 
 
+class ResetForm(FlaskForm):
+    mail = StringField('Mail', [validators.DataRequired()])
+
+
 class CreateEventForm(FlaskForm):
     name = StringField('Name', [validators.DataRequired()])
     sm_description = StringField('Sm_description', [validators.DataRequired()])

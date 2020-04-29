@@ -39,3 +39,11 @@ def confirm(link):
     return render_template(
         '_confirm.html',
     )
+
+
+@bp.route('/reset_password')
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('events_web.home'))
+    form = ResetForm(request.form)
+    return render_template('/_reset_password.html', form=form)
