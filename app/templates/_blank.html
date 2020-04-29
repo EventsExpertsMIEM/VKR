@@ -52,7 +52,15 @@
           {% endblock %}
 
           <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto"> 
+          <ul class="navbar-nav ml-auto">
+
+            {% block create_event%}
+            {% if current_user.is_authenticated %}
+            <nav class="navbar navbar-light">
+              <a class="navbar-brand" href="/create_event">Create event!</a>
+            </nav>
+            {% endif %}
+            {% endblock %}
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -71,14 +79,9 @@
                 <h5 class="dropdown-item-text text-center text-muted font-weight-bold" style="padding-bottom: 0;">{{current_user.name}} {{current_user.surname}}</h5>
                 <h6 class="dropdown-item-text text-center text-muted text-uppercase font-weight-bold"  style="padding-top: 0;">{{current_user.email}}</h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-center" href="#">
+                <a class="dropdown-item text-center" href="">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-center" href="/create_event">
-                  <i class="fas fa-calendar-plus fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Create event
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center" href="#" data-toggle="modal" data-target="#logoutModal">
