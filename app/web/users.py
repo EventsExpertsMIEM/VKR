@@ -12,6 +12,7 @@ bp = Blueprint('users_web', __name__)
 
 
 @bp.route('/profile')
+@login_required
 def profile():
     return render_template(
         '/_profile.html',

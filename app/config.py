@@ -32,3 +32,9 @@ cfg.DEFAULT_USER_STATUS = os.getenv('DEFAULT_USER_STATUS')
 cfg.LOG_LEVEL = logging_config.LOG_LEVEL
 cfg.LOGGING = logging_config.LOGGING
 cfg.DISABLE_EXISTING_LOGGERS = logging_config.DISABLE_EXISTING_LOGGERS
+
+cfg.MAIL_SERVER = os.getenv('MAIL_SERVER')
+cfg.MAIL_PORT = os.getenv('MAIL_PORT')
+cfg.MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+cfg.MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+cfg.MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')

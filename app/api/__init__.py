@@ -1,6 +1,7 @@
 from flask import jsonify, request, abort
 import logging
 import traceback
+from ..mails import send_500_email
 
 
 # answers
@@ -57,3 +58,10 @@ def make_404(e):
 def make_405(e):
     logging.warning('405 - [{}]'.format(e))
     return jsonify(error="Wrong route method"), 405
+
+
+def server_500_error(e):
+    logging.warning('500 - [{}]'.format(e.description))
+    err = traceback.format_exc()
+    send_500_email(e, err)
+    return jsonify(error="Server error, we're sorry"), 500

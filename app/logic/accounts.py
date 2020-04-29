@@ -8,6 +8,8 @@ from sqlalchemy import desc
 from flask import abort
 import bcrypt
 
+from .. import mails
+
 from datetime import datetime
 import requests
 import os
@@ -84,6 +86,6 @@ def register_user(email, name, surname, password, service_status='user'):
                         service_status=service_status,
                         confirmation_link=confirmation_link)
             s.add(user)
-        #if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
-        #    util.send_email(email, confirmation_link)
+        if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
+            mails.send_confirm_email(email, confirmation_link)
         logging.info('Registering new user [{}]'.format(email))

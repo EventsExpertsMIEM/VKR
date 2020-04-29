@@ -8,6 +8,7 @@ from .errors import add_error_handlers, on_json_loading_failed
 
 from flask import Flask, Request
 from flask_login import LoginManager
+from flask_mail import Mail
 from gevent.pywsgi import WSGIServer
 from gevent import monkey
 
@@ -21,6 +22,12 @@ app.config.update(
     TEMPLATES_AUTO_RELOAD=True,
     CSRF_ENABLED=cfg.CSRF_ENABLED,
     SECRET_KEY=cfg.SECRET_KEY,
+    MAIL_SERVER=cfg.MAIL_SERVER,
+    MAIL_PORT = cfg.MAIL_PORT,
+    MAIL_USERNAME = cfg.MAIL_USERNAME,
+    MAIL_PASSWORD = cfg.MAIL_PASSWORD,
+    MAIL_DEFAULT_SENDER = cfg.MAIL_DEFAULT_SENDER,
+    MAIL_USE_SSL = True,
 )
 
 app.register_blueprint(accounts_web.bp)
@@ -33,6 +40,8 @@ app.register_blueprint(events_api.bp, url_prefix='/api/event')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed
+
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
