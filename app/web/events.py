@@ -1,7 +1,6 @@
 from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
-from flask_login import (login_required, login_user, logout_user,
-                         login_fresh, current_user)
+from flask_login import (login_required, login_user, logout_user, current_user)
 
 from . import forms
 from ..logic import events as events_logic
@@ -16,7 +15,7 @@ bp = Blueprint('events_web', __name__)
 def home():
     events = events_logic.get_events()
     return render_template(
-        '_events.html',
+        '/_events.html',
         current_user=current_user,
         events=events,
     )
@@ -27,7 +26,7 @@ def home():
 def create_event():
     form = forms.CreateEvent(request.form)
     return render_template(
-        '_create_event.html',
+        '/_create_event.html',
         form=form,
         current_user=current_user,
     )

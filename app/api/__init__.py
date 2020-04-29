@@ -42,18 +42,18 @@ def make_422(err):
 
 # errors handlers
 
-def unauthorized(e):
+def make_401(e):
     logging.warning('401 - [{}]'.format(e))
     return jsonify(error="Unauthorized"), 401
 
 
-def not_found(e):
+def make_404(e):
     logging.warning('404 - [{}]'.format(e.description))
     if e.description[0] == 'T':
         return jsonify(error="Unknown route"), 404
     return jsonify(error=e.description), 404
 
 
-def method_not_allowed(e):
+def make_405(e):
     logging.warning('405 - [{}]'.format(e))
     return jsonify(error="Wrong route method"), 405

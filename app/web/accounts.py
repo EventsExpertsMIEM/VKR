@@ -17,7 +17,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
     form = forms.AuthForm(request.form)
-    return render_template('_login.html', form=form)
+    return render_template('/_login.html', form=form)
 
 
 @bp.route('/logout', methods=['GET', 'POST'])
@@ -32,4 +32,4 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
     form = forms.RegisterForm(request.form)
-    return render_template('_register.html', form=form)
+    return render_template('/_register.html', form=form)

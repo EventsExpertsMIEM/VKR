@@ -1,13 +1,14 @@
 from .api import *
+from .web import *
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
-from flask import abort
+from flask import abort, request
 
 
 def add_error_handlers(app):
-    app.register_error_handler(401, unauthorized)
-    app.register_error_handler(404, not_found)
-    app.register_error_handler(405, method_not_allowed)
+    app.register_error_handler(401, unauthorized_handler)
+    app.register_error_handler(404, not_found_handler)
+    app.register_error_handler(405, make_405)
     #app.register_error_handler(500, server_500_error)
 
     app.register_error_handler(HTTPException, http_error_handler)
@@ -26,3 +27,20 @@ def http_error_handler(e):
 
 def on_json_loading_failed(err, e):
     abort(415, 'Expected json')
+
+
+def unauthorized_handler(e):
+    if request.path.startswith('/api/'):
+        return make_401(e)
+    else:
+        return web_401(e)
+
+
+def not_found_handler(e):
+    if request.path.startswith('/api/'):
+        return make_404(e)
+    else:
+        if request.path.startswith('/event/'):
+            return web_404(e, "ENF")
+        else:
+            return web_404(e, "NF")
