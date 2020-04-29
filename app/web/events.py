@@ -2,7 +2,7 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from . import forms
+from . import *
 from ..logic import events as events_logic
 
 import logging
@@ -24,7 +24,7 @@ def home():
 @bp.route('/create_event')
 @login_required
 def create_event():
-    form = forms.CreateEvent(request.form)
+    form = CreateEventForm(request.form)
     return render_template(
         '/_create_event.html',
         form=form,
