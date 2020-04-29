@@ -71,6 +71,10 @@ def get_events(offset="", size=""):
 
 
 def create_event(u_id, data):
+    if (data['name'] == "" or data['sm_description'] == "" or
+       data['description'] == "" or data['location'] == "" or
+       data['site_link'] == "" or data['additional_info'] == ""):
+        abort(422, "Wrong data")
     start_date = data['start_date'].split('-')
     date_start = date(int(start_date[0]), int(start_date[1]), int(start_date[2]))
     end_date = data['end_date'].split('-')

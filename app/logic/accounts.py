@@ -49,6 +49,9 @@ def register_user(email, name, surname, password, service_status='user'):
                 User.email == email
         ).one_or_none()
 
+        if email == "" or name == "" or surname == "" or password == "":
+            abort(422, "Wrong data")
+
         # checking unique link
         confirmation_link = ''
         while True:
