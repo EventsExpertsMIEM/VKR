@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify, request, abort
 from flask_login import (login_required, login_user, logout_user, current_user)
 
+
 from . import *
 from ..logic import accounts as accounts_logic
-
+from ..validation.validation import validate
+from ..validation import schemas
 
 bp = Blueprint('accounts', __name__)
 
@@ -13,7 +15,8 @@ def login():
     if current_user.is_authenticated:
         return make_4xx(409, 'User is currently authenticated')
 
-    data = get_json()
+    data = validate(get_json(), schemas.login)
+    logging.debug(data)
     user = accounts_logic.pre_login(data['email'], data['password'])
     login_user(user)
     return make_ok(200, 'User was logined')
@@ -31,7 +34,8 @@ def register():
     if current_user.is_authenticated:
         return make_4xx(409, 'User is currently authenticated')
 
-    data = get_json()
+    data = validate(get_json(), schemas.register)
+    logging.debug(data)
     accounts_logic.register_user(data['email'], data['name'],
                                  data['surname'], data['password'])
     return make_ok(201, 'User was registered')
@@ -45,6 +49,7 @@ def confirm(link):
 
 @bp.route('/reset_password', methods=['POST'])
 def reset_password():
-    data = get_json()
+    data = validate(get_json(), schemas.reset_password)
+    logging.debug(data)
     accounts_logic.reset_password(data['email'])
     return make_ok(200, 'Successfully reset password - see new in your email')
