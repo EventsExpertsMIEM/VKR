@@ -18,7 +18,7 @@ def validate(data, validation_schema):
             logging.debug('\tError: {}'.format(err))
         for err in e.autos:
             logging.debug('\tAutos: {}'.format(err))
-        abort(422, '\n'.join(delNone(e.autos)))
+        abort(400, '\n'.join(delNone(e.autos)))
 
     except SchemaForbiddenKeyError as e:
         pp(e)
@@ -26,7 +26,7 @@ def validate(data, validation_schema):
             logging.debug('\tError: {}'.format(err))
         for err in e.autos:
             logging.debug('\tAutos: {}'.format(err))
-        abort(422, '\n'.join(delNone(e.errors)))
+        abort(400, '\n'.join(delNone(e.errors)))
 
     except SchemaWrongKeyError as e:
         pp(e)
@@ -34,7 +34,7 @@ def validate(data, validation_schema):
             logging.debug('\tError: {}'.format(err))
         for err in e.autos:
             logging.debug('\tAutos: {}'.format(err))
-        abort(422, '\n'.join(delNone(e.errors)))
+        abort(400, '\n'.join(delNone(e.errors)))
 
     except SchemaError as e:
         pp(e)
