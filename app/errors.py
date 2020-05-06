@@ -2,7 +2,7 @@ from .api import *
 from .web import *
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
-from flask import abort, request
+from flask import jsonify, abort, request
 
 
 def add_error_handlers(app):
