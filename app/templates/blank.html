@@ -13,6 +13,9 @@
 
         <!-- Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        
+        <!-- Bootstrap bootswatch materia CSS -->
+        <!-- <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/materia/bootstrap.min.css" rel="stylesheet" integrity="sha384-1tymk6x9Y5K+OF0tlmG2fDRcn67QGzBkiM3IgtJ3VrtGrIi5ryhHjKjeeS60f1FA" crossorigin="anonymous"> -->
 
         <!--load all font awesome styles -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
@@ -22,7 +25,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
               <a class="navbar-brand" href="/">Главная</a>
               {% block page%}
-              <span class="navbar-brand" href="/">Основа</span>
+              <span class="navbar-brand">Основа</span>
               {% endblock %}
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_сontent" aria-controls="navbar_сontent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,10 +33,12 @@
               <div class="collapse navbar-collapse" id="navbar_сontent">
                 <ul class="navbar-nav ml-auto" style="display:flex; align-items:center;">
                     {% if current_user.is_authenticated %}
+                    {% block create_event%}
                     <li class="nav-item">
-                        <a class="nav-link" href="/create_event" >Создать мероприятие</a>
+                        <a class="nav-link text-center" href="/create_event" >Создать мероприятие</a>
                     </li>
-                    <li class="nav-item dropdown no-arrow">
+                    {% endblock %}
+                    <li class="nav-item dropdown no-arrow text-center">
                         <a class="nav-link" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <img class="img-profile rounded-circle" src="/static/img/ava30.jpeg">
                         </a>

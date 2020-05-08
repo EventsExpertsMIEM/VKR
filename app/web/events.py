@@ -14,7 +14,7 @@ bp = Blueprint('events_web', __name__)
 def home():
     events = events_logic.get_events()
     return render_template(
-        '/_events.html',
+        '/home.html',
         current_user=current_user,
         events=events,
     )

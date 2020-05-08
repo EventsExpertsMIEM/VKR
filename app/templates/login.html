@@ -1,0 +1,35 @@
+{% extends "/blank.html" %}
+
+{% block title %}
+<title>Events - логин</title>
+{% endblock %}
+
+{% block page%}
+<div class="topbar-divider d-none d-sm-block text-center" style="width: 0; border-right: 1px solid #e3e6f0; height: 2rem; margin: auto 1rem;"></div>
+<span class="navbar-brand text-secondary">Вход</span>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-auto">
+    <div class="col-xl-5 col-lg-12 col-md-6">
+        <div class="card o-hidden border-0 shadow my-5" style="border-radius: 0.5rem;">
+            <div class="card-body p-3">
+                <form id="f_login">
+                    <div class="form-group">
+                        <input type="email" class="form-control form-control-user border-secondary" id="login_user_email" aria-describedby="emailHelp" placeholder="E-mail" style="border-radius: 0.5rem;">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control form-control-user border-secondary" id="login_user_password" placeholder="Пароль" style="border-radius: 0.5rem;">
+                    </div>
+                    <p class="text-center" id="message"></p>
+                    <button type="submit" id="btnsubmit" class="btn btn-light border-secondary btn-user btn-block" style="border-radius: 0.5rem;">Войти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js_custom/login.js"></script>
+{% endblock %}
