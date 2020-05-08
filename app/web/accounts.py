@@ -11,6 +11,14 @@ import logging
 bp = Blueprint('accounts_web', __name__)
 
 
+@bp.route('/blank')
+def blank():
+    return render_template(
+        '/blank.html',
+        current_user=current_user
+    )
+
+
 @bp.route('/login')
 def login():
     if current_user.is_authenticated:

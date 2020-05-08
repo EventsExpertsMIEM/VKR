@@ -121,3 +121,22 @@ def reset_password(email):
         user.password = npw.decode('utf-8')
         user.cookie_id = uuid.uuid4()
         mails.send_reset_email(email, new_password)
+
+
+def change_password(u_id, old_password, new_password):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id
+        ).one_or_none()
+        opw = str(old_password).encode('utf-8')
+        npw = str(new_password).encode('utf-8')
+        pw = str(user.password).encode('utf-8')
+
+        if not bcrypt.checkpw(opw, pw):
+            abort(422, 'Invalid password')
+        if bcrypt.checkpw(npw, pw):
+            abort(409, 'Old and new passwords are equal')
+        npw = bcrypt.hashpw(npw, bcrypt.gensalt())
+        user.password = npw.decode('utf-8')
+        user.cookie_id = uuid.uuid4()
+        return user
