@@ -20,11 +20,11 @@ def web_401(e):
 def web_404(e, param):
     logging.warning('404 - [{}]'.format(e.description))
     message = "Page not found"
-    if param is "ENF":
+    if param == "ENF":
         message = "Event with this id not found"
 
     return render_template(
-       '/_404.html',
+       '/404.html',
         current_user=current_user,
         message=message,
     ), 404
@@ -35,7 +35,7 @@ def web_500(e):
     err = traceback.format_exc()
     send_500_email(e, err)
     return render_template(
-       '/_500.html',
+       '/500.html',
         current_user=current_user,
     ), 500
 
