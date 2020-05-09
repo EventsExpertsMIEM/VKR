@@ -28,9 +28,11 @@ def web_404(e, param):
 
 def web_500(e):
     logging.warning('500 - [{}]'.format(e.description))
+    message = traceback.format_exc()
     err = traceback.format_exc()
     send_500_email(e, err)
     return render_template(
        '/500.html',
         current_user=current_user,
+        message=message,
     ), 500
