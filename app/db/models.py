@@ -96,3 +96,14 @@ class Participation(Base):
     report = Column(TEXT, nullable=True)
     report_description = Column(TEXT, nullable=True)
     report_status = Column(Report_status, nullable=True)
+
+
+class ETask(Base):
+    __tablename__ = 'etasks'
+
+    id = Column(Integer, primary_key=True)
+    e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    deadline = Column(Date, nullable=True)
+    status = Column(Task_status, default='todo', nullable=False)

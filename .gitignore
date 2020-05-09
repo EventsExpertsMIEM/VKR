@@ -118,6 +118,7 @@ service.log
 git-aacp
 git-ak
 todo.md
+send_email_errors.txt
 
 # vscode
 .vscode
