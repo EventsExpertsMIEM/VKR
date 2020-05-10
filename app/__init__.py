@@ -1,7 +1,10 @@
 from .logic.accounts import user_loader
 from .config import cfg
 
-from .web import accounts as accounts_web, events as events_web, users as users_web
+from .web import (
+    accounts as accounts_web, events as events_web, users as users_web,
+    oauth as ouath_web
+    )
 from .api import accounts as accounts_api, events as events_api, users as users_api
 
 from .errors import add_error_handlers, on_json_loading_failed
@@ -11,6 +14,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from gevent.pywsgi import WSGIServer
 from gevent import monkey
+
+from authlib.integrations.flask_client import OAuth
 
 import logging
 import logging.config
@@ -36,6 +41,7 @@ app.register_blueprint(users_web.bp)
 
 app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
+app.register_blueprint(ouath_web.bp, url_prefix='/authorize')
 #app.register_blueprint(users_api.bp, url_prefix='/api/user')
 
 add_error_handlers(app)
@@ -47,6 +53,21 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.user_loader(user_loader)
 
+oauth = OAuth(app)
+
+oauth.register(
+    name='vk',
+    client_id='7457845',
+    client_secret=cfg.VK_CLIENT_SECRET,
+    access_token_url='https://oauth.vk.com/access_token',
+    access_token_params=None,
+    authorize_url='https://oauth.vk.com/authorize',
+    authorize_params=None,
+    api_base_url='https://oauth.vk.com/',
+    client_kwargs={
+        'token_endpoint_auth_method': 'client_secret_post'
+    },
+)
 
 def run():
     monkey.patch_all(ssl=False)

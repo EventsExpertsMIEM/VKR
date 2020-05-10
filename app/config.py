@@ -40,3 +40,5 @@ cfg.MAIL_PORT = os.getenv('MAIL_PORT')
 cfg.MAIL_USERNAME = os.getenv('MAIL_USERNAME')
 cfg.MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 cfg.MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
+
+cfg.VK_CLIENT_SECRET = os.getenv('VK_CLIENT_SECRET')
