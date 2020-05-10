@@ -122,3 +122,6 @@ send_email_errors.txt
 
 # vscode
 .vscode
+
+# add vars
+ add_vars.bat
