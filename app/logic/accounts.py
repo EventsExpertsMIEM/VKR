@@ -53,7 +53,7 @@ def register_user(email, name, surname, password, service_status='user'):
                 User.email == email
         ).one_or_none()
 
-        if email == "" or name == "" or surname == "" or password == "":
+        if email == "" or name == "" or surname == "" or password == "": #or (8 < len(password) < 50):
             abort(422, "Wrong data")
 
         # checking unique link
