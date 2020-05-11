@@ -14,6 +14,6 @@ bp = Blueprint('users_web', __name__)
 @login_required
 def profile():
     return render_template(
-        '/_profile.html',
+        '/profile.html',
         current_user=current_user,
     )

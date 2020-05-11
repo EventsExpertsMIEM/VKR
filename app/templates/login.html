@@ -1,6 +1,6 @@
 {% extends "/blank.html" %}
 {% block extra_css%}
-<link rel="stylesheet" type="text/css" href="/static/css/login_reg_custom_css.css">
+<link rel="stylesheet" type="text/css" href="/static/css/custom_css.css">
 {% endblock %}
 
 {% block title %}
@@ -25,7 +25,7 @@
                         <input type="password" class="form-control form-control-user border-secondary custom_border" id="login_user_password" placeholder="Пароль">
                     </div>
                     <p class="text-center" id="message"></p>
-                    <button id="btnsubmit" class="btn btn-secondary btn-user btn-block custom_border">Войти</button>
+                    <button type="submit" id="btnsubmit" class="btn btn-secondary btn-user btn-block custom_border">Войти</button>
                 </form>
             </div>
         </div>
@@ -34,5 +34,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="/static/js_custom/login2.js"></script>
+<script src="/static/js_custom/login.js"></script>
 {% endblock %}

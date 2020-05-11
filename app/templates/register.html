@@ -1,6 +1,6 @@
 {% extends "/blank.html" %}
 {% block extra_css%}
-<link rel="stylesheet" type="text/css" href="/static/css/login_reg_custom_css.css">
+<link rel="stylesheet" type="text/css" href="/static/css/custom_css.css">
 {% endblock %}
 
 {% block title %}
@@ -35,7 +35,7 @@
                         <input type="text" class="form-control border-secondary custom_border" id="register_user_surname" placeholder="Фамилия" required>
                     </div>
                     <p class="text-center" id="message"></p>
-                    <button id="btnsubmit" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Зарегистрироваться</button>
+                    <button type="submit" id="btnsubmit" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Зарегистрироваться</button>
                 </form>
             </div>
         </div>
@@ -44,5 +44,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="/static/js_custom/register.js"></script>
+<script src="/static/js_custom/register2.js"></script>
 {% endblock %}

@@ -1,0 +1,107 @@
+{% extends "/blank.html" %}
+
+{% block extra_css%}
+<link rel="stylesheet" type="text/css" href="/static/css/custom_css.css">
+{% endblock %}
+
+{% block title %}
+<title>Events - вход</title>
+{% endblock %}
+
+{% block page%}
+<div class="topbar-divider d-none d-sm-block text-center" style="width: 0; border-right: 1px solid #e3e6f0; height: 2rem; margin: auto 1rem;"></div>
+<span class="navbar-brand text-secondary">Личный кабинет</span>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+      <nav class="nav flex-column"> 
+        <a class="nav-link active" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Персональная информация</a>
+        <a class="nav-link" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Данные об образовании</a>
+        <a class="nav-link" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Настройки безопасности</a>
+        <div class="dropdown-divider"></div>
+        <p>Мои мероприятия</p>
+        <a class="nav-link" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
+        <a class="nav-link" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
+        <a class="nav-link" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+      </nav>
+    </div>
+    <div class="col-lg-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active text-center mt-3" id="personal-info-tab" role="tabpanel" aria-labelledby="nav-personal-tab">
+                <img alt="User Pic" src="" id="profile-image1" class="img-fluid rounded" style="width: 15rem;">
+                <h4>{{ current_user.name }} {{ current_user.surname }}<a href="" data-toggle="modal" data-target="#personal_info_modal" class="ml-2"><i class="far fa-edit"></i></a></h4>
+                <p>{{ current_user.email }}</p>
+                <p>{{ current_user.status }}</p>
+                <p>{{ current_user.service_status }}</p>             
+            </div>
+            <div class="tab-pane fade mt-3 text-center" id="education-tab" role="tabpanel" aria-labelledby="nav-education-tab">
+                
+            </div>
+            <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
+                <form>
+                    <h4>Смена пароля</h4>
+                    <div class="form-group">                  
+                        <input class="form-control custom_border" name="password" type="password" value='' placeholder="Текущий пароль" />
+                    </div>
+                    <div class="form-group"> 
+                        <input class="form-control custom_border" name="newPassword" type="password" value='' placeholder="Новый пароль"/>
+                    </div>
+                    <div class="form-group"> 
+                        <input class="form-control custom_border" name="newPassword" type="password" value=''placeholder="Новый пароль еще раз"/>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-secondary">Сохранить новый пароль</button>
+                        <button type="button" class="btn btn-primary">Завершить все сессии, кроме текущей</button> 
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#AccountDelModal">Удалить аккаунт</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade mt-3" id="events-part-tab" role="tabpanel" aria-labelledby="nav-events-part-tab">
+
+            </div>
+            <div class="tab-pane fade mt-3" id="events-lect-tab" role="tabpanel" aria-labelledby="nav-events-lect-tab">
+
+            </div>
+            <div class="tab-pane fade mt-3" id="events-org-tab" role="tabpanel" aria-labelledby="nav-events-org-tab">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_modals%}
+<div class="modal" tabindex="-1" role="dialog" id="personal_info_modal" aria-labelledby="personal_info_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personal_info_modal_label">Редактирование персональной информации:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="profile_user_name">Имя:</label>                 
+                        <input type="text" class="form-control custom_border" id="profile_user_name" placeholder="{{ current_user.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile_user_surname">Фамилия:</label>                 
+                        <input type="text" class="form-control custom_border" id="profile_user_surname" placeholder="{{ current_user.surname }}" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" id="btnsubmit" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js_custom/login.js"></script>
+{% endblock %}

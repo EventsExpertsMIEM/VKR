@@ -31,7 +31,7 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
     return render_template(
-        '/_register.html'
+        '/register.html'
     )
 
 
