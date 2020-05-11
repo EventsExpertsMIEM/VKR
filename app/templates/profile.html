@@ -13,14 +13,14 @@
 <div class="row">
     <div class="col-lg-2">
       <nav class="nav flex-column"> 
-        <a class="nav-link active" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
-        <a class="nav-link" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
-        <a class="nav-link" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
-        <div class="dropdown-divider"></div>
-        <p>Мои мероприятия</p>
-        <a class="nav-link" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
-        <a class="nav-link" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
-        <a class="nav-link" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+        <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
+        <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
+        <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
+        <hr class="my-0 w-75 text-center">
+        <p class="text-center my-auto">Мои мероприятия</p>
+        <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
+        <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
+        <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
       </nav>
     </div>
     <div class="col-lg-10">
@@ -38,13 +38,13 @@
                                     <h3 id="name_surname">{{ current_user.name }} {{ current_user.surname }}</h3>
                                     <a href="" data-toggle="modal" data-target="#personal_info_modal" class="ml-2"><i class="far fa-edit"></i></a>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">E-mail: </h5>
                                     <p id="p_email">{{ current_user.email }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_M_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">День рождения: </h5>
                                     <p id="p_birth">{{ current_user.birth }}</p>
@@ -62,13 +62,13 @@
                                     <h5 class="pr-4">Город: </h5>
                                     <p id="p_town">{{ current_user.town }}</p>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">Телефон: </h5>
                                     <p id="p_phone">{{ current_user.phone }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_T_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">Место работы: </h5>
                                     <p id="p_organization">{{ current_user.organization }}</p>
@@ -78,7 +78,7 @@
                                     <h5 class="pr-4">Должность: </h5>
                                     <p id="p_position">{{ current_user.position }}</p>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">Статус в системе: </h5>
                                     <p>{{ current_user.service_status }}</p>
@@ -87,7 +87,7 @@
                                     <h5 class="pr-4">Дата Регистрации: </h5>
                                     <p>{{ current_user.registration_date }}</p>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <h5 class="pr-4">О себе: </h5>
                                     <p id="p_bio">{{ current_user.bio }}</p>
