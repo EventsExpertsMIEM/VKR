@@ -26,7 +26,7 @@
     </head>
     <body class="d-flex flex-column h-100" style="background-color: #f8f9fc;">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow-sm">
               <a class="navbar-brand" href="/">Главная</a>
               {% block page%}
               <div class="topbar-divider d-none d-sm-block text-center"></div>
@@ -79,8 +79,8 @@
             </nav>
         </header>
         <!-- Begin page content -->
-        <main role="main" class="flex-shrink-0">
-            <div class="container-fluid mt-3">
+        <main role="main" class="flex-shrink-0 pt-8">
+            <div class="container-fluid">
                 {% block content%}
                 Пустота
                 {% endblock %}
