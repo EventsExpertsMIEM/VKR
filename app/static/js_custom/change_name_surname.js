@@ -16,12 +16,12 @@ $(function() {
                 $("#btnsubmit_name_surname").html(data["description"]);
                 $("#f_name_surname").trigger('reset');
                 $("#name_surname").html(name + " " + surname);
+                $("#profile_user_name").attr('placeholder', name);
+                $("#profile_user_surname").attr('placeholder', surname);
                 setTimeout(
                     function() {
                         $('#personal_info_modal').modal('hide');
                         $("#btnsubmit_name_surname").html("Сохранить");
-                        $("#profile_user_name").attr('placeholder', name);
-                        $("#profile_user_surname").attr('placeholder', surname);
                         $("#btnsubmit_name_surname").attr("disabled", false);
                     }, 1000
                 )
