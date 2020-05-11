@@ -46,6 +46,27 @@ def pre_login(email, password):
             abort(422, 'Invalid password')
         return user
 
+def oauth_pre_login(oauth_id):
+    with get_session() as s:
+        oauth_info = s.query(OauthInfo).filter(
+            OauthInfo.oauth_id == str(oauth_id)
+        ).one_or_none()
+
+        if not oauth_info:
+            abort(404, 'No user found')
+        
+        user = s.query(User).filter(
+            User.id == oauth_info.user_id
+        ).one_or_none()
+
+        if user.status == 'banned':
+            abort(409, 'Trying to login banned user')
+        if user.status == 'deleted':
+            abort(404, 'Invalid user')
+        if user.status == 'unconfirmed':
+            abort(409, 'Trying to login unconfirmed user')
+
+        return user
 
 def register_user(email, name, surname, password, service_status='user'):
     with get_session() as s:

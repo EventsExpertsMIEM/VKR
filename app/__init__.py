@@ -41,7 +41,7 @@ app.register_blueprint(users_web.bp)
 
 app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
-app.register_blueprint(ouath_web.bp, url_prefix='/authorize')
+app.register_blueprint(ouath_web.bp, url_prefix='/oauth')
 #app.register_blueprint(users_api.bp, url_prefix='/api/user')
 
 add_error_handlers(app)
