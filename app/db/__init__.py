@@ -43,6 +43,7 @@ def create_tables(password):
             service_status='superadmin',
             status='active',
             confirmation_link='none',
+            account_type='standart'
         )
         s.add(root)
     logging.info('Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created')

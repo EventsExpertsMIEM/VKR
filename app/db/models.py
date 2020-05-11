@@ -24,6 +24,10 @@ Task_status = ENUM('todo', 'inprocess', 'waiting', 'done', 'deleted',
 Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
 
+Account_type = ENUM('standart', 'oauth', name='account_type_enum')
+
+Oauth_type = ENUM('vk', 'google', name='oauth_type_enum')
+
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -38,7 +42,8 @@ class User(Base, UserMixin):
     email = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)
-    password = Column(TEXT, nullable=False)
+    password = Column(TEXT, nullable=True)
+    account_type = Column(Account_type, nullable=False)
     service_status = Column(Service_status, default='user', nullable=False)
     registration_date = Column(DateTime, default=datetime.utcnow, nullable=False)
     disable_date = Column(DateTime, nullable=True)
@@ -54,6 +59,13 @@ class User(Base, UserMixin):
 
     def get_id(self):
         return self.cookie_id
+
+class OauthInfo(Base):
+    __tablename__ = 'oauth_info'
+    
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    oauth_type = Column(Oauth_type, nullable=False)
+    oauth_id = Column(String, primary_key=True)
 
 
 class Event(Base):

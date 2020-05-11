@@ -65,7 +65,8 @@ oauth.register(
     authorize_params=None,
     api_base_url='https://oauth.vk.com/',
     client_kwargs={
-        'token_endpoint_auth_method': 'client_secret_post'
+        'token_endpoint_auth_method': 'client_secret_post',
+        'scope': '4194304' # 4194304 == email
     },
 )
 

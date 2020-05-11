@@ -1,10 +1,12 @@
 
-from flask import Blueprint, url_for, request, make_response
+from flask import Blueprint, url_for, request, redirect
 
 import requests
 import logging
 
 import app
+
+from ..logic import accounts as accounts_logic
 
 bp = Blueprint('oauth', __name__)
 
@@ -26,7 +28,9 @@ def vk_callback():
             'v': '5.103',
             'access_token': token['access_token']
         }
+    ).json()['response'][0] # TODO: Error checks, cleanup
+    logging.info("Got user data: {}".format(resp))
+    accounts_logic.register_oauth_user(token['email'], resp['first_name'],
+        resp['last_name'], token['user_id'], 'vk'
     )
-    logging.info("Got user data: {}".format(resp.json()))
-    from flask import make_response
-    return make_response(resp.json(), 200)
+    return redirect(url_for('events_web.home'))
