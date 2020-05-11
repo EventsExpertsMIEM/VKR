@@ -15,7 +15,7 @@ bp = Blueprint('tasks', __name__)
 @login_required
 def create_task(e_id):
     data = get_json()
-    if events_logic.check_participation(current_user.id, e_id) is not 'creator':
+    if events_logic.check_participation(current_user.id, e_id) != 'creator':
         return make_4xx(403, "No rights")
     tasks_logic.create_task(e_id, data)
     return make_ok(201, 'Task was added')
@@ -24,7 +24,7 @@ def create_task(e_id):
 @bp.route('/<int:e_id>/task/<int:t_id>/delete', methods=['GET'])
 @login_required
 def delete_task(e_id, t_id):
-    if events_logic.check_participation(current_user.id, e_id) is not 'creator':
+    if events_logic.check_participation(current_user.id, e_id) != 'creator':
         return make_4xx(403, "No rights")
     tasks_logic.delete_task(e_id, t_id)
     return make_ok(200, 'Task was deleted')
@@ -33,7 +33,7 @@ def delete_task(e_id, t_id):
 @bp.route('/<int:e_id>/task/<int:t_id>/move/<status>', methods=['PUT'])
 @login_required
 def move_task(e_id, t_id, status):
-    if events_logic.check_participation(current_user.id, e_id) is not 'manager':
+    if events_logic.check_participation(current_user.id, e_id) != 'manager':
         return make_4xx(403, "No rights")
     if status not in ['todo', 'inprocess', 'waiting', 'done']:
         return make_4xx(422, "Wrong status")
