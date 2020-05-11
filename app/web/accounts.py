@@ -2,7 +2,6 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from . import *
 from ..logic import accounts as accounts_logic
 
 import logging
@@ -15,8 +14,9 @@ bp = Blueprint('accounts_web', __name__)
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
-    form = LoginForm(request.form)
-    return render_template('/_login.html', form=form)
+    return render_template(
+        '/login.html'
+    )
 
 
 @bp.route('/logout', methods=['GET', 'POST'])
@@ -30,8 +30,9 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
-    form = RegisterForm(request.form)
-    return render_template('/_register.html', form=form)
+    return render_template(
+        '/_register.html'
+    )
 
 
 @bp.route('/confirm/<string:link>')
@@ -45,5 +46,6 @@ def confirm(link):
 def reset_password():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
-    form = ResetForm(request.form)
-    return render_template('/_reset_password.html', form=form)
+    return render_template(
+        '/_reset_password.html'
+    )

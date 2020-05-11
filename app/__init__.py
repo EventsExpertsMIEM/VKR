@@ -1,11 +1,15 @@
 from .logic.accounts import user_loader
 from .config import cfg
 
-from .web import (
-    accounts as accounts_web, events as events_web, users as users_web,
-    oauth as ouath_web
-    )
-from .api import accounts as accounts_api, events as events_api, users as users_api
+from .web import (accounts as accounts_web,
+                  events as events_web,
+                  users as users_web,
+                  tests as tests_web,
+                  oauth as ouath_web)
+from .api import (accounts as accounts_api,
+                  events as events_api,
+                  users as users_api,
+                  tasks as tasks_api)
 
 from .errors import add_error_handlers, on_json_loading_failed
 
@@ -39,10 +43,13 @@ app.register_blueprint(accounts_web.bp)
 app.register_blueprint(events_web.bp)
 app.register_blueprint(users_web.bp)
 
+app.register_blueprint(tests_web.bp)
+
 app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
+app.register_blueprint(users_api.bp, url_prefix='/api/user')
+app.register_blueprint(tasks_api.bp, url_prefix='/api/event')
 app.register_blueprint(ouath_web.bp, url_prefix='/oauth')
-#app.register_blueprint(users_api.bp, url_prefix='/api/user')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed
