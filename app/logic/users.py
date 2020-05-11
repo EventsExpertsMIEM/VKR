@@ -93,6 +93,8 @@ def update_profile(u_id, data):
                 birth_date = date(int(birth[0]), int(birth[1]), int(birth[2]))
                 setattr(user, arg, birth_date)
             else:
+                if data[arg] == "":
+                    abort(422, "Wrong data")
                 setattr(user, arg, data[arg])
 
 

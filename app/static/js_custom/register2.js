@@ -13,7 +13,7 @@ function myFunction() {
         contentType: "application/json",
         dataType: "json",
         success: function(data){
-            $('#message').html(data["description"]);
+            $("#btnsubmit").html(data["description"]);
             $("#f_login").trigger('reset');
             setTimeout(
                 function() {
@@ -22,12 +22,12 @@ function myFunction() {
             )
         },
         error: function(data){
-            $('#message').html(data.responseJSON['error']);
+            $("#btnsubmit").html(data.responseJSON['error']);
             $("#btnsubmit").attr("disabled", false);
             setTimeout(
                 function() {
-                    $('#message').html("");
-                }, 3000
+                    $("#btnsubmit").html("Зарегистрироваться");
+                }, 3500
             )
         }
     });
