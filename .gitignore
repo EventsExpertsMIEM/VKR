@@ -124,4 +124,5 @@ send_email_errors.txt
 .vscode
 
 # add vars
+.add_vars.bat
 add_vars.bat
