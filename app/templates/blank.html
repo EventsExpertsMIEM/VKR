@@ -18,6 +18,9 @@
         <!-- Bootstrap bootswatch materia CSS -->
         <!-- <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/materia/bootstrap.min.css" rel="stylesheet" integrity="sha384-1tymk6x9Y5K+OF0tlmG2fDRcn67QGzBkiM3IgtJ3VrtGrIi5ryhHjKjeeS60f1FA" crossorigin="anonymous"> -->
 
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="/static/css/custom_css.css">
+
         <!--load all font awesome styles -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     </head>
@@ -26,6 +29,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
               <a class="navbar-brand" href="/">Главная</a>
               {% block page%}
+              <div class="topbar-divider d-none d-sm-block text-center"></div>
               <span class="navbar-brand">Основа</span>
               {% endblock %}
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_сontent" aria-controls="navbar_сontent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +42,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-center" href="/create_event" >Создать мероприятие</a>
                     </li>
+                    <div class="topbar-divider d-none d-sm-block text-center"></div>
                     {% endblock %}
                     <li class="nav-item dropdown no-arrow text-center">
                         <a class="nav-link" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
