@@ -102,21 +102,23 @@
                         
                     </div>
                     <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
-                        <form class="px-4">
+                        <form class="px-4" id="f_security" oninput='profile_new_password_repeat.setCustomValidity(profile_new_password_repeat.value != profile_new_password.value ? "Пароли не совпадают" : "")'>
                             <h4>Смена пароля</h4>
                             <div class="form-group">                  
-                                <input class="form-control custom_border" name="password" type="password" value='' placeholder="Текущий пароль" />
+                                <input class="form-control custom_border" id="profile_old_password" type="password" value='' placeholder="Текущий пароль" />
                             </div>
                             <div class="form-group"> 
-                                <input class="form-control custom_border" name="newPassword" type="password" value='' placeholder="Новый пароль"/>
+                                <input class="form-control custom_border" id="profile_new_password" type="password" value='' placeholder="Новый пароль"/>
                             </div>
                             <div class="form-group"> 
-                                <input class="form-control custom_border" name="newPassword" type="password" value=''placeholder="Новый пароль еще раз"/>
+                                <input class="form-control custom_border" id="profile_new_password" type="password" value=''placeholder="Новый пароль еще раз"/>
                             </div>
-                            <div class="form-group text-center">
-                                <button type="button" class="btn btn-secondary">Сохранить новый пароль</button>
-                                <button type="button" class="btn btn-primary">Завершить все сессии, кроме текущей</button> 
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#AccountDelModal">Удалить аккаунт</button>
+                            <div class="row justify-content-md-center">
+                                <div class="col-6 d-flex flex-column justify-content-center">
+                                    <button type="submit" id="btn_change_password" class="btn btn-secondary custom_border mt-1">Сохранить новый пароль</button>
+                                    <button type="button" class="btn btn-primary custom_border mt-1">Завершить все сессии, кроме текущей</button> 
+                                    <button type="button" class="btn btn-danger custom_border mt-1" data-toggle="modal" data-target="#AccountDelModal">Удалить аккаунт</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -206,4 +208,5 @@
 {% block extra_js %}
 <script src="/static/js_custom/change_name_surname.js"></script>
 <script src="/static/js_custom/change_BSCT.js"></script>
+<script src="/static/js_custom/change_password.js"></script>
 {% endblock %}
