@@ -82,6 +82,7 @@ def update_profile(u_id, data):
                 User.status == 'active',
         ).one_or_none()
 
+
         if not user:
             abort(404, 'No user with this id')
         for arg in data.keys():
@@ -89,13 +90,19 @@ def update_profile(u_id, data):
             if arg in ['email', 'password', 'id', 'status', 'confirmation_link', 'cookie_id', 'service_status', 'registration_date', 'disable_date']:
                 abort(400, "Can't change this field(s)")
             if arg == 'birth':
-                birth = data[arg].split('-')
-                birth_date = date(int(birth[0]), int(birth[1]), int(birth[2]))
-                setattr(user, arg, birth_date)
-            else:
                 if data[arg] == "":
+                    setattr(user, arg, None)
+                else:
+                    birth = data[arg].split('-')
+                    birth_date = date(int(birth[0]), int(birth[1]), int(birth[2]))
+                    setattr(user, arg, birth_date)
+            else:
+                if (arg == 'name' and data[arg] == "") or (arg == 'surname' and data[arg] == ""):
                     abort(422, "Wrong data")
-                setattr(user, arg, data[arg])
+                if data[arg] == "":
+                    setattr(user, arg, None)
+                else:
+                    setattr(user, arg, data[arg])
 
 
 # админка

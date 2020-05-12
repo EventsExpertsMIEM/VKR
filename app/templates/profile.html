@@ -102,21 +102,23 @@
                         
                     </div>
                     <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
-                        <form class="px-4">
+                        <form class="px-4" id="f_security" oninput='profile_new_password_repeat.setCustomValidity(profile_new_password_repeat.value != profile_new_password.value ? "Пароли не совпадают" : "")'>
                             <h4>Смена пароля</h4>
                             <div class="form-group">                  
-                                <input class="form-control custom_border" name="password" type="password" value='' placeholder="Текущий пароль" />
+                                <input class="form-control custom_border" id="profile_old_password" type="password" value='' placeholder="Текущий пароль" />
                             </div>
                             <div class="form-group"> 
-                                <input class="form-control custom_border" name="newPassword" type="password" value='' placeholder="Новый пароль"/>
+                                <input class="form-control custom_border" id="profile_new_password" type="password" value='' placeholder="Новый пароль"/>
                             </div>
                             <div class="form-group"> 
-                                <input class="form-control custom_border" name="newPassword" type="password" value=''placeholder="Новый пароль еще раз"/>
+                                <input class="form-control custom_border" id="profile_new_password_repeat" type="password" value=''placeholder="Новый пароль еще раз"/>
                             </div>
-                            <div class="form-group text-center">
-                                <button type="button" class="btn btn-secondary">Сохранить новый пароль</button>
-                                <button type="button" class="btn btn-primary">Завершить все сессии, кроме текущей</button> 
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#AccountDelModal">Удалить аккаунт</button>
+                            <div class="row justify-content-md-center">
+                                <div class="col-6 d-flex flex-column justify-content-center">
+                                    <button type="submit" id="btn_change_password" class="btn btn-secondary custom_border mt-1">Сохранить новый пароль</button>
+                                    <button type="button" class="btn btn-primary custom_border mt-1" data-toggle="modal" data-target="#close_all_sessions_modal">Завершить все сессии, кроме текущей</button> 
+                                    <button type="button" class="btn btn-danger custom_border mt-1" data-toggle="modal" data-target="#delete_account_modal">Удалить аккаунт</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -150,11 +152,11 @@
                 <form id="f_name_surname">
                     <div class="form-group">
                         <label for="profile_user_name">Имя:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_name" placeholder="{{ current_user.name }}" required>
+                        <input type="text" class="form-control custom_border" id="profile_user_name" value="{{ current_user.name }}" required>
                     </div>
                     <div class="form-group">
                         <label for="profile_user_surname">Фамилия:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_surname" placeholder="{{ current_user.surname }}" required>
+                        <input type="text" class="form-control custom_border" id="profile_user_surname" value="{{ current_user.surname }}" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" id="btnsubmit_name_surname" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Сохранить</button>
@@ -177,23 +179,75 @@
             <div class="modal-body">
                 <form id="f_BSCT">
                     <div class="form-group">
-                        <label for="profile_user_birth">Дата Рождения:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_birth" placeholder="{{ current_user.birth }} {% if current_user.birth == None %}yyyy-mm-dd {% endif %}">
+                        <label for="profile_user_birth">Дата Рождения:</label>
+                        <input type="text" class="form-control custom_border" id="profile_user_birth" placeholder="yyyy-mm-dd" value="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}" birth_old="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}">
                     </div>
                     <div class="form-group">
                         <label for="profile_user_sex">Пол:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_sex" placeholder="{{ current_user.sex }}">
+                        <input type="text" class="form-control custom_border" id="profile_user_sex" value="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}" sex_old="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}">
                     </div>
                     <div class="form-group">
                         <label for="profile_user_country">Страна:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_country" placeholder="{{ current_user.country }}">
+                        <input type="text" class="form-control custom_border" id="profile_user_country" value="{% if current_user.country != None %}{{ current_user.country }}{% endif %}" country_old="{% if current_user.country != None %}{{ current_user.country }}{% endif %}">
                     </div>
                     <div class="form-group">
                         <label for="profile_user_town">Город:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_town" placeholder="{{ current_user.town }}">
+                        <input type="text" class="form-control custom_border" id="profile_user_town" value="{% if current_user.town != None %}{{ current_user.town }}{% endif %}" town_old="{% if current_user.town != None %}{{ current_user.town }}{% endif %}">
                     </div>
                     <div class="text-center">
                         <button type="submit" id="btnsubmit_BSCT" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="close_all_sessions_modal" aria-labelledby="close_all_sessions_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="close_all_sessions_modal_label">Завершить все сессии</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="f_close_all_sessions">
+                    <div class="form-group">
+                        <p>Введите пароль, чтобы подтвердить завершение всех сессий, кроме текущей:</p>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control custom_border" id="close_all_sessions_password" type="password" value='' placeholder="Текущий пароль" />
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" id="btnsubmit_CAS" class="btn btn-primary border-secondary btn-user btn-block custom_border">Завершить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="delete_account_modal" aria-labelledby="delete_account_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete_account_modal_label">Удалить аккаунт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="f_delete_account">
+                    <div class="form-group">
+                        <p>Введите пароль, чтобы подтвердить удаление аккаунта:</p>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control custom_border" id="delete_account_password" type="password" value='' placeholder="Текущий пароль" />
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" id="btnsubmit_delete_account" class="btn btn-danger border-secondary btn-user btn-block custom_border">Удалить</button>
                     </div>
                 </form>
             </div>
@@ -205,4 +259,7 @@
 {% block extra_js %}
 <script src="/static/js_custom/change_name_surname.js"></script>
 <script src="/static/js_custom/change_BSCT.js"></script>
+<script src="/static/js_custom/change_password.js"></script>
+<script src="/static/js_custom/close_all_sessions.js"></script>
+<script src="/static/js_custom/self_delete.js"></script>
 {% endblock %}
