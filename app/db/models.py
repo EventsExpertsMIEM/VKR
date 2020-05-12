@@ -24,6 +24,8 @@ Task_status = ENUM('todo', 'inprocess', 'waiting', 'done', 'deleted',
 Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
 
+Account_type = ENUM('standart', 'oauth', name='account_type_enum')
+
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -39,6 +41,7 @@ class User(Base, UserMixin):
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)
     password = Column(TEXT, nullable=False)
+    account_type = Column(Account_type, nullable=False)
     service_status = Column(Service_status, default='user', nullable=False)
     registration_date = Column(DateTime, default=datetime.utcnow, nullable=False)
     disable_date = Column(DateTime, nullable=True)

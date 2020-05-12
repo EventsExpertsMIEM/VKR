@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row justify-content-center my-auto">
     <div class="col-lg-2">
       <nav class="nav flex-column"> 
         <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
@@ -23,73 +23,75 @@
         <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
       </nav>
     </div>
-    <div class="col-lg-10">
+    <div class="col-lg-8">
         <div class="card o-hidden border-0 shadow-sm custom_border">
             <div class="card-body p-1">
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active text-center mt-3" id="personal-info-tab" role="tabpanel" aria-labelledby="nav-personal-tab">
                         <div class="row">
                             <div class="col-lg-4">
-                                <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded" style="width: 15rem;">
-                                <p>ИЗМЕНИТЬ КАРТИНОШКУ</p>
+                                <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded">
+                                <a href="" data-toggle="modal" data-target="#personal_IMG_modal" class="ml-2"><i class="far fa-edit"></i>ИЗМЕНИТЬ КАРТИНОШКУ</a>
                             </div>
                             <div class="col-lg-8">
                                 <div class="text-left d-flex justify-content-between"> 
-                                    <h3 id="name_surname">{{ current_user.name }} {{ current_user.surname }}</h3>
+                                    <h5 id="name_surname">{{ current_user.name }} {{ current_user.surname }}</h5>
                                     <a href="" data-toggle="modal" data-target="#personal_info_modal" class="ml-2"><i class="far fa-edit"></i></a>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">E-mail: </h5>
+                                    <p class="pr-4 font-weight-bold">E-mail:</p>
                                     <p id="p_email">{{ current_user.email }}</p>
+                                    {% if current_user.account_type != 'standart' %} 
                                     <a href="" data-toggle="modal" data-target="#personal_M_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
+                                    {% endif %}
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">День рождения: </h5>
+                                    <p class="pr-4 font-weight-bold">День рождения:</p>
                                     <p id="p_birth">{{ current_user.birth }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_BSCT_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Пол: </h5>
+                                    <p class="pr-4 font-weight-bold">Пол:</p>
                                     <p id="p_sex">{{ current_user.sex }}</p>
                                 </div>
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Страна: </h5>
+                                    <p class="pr-4 font-weight-bold">Страна:</p>
                                     <p id="p_country">{{ current_user.country }}</p>
                                 </div>
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Город: </h5>
+                                    <p class="pr-4 font-weight-bold">Город:</p>
                                     <p id="p_town">{{ current_user.town }}</p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Телефон: </h5>
+                                    <p class="pr-4 font-weight-bold">Телефон:</p>
                                     <p id="p_phone">{{ current_user.phone }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_T_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Место работы: </h5>
+                                    <p class="pr-4 font-weight-bold">Место работы:</p>
                                     <p id="p_organization">{{ current_user.organization }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_OP_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Должность: </h5>
+                                    <p class="pr-4 font-weight-bold">Должность:</p>
                                     <p id="p_position">{{ current_user.position }}</p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Статус в системе: </h5>
+                                    <p class="pr-4 font-weight-bold">Статус в системе:</p>
                                     <p>{{ current_user.service_status }}</p>
                                 </div>
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">Дата Регистрации: </h5>
+                                    <p class="pr-4 font-weight-bold">Дата регистрации:</p>
                                     <p>{{ current_user.registration_date }}</p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <h5 class="pr-4">О себе: </h5>
+                                    <p class="pr-4 font-weight-bold">О себе:</p>
                                     <p id="p_bio">{{ current_user.bio }}</p>
                                     <a href="" data-toggle="modal" data-target="#personal_B_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
@@ -100,7 +102,7 @@
                         
                     </div>
                     <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
-                        <form>
+                        <form class="px-4">
                             <h4>Смена пароля</h4>
                             <div class="form-group">                  
                                 <input class="form-control custom_border" name="password" type="password" value='' placeholder="Текущий пароль" />

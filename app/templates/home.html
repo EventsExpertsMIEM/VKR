@@ -10,8 +10,8 @@
 {% block content %}
 
 <div class="card-deck">
-    <div class="col-lg-3">
-        <div class="card o-hidden border-0 shadow" style="border-radius: 0.5rem;">
+    <div class="col-lg-3 pb-3">
+        <div class="card o-hidden border-0 shadow pb-2">
             <div class="card-header text-center bg-light pb-0">
                 <a class="btn btn-link" href="/event/asdfasdf" role="button">ИМЯ HARDCODED</a>
             </div>
@@ -36,7 +36,7 @@
     </div>
     {% for event in events %}
     <div class="col-lg-3">
-        <div class="card o-hidden border-0 shadow" style="border-radius: 0.5rem;">
+        <div class="card o-hidden border-0 shadow">
             <div class="card-header text-center bg-light pb-0">
                 <a class="btn btn-link" href="/event/{{event.id}}" role="button">{{event.name}}</a>
             </div>

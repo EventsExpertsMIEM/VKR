@@ -78,6 +78,7 @@ def register_user(email, name, surname, password, service_status='user'):
                 user.service_status = service_status
                 user.registration_date = datetime.utcnow()
                 user.disable_date = None
+                user.account_type = 'standart'
             elif user.status == 'banned':
                 abort(409, 'User with this email was banned')
             else:
@@ -86,7 +87,8 @@ def register_user(email, name, surname, password, service_status='user'):
             user = User(email=email, name=name,
                         surname=surname, password=pw,
                         service_status=service_status,
-                        confirmation_link=confirmation_link)
+                        confirmation_link=confirmation_link,
+                        account_type='standart')
             s.add(user)
         if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
             mails.send_confirm_email(email, confirmation_link)

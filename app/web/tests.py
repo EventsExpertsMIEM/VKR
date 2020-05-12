@@ -11,8 +11,21 @@ bp = Blueprint('tests_web', __name__)
 
 @bp.route('/test1')
 def test1():
-    send_confirm_email("kek@kek.kek", "link")
     return render_template(
-        '/blank.html',
+        '/test.html',
         current_user=current_user
+    )
+
+
+@bp.route('/get_html')
+def get_html():
+    return render_template(
+        '/get_html.html', kek="kekkekekekekek"
+    )
+
+
+@bp.route('/get_html2')
+def get_html2():
+    return render_template(
+        '/get_html2.html', kek="tttttttttttttttttttttt"
     )
