@@ -28,11 +28,10 @@ $(function() {
                 dataType: "json",
                 success: function(data){
                     $("#btnsubmit_BSCT").html(data["description"]);
-                    $("#f_BSCT").trigger('reset');
-                    if (birth != "") { $("#p_birth").html(birth); $("#profile_user_birth").attr('placeholder', birth); }
-                    if (sex != "") { $("#p_sex").html(sex); $("#profile_user_sex").attr('placeholder', sex); }
-                    if (country != "") { $("#p_country").html(country); $("#profile_user_country").attr('placeholder', country); }
-                    if (town != "") { $("#p_town").html(town); $("#profile_user_town").attr('placeholder', town); }
+                    if (birth != "") { $("#p_birth").html(birth); $("#profile_user_birth").attr('value', birth); }
+                    if (sex != "") { $("#p_sex").html(sex); $("#profile_user_sex").attr('value', sex); }
+                    if (country != "") { $("#p_country").html(country); $("#profile_user_country").attr('value', country); }
+                    if (town != "") { $("#p_town").html(town); $("#profile_user_town").attr('value', town); }
                     setTimeout(
                         function() {
                             $('#personal_BSCT_modal').modal('hide');
