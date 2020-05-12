@@ -14,6 +14,7 @@ $(function() {
                 $("#f_close_all_sessions").trigger('reset');
                 setTimeout(
                     function() {
+                        $('#close_all_sessions_modal').modal('hide');
                         $("#btnsubmit_CAS").html("Завершить");
                         $("#btnsubmit_CAS").attr("disabled", false);
                     }, 2000
