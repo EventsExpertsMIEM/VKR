@@ -24,7 +24,7 @@ def home():
 @login_required
 def create_event():
     return render_template(
-        '/_create_event.html',
+        '/create_event.html',
         current_user=current_user,
     )
 

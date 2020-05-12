@@ -1,4 +1,5 @@
 $(function() {
+    profile_user_birth.max = new Date().toISOString().split("T")[0];
     $("#f_BSCT").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_BSCT").attr("disabled", true);
