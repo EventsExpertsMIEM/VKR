@@ -5,14 +5,14 @@ $(function() {
         $("#btnsubmit_BSCT").attr("disabled", true);
 
         var dict = {};
-        birth = document.getElementById("profile_user_birth").value;
-        birth_old = document.getElementById("profile_user_birth").getAttribute("birth_old");
-        sex = document.getElementById("profile_user_sex").value;
-        sex_old = document.getElementById("profile_user_sex").getAttribute("sex_old");
-        country = document.getElementById("profile_user_country").value;
-        country_old = document.getElementById("profile_user_country").getAttribute("country_old");
-        town = document.getElementById("profile_user_town").value;
-        town_old = document.getElementById("profile_user_town").getAttribute("town_old");
+        var birth = document.getElementById("profile_user_birth").value;
+        var birth_old = document.getElementById("profile_user_birth").getAttribute("birth_old");
+        var sex = document.getElementById("profile_user_sex").value;
+        var sex_old = document.getElementById("profile_user_sex").getAttribute("sex_old");
+        var country = document.getElementById("profile_user_country").value;
+        var country_old = document.getElementById("profile_user_country").getAttribute("country_old");
+        var town = document.getElementById("profile_user_town").value;
+        var town_old = document.getElementById("profile_user_town").getAttribute("town_old");
 
         if (birth != birth_old){ dict["birth"] = birth; }
         if (sex != sex_old){ dict["sex"] = sex; }

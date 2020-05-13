@@ -2,8 +2,8 @@ $(function() {
     $("#f_name_surname").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_name_surname").attr("disabled", true);
-        name = document.getElementById("profile_user_name").value;
-        surname = document.getElementById("profile_user_surname").value;
+        var name = document.getElementById("profile_user_name").value;
+        var surname = document.getElementById("profile_user_surname").value;
         $.ajax({
             url: "/api/user/",
             type: "PUT",

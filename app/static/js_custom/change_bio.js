@@ -2,7 +2,7 @@ $(function() {
     $("#f_personal_bio").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_user_bio").attr("disabled", true);
-        bio = document.getElementById("profile_user_bio").value;
+        var bio = document.getElementById("profile_user_bio").value;
         $.ajax({
             url: "/api/user/",
             type: "PUT",
