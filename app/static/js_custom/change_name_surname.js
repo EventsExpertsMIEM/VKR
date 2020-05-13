@@ -1,8 +1,6 @@
-
 document.addEventListener(
     'DOMContentLoaded',
     () => {
-
         $("#f_name_surname").submit(function(e) {
             e.preventDefault();
             $("#btnsubmit_name_surname").attr("disabled", true);

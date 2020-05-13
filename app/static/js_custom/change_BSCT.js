@@ -1,5 +1,3 @@
-
-
 document.addEventListener(
     'DOMContentLoaded',
     () => {
@@ -7,7 +5,6 @@ document.addEventListener(
         birthdayInput.max = new Date().toISOString().split('T')[0]
     }
 )
-
 document.getElementById('btnsubmit_BSCT').addEventListener(
     'click',
     () => {
@@ -39,7 +36,6 @@ document.getElementById('btnsubmit_BSCT').addEventListener(
             )
             return
         }
-
         fetch(
             '/api/user/',
             {
