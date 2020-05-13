@@ -44,7 +44,13 @@ def get_event_info(e_id):
 def get_events(offset="", size=""):
     result = []
     with get_session() as s:
-        events = s.query(Event).filter(Event.status == 'active').order_by(desc(Event.start_date))
+        events = s.query(
+            Event
+        ).filter(
+            Event.status == 'active'
+        ).order_by(
+            desc(Event.start_date)
+        )
         if offset and size:
             offset = int(offset)
             size = int(size)
@@ -72,35 +78,45 @@ def get_events(offset="", size=""):
 
 def create_event(u_id, data):
     with get_session() as s:
-        event = Event(name=data['name'], sm_description=data['sm_description'],
-                      description=data['description'], start_date=data['start_date'],
-                      end_date=data['end_date'], start_time=data['start_time'],
-                      location=data['location'], site_link=data['site_link'],
-                      additional_info=data['additional_info'])
+        event = Event(
+            name=data['name'],
+            sm_description=data['sm_description'],
+            description=data['description'],
+            start_date=data['start_date'],
+            end_date=data['end_date'],
+            start_time=data['start_time'],
+            location=data['location'],
+            site_link=data['site_link'],
+            additional_info=data['additional_info']
+        )
         s.add(event)
         s.flush()
         s.refresh(event)
         participation = Participation(e_id=event.id, u_id=u_id,
-                                      participation_role='creator')
+                                        participation_role='creator')
         s.add(participation)
 
-        logging.info('Creating event [{}] [{}] [{}] [{}]'.format(data['name'],
-                                                                 data['start_date'],
-                                                                 data['end_date'],
-                                                                 data['start_time']))
+        logging.info(
+            'Creating event [{}] [{}] [{}] [{}]'.format(
+                data['name'],
+                data['start_date'],
+                data['end_date'],
+                data['start_time']
+            )
+        )
         return event.id
 
 
 # NEW
 
-def add_manager(e_id, data):
+def add_manager(e_id, email):
     with get_session() as s:
         event = s.query(Event).get(e_id)
         if not event or event.status == 'deleted':
             abort(404, 'No event with this id')
 
         user = s.query(User).filter(
-                User.email == data['email'],
+                User.email == email,
                 User.status == 'active'
         ).one_or_none()
         if not user:
@@ -111,7 +127,12 @@ def add_manager(e_id, data):
                 Participation.e_id == e_id
         ).one_or_none()
         if part:
-            abort(409, 'User has already joined this event as [{}]'.format(part.participation_role))
+            abort(
+                409,
+                'User has already joined this event as [{}]'.format(
+                    part.participation_role
+                )
+            )
 
         manager = s.query(Participation).filter(
                 Participation.e_id == e_id,
@@ -151,19 +172,7 @@ def update_event(e_id, data):
             abort(404, 'No event with this id')
 
         for arg in data.keys():
-            getattr(event, arg)
-            if arg in ['id', 'status', 'views']:
-                abort(400, "Can't change this field(s)")
-            if arg == 'start_date' or arg == 'end_date':
-                sdate = data[arg].split('-')
-                date_s = date(int(sdate[0]), int(sdate[1]), int(sdate[2]))
-                setattr(event, arg, date_s)
-            elif arg == 'start_time':
-                start_time = data[arg].split(':')
-                time_start = time(int(start_time[0]), int(start_time[1]), 0, 0)
-                setattr(event, arg, time_start)
-            else:
-                setattr(event, arg, data[arg])
+            setattr(event, arg, data[arg])
 
 
 def delete_event(e_id):
@@ -229,7 +238,12 @@ def join_event(u_id, e_id, data):
         ).one_or_none()
 
         if is_consists:
-            abort(409, 'User has already joined this event as [{}]'.format(is_consists.participation_role))
+            abort(
+                409,
+                'User has already joined this event as [{}]'.format(
+                    is_consists.participation_role
+                )
+            )
         role = 'viewer'
         participation = Participation(e_id=e_id, u_id=u_id,
                                       participation_role='viewer')
@@ -240,6 +254,10 @@ def join_event(u_id, e_id, data):
             participation.report_description = data['report_description']
             participation.report_status = 'unseen'
         s.add(participation)
-        logging.info('User [id {}] joined event [id {}] as [{}]'.format(u_id,
-                                                                        e_id,
-                                                                        role))
+        logging.info(
+            'User [id {}] joined event [id {}] as [{}]'.format(
+                u_id,
+                e_id,
+                role
+            )
+        )

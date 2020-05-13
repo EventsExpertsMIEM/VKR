@@ -13,8 +13,10 @@ bp = Blueprint('events', __name__)
 @bp.route('/<int:e_id>', methods=['GET'])
 def event_by_id(e_id):
     if current_user.is_authenticated:
-        return jsonify(part=events_logic.check_participation(current_user.id, e_id),
-                       event=events_logic.get_event_info(e_id))
+        return jsonify(
+            part=events_logic.check_participation(current_user.id, e_id),
+            event=events_logic.get_event_info(e_id)
+        )
     else:
         return jsonify(part='not joined',
                        event=events_logic.get_event_info(e_id))
@@ -40,10 +42,14 @@ def events():
 @bp.route('/<int:e_id>', methods=['PUT'])
 @login_required
 def put_event_by_id(e_id):
-    if (current_user.service_status == 'user' and
-        events_logic.check_participation(current_user.id, e_id) not in ['creator', 'manager']):
+    if (
+        current_user.service_status == 'user' and
+        events_logic.check_participation(
+            current_user.id, e_id
+        ) not in ['creator', 'manager']
+    ):
         return make_4xx(403, "No rights")
-    data = get_json()
+    data = validate(get_json(), schemas.event_update)
     events_logic.update_event(e_id, data)
     return make_ok(200, 'Successfully updated')
 
@@ -61,10 +67,10 @@ def delete_event_by_id(e_id):
 @bp.route('/<int:e_id>/manager', methods=['POST'])
 @login_required
 def add_manager_to_event(e_id):
-    data = get_json()
+    email = validate(get_json(), schemas.event_add_manager)['email']
     if events_logic.check_participation(current_user.id, e_id) != 'creator':
         return make_4xx(403, "No rights")
-    action = events_logic.add_manager(e_id, data)
+    action = events_logic.add_manager(e_id, email)
     return make_ok(200, 'Successfully ' + action + ' manager')
 
 
@@ -80,7 +86,9 @@ def delete_manager_from_event(e_id):
 @bp.route('/<int:e_id>/join', methods=['POST'])
 @login_required
 def join(e_id):
-    data = get_json()
+    data = validate(get_json(), schemas.event_join)
+    if data['role'] == 'presenter':
+        data = validate(data, schemas.event_join_presenter)
     events_logic.join_event(current_user.id, e_id, data)
     return make_ok(200, 'Successfully joined')
 
