@@ -23,16 +23,16 @@ document.getElementById('btnsubmit_create_event').addEventListener(
             }
         ).then(
             response => {
-                if (response.status >= 200 && response.status < 300) {
-                    response.json().then(
-                        data => {
-                            var id = data['description'] // id созданного мероприятия
-                            window.location.href = `/event/${id}` // перенаправление на страницу
-                        }
-                    )
-                } else {
+                if (response.status < 200 && response.status >= 300) {
                     console.log(response) // TODO: Error handling
+                    return
                 }
+                response.json().then(
+                    data => {
+                        var id = data['description'] // id созданного мероприятия
+                        window.location.href = `/event/${id}` // перенаправление на страницу
+                    }
+                )
             }
         ).catch(
             e => console.log(e) // TODO: Error handling

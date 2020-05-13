@@ -1,4 +1,6 @@
-$(function() {
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
     $("#f_personal_phone").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_user_phone").attr("disabled", true);

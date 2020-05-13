@@ -1,4 +1,6 @@
-$(function() {
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
     $("#f_close_all_sessions").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_CAS").attr("disabled", true);

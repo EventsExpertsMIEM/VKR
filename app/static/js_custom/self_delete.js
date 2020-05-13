@@ -1,4 +1,6 @@
-$(function() {
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
     $("#f_delete_account").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_delete_account").attr("disabled", true);

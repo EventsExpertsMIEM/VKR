@@ -1,0 +1,90 @@
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  id="personal_BSCT_modal"
+  aria-labelledby="personal_BSCT_modal_label"
+  aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personal_BSCT_modal_label">
+                    Редактирование персональной информации:
+                </h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="profile_user_birth">Дата Рождения:</label>
+                    <!-- !!! не работает в сафари, нужно будет придумать свой вариант -->
+                    <input
+                        type="date"
+                        class="form-control custom_border bcst_input"
+                        id="profile_user_birth"
+                        placeholder="yyyy-mm-dd"
+                        value="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}"
+                        data-old="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}"
+                        data-key="birth"
+                        data-profile-key="p_birth"
+                        min="1900-01-01"
+                    />
+                    <!--<input type="text" class="form-control custom_border" id="profile_user_birth" placeholder="yyyy-mm-dd" value="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}" birth_old="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}"> -->
+                </div>
+                <div class="form-group">
+                    <label for="profile_user_sex">Пол:</label>
+                    <input
+                        type="text"
+                        class="form-control custom_border bcst_input"
+                        id="profile_user_sex"
+                        value="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}"
+                        data-old="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}"
+                        data-key="sex"
+                        data-profile-key="p_sex"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="profile_user_country">Страна:</label>
+                    <input
+                        type="text"
+                        class="form-control custom_border bcst_input"
+                        id="profile_user_country"
+                        value="{% if current_user.country != None %}{{ current_user.country }}{% endif %}"
+                        data-old="{% if current_user.country != None %}{{ current_user.country }}{% endif %}"
+                        data-key="country"
+                        data-profile-key="p_country"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="profile_user_town">Город:</label>
+                    <input
+                        type="text"
+                        class="form-control custom_border bcst_input"
+                        id="profile_user_town"
+                        value="{% if current_user.town != None %}{{ current_user.town }}{% endif %}"
+                        data-old="{% if current_user.town != None %}{{ current_user.town }}{% endif %}"
+                        data-key="town"
+                        data-profile-key="p_town"
+                    />
+                </div>
+                <div class="text-center">
+                    <button
+                        id="btnsubmit_BSCT"
+                        class="btn btn-secondary border-secondary btn-user btn-block custom_border"
+                    >
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js_custom/change_BSCT.js"></script>
