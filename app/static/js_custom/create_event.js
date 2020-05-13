@@ -5,9 +5,9 @@ $(function() {
         e.preventDefault();
         $("#btnsubmit_create_event").attr("disabled", true);
         var name = document.getElementById("create_event_name").value;
-        var start_date = document.getElementById("create_event_start_date").valueAsDate.toISOString();
-        var end_date = document.getElementById("create_event_end_date").valueAsDate.toISOString();
-        var start_time = document.getElementById("create_event_start_date").value;
+        var start_date = document.getElementById("create_event_start_date").valueAsDate.toISOString().split("T")[0];
+        var end_date = document.getElementById("create_event_end_date").valueAsDate.toISOString().split("T")[0];
+        var start_time = document.getElementById("create_event_start_time").value;
         var loc = document.getElementById("create_event_location").value;
         var site_link = document.getElementById("create_event_site_link").value;
         var sm_description = document.getElementById("create_event_description").value;
