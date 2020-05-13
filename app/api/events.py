@@ -3,6 +3,8 @@ from flask_login import (login_required, login_user, logout_user, current_user)
 
 from . import *
 from ..logic import events as events_logic
+from ..validation.validation import validate
+from ..validation import schemas
 
 
 bp = Blueprint('events', __name__)
@@ -21,7 +23,7 @@ def event_by_id(e_id):
 @bp.route('/', methods=['POST'], strict_slashes=False)
 @login_required
 def create_event():
-    data = get_json()
+    data = validate(get_json(), schemas.event_create)
     last_id = events_logic.create_event(current_user.id, data)
     return make_ok(201, str(last_id))
 

@@ -60,7 +60,7 @@ def reset_password():
 @bp.route('/change_password', methods=['POST'])
 @login_required #@fresh_login_required
 def change_password():
-    data = get_json()
+    data = validate(get_json(), schemas.change_password)
     user = accounts_logic.change_password(current_user.id,
                                           data['old_password'],
                                           data['new_password'])
@@ -71,7 +71,7 @@ def change_password():
 @bp.route('/close_all_sessions', methods=['POST'])
 @login_required #@fresh_login_required
 def close_all_sessions():
-    data = get_json()
+    data = validate(get_json(), schemas.password)
     user = accounts_logic.close_all_sessions(current_user.id, data['password'])
     login_user(user)
     return make_ok(200, 'Logout from all other sessions')
@@ -80,7 +80,7 @@ def close_all_sessions():
 @bp.route('/delete', methods=['POST'])
 @login_required #@fresh_login_required
 def self_delete():
-    data = get_json()
+    data = validate(get_json(), schemas.password)
     accounts_logic.self_delete(current_user.id, data['password'])
     logout_user()
     return make_ok(200, 'Successfully delete account')

@@ -71,21 +71,10 @@ def get_events(offset="", size=""):
 
 
 def create_event(u_id, data):
-    if (data['name'] == "" or data['sm_description'] == "" or
-       data['description'] == "" or data['location'] == "" or
-       data['site_link'] == "" or data['additional_info'] == ""):
-        abort(422, "Wrong data")
-    start_date = data['start_date'].split('-')
-    date_start = date(int(start_date[0]), int(start_date[1]), int(start_date[2]))
-    end_date = data['end_date'].split('-')
-    date_end = date(int(end_date[0]), int(end_date[1]), int(end_date[2]))
-    start_time = data['start_time'].split(':')
-    time_start = time(int(start_time[0]), int(start_time[1]), 0, 0, timezone.utc)
-    
     with get_session() as s:
         event = Event(name=data['name'], sm_description=data['sm_description'],
-                      description=data['description'], start_date=date_start,
-                      end_date=date_end, start_time=time_start,
+                      description=data['description'], start_date=data['start_date'],
+                      end_date=data['end_date'], start_time=data['start_time'],
                       location=data['location'], site_link=data['site_link'],
                       additional_info=data['additional_info'])
         s.add(event)
@@ -96,9 +85,9 @@ def create_event(u_id, data):
         s.add(participation)
 
         logging.info('Creating event [{}] [{}] [{}] [{}]'.format(data['name'],
-                                                                 date_start,
-                                                                 date_end,
-                                                                 start_time))
+                                                                 data['start_date'],
+                                                                 data['end_date'],
+                                                                 data['start_time']))
         return event.id
 
 
