@@ -1,0 +1,20 @@
+{% extends "/blank.html" %}
+
+{% block title %}
+<title>Events</title>
+{% endblock %}
+
+{% block page%}
+{% endblock %}
+
+{% block content %}
+<div class="justify-content-center pt-4">
+    <p>{{event.name}}</p>
+    <p>{{event.start_date}}</p>
+    <p>{{event.end_date}}</p>
+    <p>{{event.description}}</p>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
