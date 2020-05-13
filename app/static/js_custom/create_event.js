@@ -4,15 +4,15 @@ $(function() {
     $("#f_create_event").submit(function(e) {
         e.preventDefault();
         $("#btnsubmit_create_event").attr("disabled", true);
-        name = document.getElementById("create_event_name").value;
-        start_date = document.getElementById("create_event_start_date").value;
-        end_date = document.getElementById("create_event_end_date").value;
-        start_time = document.getElementById("create_event_start_date").value;
-        location = document.getElementById("create_event_location").value;
-        site_link = document.getElementById("create_event_site_link").value;
-        sm_description = document.getElementById("create_event_description").value;
-        description = document.getElementById("create_event_sm_description").value;
-        additional_info = document.getElementById("create_event_additional_info").value;
+        var name = document.getElementById("create_event_name").value;
+        var start_date = document.getElementById("create_event_start_date").valueAsDate.toISOString();
+        var end_date = document.getElementById("create_event_end_date").valueAsDate.toISOString();
+        var start_time = document.getElementById("create_event_start_date").value;
+        var loc = document.getElementById("create_event_location").value;
+        var site_link = document.getElementById("create_event_site_link").value;
+        var sm_description = document.getElementById("create_event_description").value;
+        var description = document.getElementById("create_event_sm_description").value;
+        var additional_info = document.getElementById("create_event_additional_info").value;
         $.ajax({
             url: "/api/event",
             type: "POST",
@@ -20,7 +20,7 @@ $(function() {
                                   "start_date" : start_date,
                                   "end_date" : end_date,
                                   "start_time" : start_time,
-                                  "location" : location,
+                                  "location" : loc,
                                   "site_link" : site_link,
                                   "sm_description" : sm_description,
                                   "description" : description,
