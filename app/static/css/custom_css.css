@@ -1,0 +1,15 @@
+.custom_border {
+	border-radius: 0.5rem;
+}
+
+.topbar-divider {
+  width: 0;
+  border-right: 1px solid #e3e6f0;
+  height: 2rem;
+  margin: auto 1rem;
+}
+
+.pt-8,
+.py-8 {
+  padding-top: 5rem !important;
+}

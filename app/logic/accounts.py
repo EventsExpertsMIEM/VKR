@@ -53,7 +53,7 @@ def register_user(email, name, surname, password, service_status='user'):
                 User.email == email
         ).one_or_none()
 
-        if email == "" or name == "" or surname == "" or password == "":
+        if email == "" or name == "" or surname == "" or password == "": #or (8 < len(password) < 50):
             abort(422, "Wrong data")
 
         # checking unique link
@@ -78,6 +78,7 @@ def register_user(email, name, surname, password, service_status='user'):
                 user.service_status = service_status
                 user.registration_date = datetime.utcnow()
                 user.disable_date = None
+                user.account_type = 'standart'
             elif user.status == 'banned':
                 abort(409, 'User with this email was banned')
             else:
@@ -86,7 +87,8 @@ def register_user(email, name, surname, password, service_status='user'):
             user = User(email=email, name=name,
                         surname=surname, password=pw,
                         service_status=service_status,
-                        confirmation_link=confirmation_link)
+                        confirmation_link=confirmation_link,
+                        account_type='standart')
             s.add(user)
         if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
             mails.send_confirm_email(email, confirmation_link)
@@ -100,7 +102,7 @@ def confirm_user(confirmation_link):
         ).one_or_none()
         if not user:
             abort(404, 'No user with this confirmation link')
-        if user.status is not 'unconfirmed':
+        if user.status != 'unconfirmed':
             abort(409, "User is currently confirmed by this link or can't be confirmed")
         user.status = 'active'
         logging.info('User [{}] is confirmed'.format(user.email))
@@ -121,3 +123,76 @@ def reset_password(email):
         user.password = npw.decode('utf-8')
         user.cookie_id = uuid.uuid4()
         mails.send_reset_email(email, new_password)
+
+
+def change_password(u_id, old_password, new_password):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id
+        ).one_or_none()
+        opw = str(old_password).encode('utf-8')
+        npw = str(new_password).encode('utf-8')
+        pw = str(user.password).encode('utf-8')
+
+        if not bcrypt.checkpw(opw, pw):
+            abort(422, 'Invalid password')
+        if bcrypt.checkpw(npw, pw):
+            abort(409, 'Old and new passwords are equal')
+        npw = bcrypt.hashpw(npw, bcrypt.gensalt())
+        user.password = npw.decode('utf-8')
+        user.cookie_id = uuid.uuid4()
+        return user
+
+
+# NEW
+
+def close_all_sessions(u_id, password):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id
+        ).one_or_none()
+        opw = str(password).encode('utf-8')
+        pw = str(user.password).encode('utf-8')
+        if not bcrypt.checkpw(opw, pw):
+            abort(422, 'Invalid password')
+        user.cookie_id = uuid.uuid4()
+        return user
+
+
+def self_delete(u_id, password):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id
+        ).one_or_none()
+        opw = str(password).encode('utf-8')
+        pw = str(user.password).encode('utf-8')
+        if not bcrypt.checkpw(opw, pw):
+            abort(422, 'Invalid password')
+        user.status = 'deleted'
+        user.disable_date = datetime.utcnow()
+
+
+def ban_user(u_id):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id,
+                User.service_status != 'superadmin'
+        ).one_or_none()
+        if not user:
+            abort(404, 'No user with this id')
+        user.status = 'banned'
+        user.disable_date = datetime.utcnow()
+
+
+def change_privileges(u_id, role):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id,
+                User.status == 'active',
+                User.service_status != 'superadmin'
+        ).one_or_none()
+        if not user:
+            abort(404, 'No user with this id')
+        if user.service_status == role:
+            abort(409, 'User already has that role')
+        user.service_status = role

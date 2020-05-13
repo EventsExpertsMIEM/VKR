@@ -118,6 +118,11 @@ service.log
 git-aacp
 git-ak
 todo.md
+send_email_errors.txt
 
 # vscode
 .vscode
+
+# add vars
+.add_vars.bat
+add_vars.bat

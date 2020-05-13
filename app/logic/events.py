@@ -100,3 +100,157 @@ def create_event(u_id, data):
                                                                  date_end,
                                                                  start_time))
         return event.id
+
+
+# NEW
+
+def add_manager(e_id, data):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        user = s.query(User).filter(
+                User.email == data['email'],
+                User.status == 'active'
+        ).one_or_none()
+        if not user:
+            abort(404, 'No user with this id')
+
+        part = s.query(Participation).filter(
+                Participation.u_id == user.id,
+                Participation.e_id == e_id
+        ).one_or_none()
+        if part:
+            abort(409, 'User has already joined this event as [{}]'.format(part.participation_role))
+
+        manager = s.query(Participation).filter(
+                Participation.e_id == e_id,
+                Participation.participation_role == 'manager'
+        ).one_or_none()
+        if not manager:
+            add = Participation(e_id=e_id, u_id=user.id,
+                                      participation_role='manager')
+            s.add(add)
+            return 'added'
+        else:
+            if manager.u_id == user.id:
+                abort(409, 'User has already added as manager')
+            manager.u_id = user.id
+            return 'changed'
+
+
+def delete_manager(e_id):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        manager = s.query(Participation).filter(
+                Participation.e_id == e_id,
+                Participation.participation_role == 'manager'
+        ).one_or_none()
+        if not manager:
+            abort(409, 'Event has no manager')
+        s.delete(manager)
+
+
+def update_event(e_id, data):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        for arg in data.keys():
+            getattr(event, arg)
+            if arg in ['id', 'status', 'views']:
+                abort(400, "Can't change this field(s)")
+            if arg == 'start_date' or arg == 'end_date':
+                sdate = data[arg].split('-')
+                date_s = date(int(sdate[0]), int(sdate[1]), int(sdate[2]))
+                setattr(event, arg, date_s)
+            elif arg == 'start_time':
+                start_time = data[arg].split(':')
+                time_start = time(int(start_time[0]), int(start_time[1]), 0, 0)
+                setattr(event, arg, time_start)
+            else:
+                setattr(event, arg, data[arg])
+
+
+def delete_event(e_id):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event:
+            abort(404, 'No event with this id')
+        if event.status == 'deleted':
+            abort(409, 'Event already deleted')
+        event.status = 'deleted'
+            
+
+def check_participation(u_id, e_id):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        participation = s.query(Participation).filter(
+                Participation.e_id == e_id,
+                Participation.u_id == u_id
+        ).one_or_none()
+        if participation:
+            return participation.participation_role
+        else:
+            return 'not joined'
+
+
+def get_presenters(e_id):
+    result = []
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+        users = s.query(User, Participation).filter(
+                User.id == Participation.u_id,
+                Participation.e_id == e_id,
+                Participation.participation_role == 'presenter',
+                Participation.report_status == 'approved'
+        ).all()
+
+        for user, participant in users:
+            result.append({
+                'name': user.name,
+                'surname': user.surname,
+                'report': participant.report,
+                'presenter_description': participant.presenter_description,
+                'report_description': participant.report_description
+            })
+
+    return result
+
+
+def join_event(u_id, e_id, data):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        is_consists = s.query(Participation).filter(
+                Participation.u_id == u_id,
+                Participation.e_id == e_id
+        ).one_or_none()
+
+        if is_consists:
+            abort(409, 'User has already joined this event as [{}]'.format(is_consists.participation_role))
+        role = 'viewer'
+        participation = Participation(e_id=e_id, u_id=u_id,
+                                      participation_role='viewer')
+        if data['role'] == 'presenter':
+            role = 'presenter'
+            participation.participation_role = role
+            participation.presenter_description = data['presenter_description']
+            participation.report_description = data['report_description']
+            participation.report_status = 'unseen'
+        s.add(participation)
+        logging.info('User [id {}] joined event [id {}] as [{}]'.format(u_id,
+                                                                        e_id,
+                                                                        role))
