@@ -51,7 +51,7 @@ document.getElementById('btnsubmit_BSCT').addEventListener(
             }
         ).then(
             response => {
-                if (response.status < 200 && response.status >= 300) {
+                if (response.status < 200 || response.status >= 300) {
                     console.log(response)
                     response.json().then(
                         data => {

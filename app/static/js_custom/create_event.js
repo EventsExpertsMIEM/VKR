@@ -8,7 +8,9 @@ document.addEventListener(
     init
 )
 
-document.getElementById('btnsubmit_create_event').addEventListener(
+var button = document.getElementById('btnsubmit_create_event')
+
+button.addEventListener(
     'click',
     () => {
         var data = {
@@ -33,8 +35,21 @@ document.getElementById('btnsubmit_create_event').addEventListener(
             }
         ).then(
             response => {
-                if (response.status < 200 && response.status >= 300) {
-                    console.log(response) // TODO: Error handling
+                console.log(response) // TODO: Error handling
+                if (response.status < 200 || response.status >= 300) {
+                    button.disabled = true
+                    response.json().then(
+                        data => {
+                            button.textContent = data['error']
+                            setTimeout(
+                                () => {
+                                    button.disabled = false
+                                    button.textContent = 'Отправить'
+                                },
+                                750
+                            )
+                        }
+                    )
                     return
                 }
                 response.json().then(
