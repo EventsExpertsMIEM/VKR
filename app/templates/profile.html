@@ -102,7 +102,7 @@
                         
                     </div>
                     <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
-                        <form class="px-4" id="f_security" oninput='profile_new_password_repeat.setCustomValidity(profile_new_password_repeat.value != profile_new_password.value ? "Пароли не совпадают" : "")'>
+                        <form class="px-4" oninput='profile_new_password_repeat.setCustomValidity(profile_new_password_repeat.value != profile_new_password.value ? "Пароли не совпадают" : "")'>
                             <h4>Смена пароля</h4>
                             <div class="form-group">                  
                                 <input class="form-control custom_border" id="profile_old_password" type="password" value='' placeholder="Текущий пароль" />
@@ -115,7 +115,7 @@
                             </div>
                             <div class="row justify-content-md-center">
                                 <div class="col-6 d-flex flex-column justify-content-center">
-                                    <button type="submit" id="btn_change_password" class="btn btn-secondary custom_border mt-1">Сохранить новый пароль</button>
+                                    <button type="button" id="btn_change_password" class="btn btn-secondary custom_border mt-1">Сохранить новый пароль</button>
                                     <button type="button" class="btn btn-primary custom_border mt-1" data-toggle="modal" data-target="#close_all_sessions_modal">Завершить все сессии, кроме текущей</button> 
                                     <button type="button" class="btn btn-danger custom_border mt-1" data-toggle="modal" data-target="#delete_account_modal">Удалить аккаунт</button>
                                 </div>

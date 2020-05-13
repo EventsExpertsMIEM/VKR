@@ -8,12 +8,38 @@
 {% endblock %}
 
 {% block content %}
-<div class="justify-content-center pt-4">
-    <p>{{event.name}}</p>
-    <p>{{event.start_date}}</p>
-    <p>{{event.end_date}}</p>
-    <p>{{event.description}}</p>
+
+<h1 class="text-center">{{event.name}}</h1>
+<p>{{event.sm_description}}</p>
+<div class="row d-flex align-items-center">
+	<div class="col-lg-3 col-md-6 col-sm-6">
+		<h4>Даты проведения:</h4>
+	  	<p>{{event.start_date}} - {{event.end_date}}</p>
+	  	<h4>Время начала:</h4>
+	  	<p>{{event.start_time}}</p>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6">
+	  <h4>Место проведения:</h4>
+	  <p>{{event.location}}</p>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6">
+	  <center>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	  </center>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center">
+	    <a href="{{event.site_link}}" class="btn btn-primary mb-2">Сайт мероприятия</a>
+	    <button type="button" class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#join_event_modal">Регистрация для участников</button>
+	</div>
 </div>
+<p>{{event.description}}</p>
+<h4>Дополнительная информация:</h4>
+<p>{{event.additional_info}}</p>
 {% endblock %}
 
 {% block extra_js %}

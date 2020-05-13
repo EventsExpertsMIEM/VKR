@@ -1,34 +1,58 @@
-$(function() {
-    $("#f_security").submit(function(e) {
-        e.preventDefault();
-        $("#btn_change_password").attr("disabled", true);
-        $.ajax({
-            url: "/api/change_password",
-            type: "POST",
-            data: JSON.stringify({"old_password": document.getElementById("profile_old_password").value,
-                                  "new_password": document.getElementById("profile_new_password").value
-                                }),
-            contentType: "application/json",
-            dataType: "json",
-            success: function(data){
-                $("#btn_change_password").html(data["description"]);
-                $("#f_security").trigger('reset');
-                setTimeout(
-                    function() {
-                        $("#btn_change_password").html("Сохранить новый пароль");
-                        $("#btn_change_password").attr("disabled", false);
-                    }, 2000
-                )
-            },
-            error: function(data){
-                $("#btn_change_password").html(data.responseJSON['error']);
-                $("#btn_change_password").attr("disabled", false);
-                setTimeout(
-                        function() {
-                            $("#btn_change_password").html("Сохранить новый пароль");
-                        }, 3500
-                    )
+var button = document.getElementById('btn_change_password')
+
+button.addEventListener(
+    'click',
+    () => {
+        button.disabled = true
+        var data = {
+            old_password: document.getElementById("profile_old_password").value,
+            new_password: document.getElementById("profile_new_password").value
+        }
+        fetch("/api/change_password",
+            {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
             }
-        });
-    });
-});
+        ).then(
+            response => {
+                console.log(response)
+                if (response.status < 200 || response.status >= 300) {
+                    response.json().then(
+                        data => {
+                            button.textContent = data['error']
+                            setTimeout(
+                                () => {
+                                    button.disabled = false
+                                    button.textContent = 'Сохранить новый пароль'
+                                },
+                                2000
+                            )
+                        }
+                    )
+                    return
+                }
+                response.json().then(
+                    data => {
+                            button.textContent = data['description']
+                            setTimeout(
+                                () => {
+                                    button.disabled = false
+                                    button.textContent = 'Сохранить новый пароль'
+                                },
+                                2000
+                            )
+                        }
+                )
+                profile_old_password.value = ""
+                profile_new_password.value = ""
+                profile_new_password_repeat.value = ""
+            }
+        ).catch(
+            e => console.log(e)
+        )
+    }
+)

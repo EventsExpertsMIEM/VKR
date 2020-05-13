@@ -1,36 +1,57 @@
-document.addEventListener(
-    'DOMContentLoaded',
+var button = document.getElementById('btn_CAS')
+
+button.addEventListener(
+    'click',
     () => {
-    $("#f_close_all_sessions").submit(function(e) {
-        e.preventDefault();
-        $("#btnsubmit_CAS").attr("disabled", true);
-        $.ajax({
-            url: "/api/close_all_sessions",
-            type: "POST",
-            data: JSON.stringify({"password": document.getElementById("close_all_sessions_password").value
-                                }),
-            contentType: "application/json",
-            dataType: "json",
-            success: function(data){
-                $("#btnsubmit_CAS").html(data["description"]);
-                $("#f_close_all_sessions").trigger('reset');
-                setTimeout(
-                    function() {
-                        $('#close_all_sessions_modal').modal('hide');
-                        $("#btnsubmit_CAS").html("Завершить");
-                        $("#btnsubmit_CAS").attr("disabled", false);
-                    }, 2000
-                )
-            },
-            error: function(data){
-                $("#btnsubmit_CAS").html(data.responseJSON['error']);
-                $("#btnsubmit_CAS").attr("disabled", false);
-                setTimeout(
-                        function() {
-                            $("#btnsubmit_CAS").html("Завершить");
-                        }, 3500
-                    )
+        button.disabled = true
+        var data = {
+            password: document.getElementById("close_all_sessions_password").value,
+        }
+        fetch("/api/close_all_sessions",
+            {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
             }
-        });
-    });
-});
+        ).then(
+            response => {
+                console.log(response)
+                if (response.status < 200 || response.status >= 300) {
+                    response.json().then(
+                        data => {
+                            button.textContent = data['error']
+                            setTimeout(
+                                () => {
+                                    button.disabled = false
+                                    button.textContent = 'Завершить'
+                                    //$('#close_all_sessions_modal').modal('hide');
+                                },
+                                2000
+                            )
+                        }
+                    )
+                    return
+                }
+                response.json().then(
+                    data => {
+                            button.textContent = data['description']
+                            setTimeout(
+                                () => {
+                                    button.disabled = false
+                                    button.textContent = 'Завершить'
+                                    //$('#close_all_sessions_modal').modal('hide');
+                                },
+                                2000
+                            )
+                        }
+                )
+                close_all_sessions_password.value = ""
+            }
+        ).catch(
+            e => console.log(e)
+        )
+    }
+)
