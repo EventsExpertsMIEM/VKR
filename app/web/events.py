@@ -33,7 +33,7 @@ def create_event():
 def event(e_id):
     event = events_logic.get_event_info(e_id)
     return render_template(
-        '/_event.html',
+        '/event.html',
         event=event,
         current_user=current_user,
     )

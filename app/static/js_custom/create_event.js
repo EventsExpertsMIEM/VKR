@@ -1,3 +1,13 @@
+function init() {
+    create_event_start_date.min = new Date().toISOString().split("T")[0];
+    create_event_end_date.min = new Date().toISOString().split("T")[0];
+}
+
+document.addEventListener(
+    'DOMContentLoaded',
+    init
+)
+
 document.getElementById('btnsubmit_create_event').addEventListener(
     'click',
     () => {
