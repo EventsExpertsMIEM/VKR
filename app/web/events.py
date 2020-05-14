@@ -29,7 +29,7 @@ def create_event():
     )
 
 
-@bp.route('/event/<string:e_id>')
+@bp.route('/event/<int:e_id>')
 def event(e_id):
     event = events_logic.get_event_info(e_id)
     return render_template(

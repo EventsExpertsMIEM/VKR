@@ -1,6 +1,8 @@
 from sqlalchemy import (Column, Integer, String, ForeignKey,
-                        DateTime, Date, Time, Boolean, UniqueConstraint)
+                        DateTime, Date, Time, Boolean, UniqueConstraint,
+                        ForeignKeyConstraint)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
 from flask_login import UserMixin
 
@@ -122,9 +124,28 @@ class Higher_education_area(Base):
 
 class Higher_education_programme(Base):
     __tablename__ = 'higher_education_programme'
+    __table_args__ = (
+        UniqueConstraint('level', 'id'),
+        )
 
     area_id = Column(String, ForeignKey(
                      'higher_education_area.id'), nullable=False)
     level = Column(Level, primary_key=True)
     id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
+
+
+class Education(Base):
+    __tablename__ = 'education'
+    __table_args__ = (
+        ForeignKeyConstraint(['level_id', 'programme_id'],
+                             ['higher_education_programme.level',
+                              'higher_education_programme.id']),
+        )
+
+    id = Column(Integer, primary_key=True)
+    level_id = Column(Level, nullable=False)
+    programme_id = Column(String, nullable=False)
+    university = Column(String, nullable=False)
+    end_year = Column(Integer, nullable=False)
+    u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
