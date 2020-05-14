@@ -34,7 +34,11 @@
 	</div>
 	<div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center">
 	    <a href="{{event.site_link}}" class="btn btn-primary mb-2">Сайт мероприятия</a>
+	    {% if current_user.is_authenticated %}
 	    <button type="button" class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#join_event_modal">Регистрация для участников</button>
+	    {% else %}
+	    <a class="btn btn-outline-primary mb-2" href="/login" role="button">Регистрация для участников</a>
+	    {% endif %}
 	</div>
 </div>
 <p>{{event.description}}</p>
