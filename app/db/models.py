@@ -26,6 +26,9 @@ Report_status = ENUM('unseen', 'approved', 'declined',
 
 Account_type = ENUM('standart', 'oauth', name='account_type_enum')
 
+Level = ENUM('бакалавриат', 'магистратура', 'специалитет', 'аспиратнура',
+             'ассистентура', name='level')
+
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -89,7 +92,7 @@ class Participation(Base):
     e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     participation_role = Column(Participation_role, default='viewer',
-                            nullable=False)
+                                nullable=False)
     report_name = Column(TEXT, nullable=True)
     report_id = Column(TEXT, nullable=True, unique=True)
     last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
@@ -108,3 +111,20 @@ class ETask(Base):
     description = Column(String, nullable=False)
     deadline = Column(Date, nullable=True)
     status = Column(Task_status, default='todo', nullable=False)
+
+
+class Higher_education_area(Base):
+    __tablename__ = 'higher_education_area'
+
+    id = Column(String, primary_key=True)
+    name = Column(String, nullable=False)
+
+
+class Higher_education_programme(Base):
+    __tablename__ = 'higher_education_programme'
+
+    area_id = Column(String, ForeignKey(
+                     'higher_education_area.id'), nullable=False)
+    level = Column(Level, primary_key=True)
+    id = Column(String, primary_key=True)
+    name = Column(String, nullable=False)
