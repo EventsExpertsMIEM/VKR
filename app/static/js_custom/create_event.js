@@ -20,8 +20,8 @@ button.addEventListener(
             start_time: document.getElementById("create_event_start_time").value,
             location: document.getElementById("create_event_location").value,
             site_link: document.getElementById("create_event_site_link").value,
-            sm_description: document.getElementById("create_event_description").value,
-            description: document.getElementById("create_event_sm_description").value,
+            sm_description: document.getElementById("create_event_sm_description").value,
+            description: document.getElementById("create_event_description").value,
             additional_info: document.getElementById("create_event_additional_info").value
         }
         fetch("/api/event",

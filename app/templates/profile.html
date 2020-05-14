@@ -74,7 +74,7 @@
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Место работы:</p>
                                     <p id="p_organization">{{ current_user.organization }}</p>
-                                    <a href="" data-toggle="modal" data-target="#personal_OP_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
+                                    <a href="" data-toggle="modal" data-target="#organisation_position_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Должность:</p>
@@ -145,6 +145,8 @@
 {% include 'fragments/profile/bsct.html' %}
 
 {% include 'fragments/profile/phone.html' %}
+
+{% include 'fragments/profile/organisation_position.html' %}
 
 {% include 'fragments/profile/bio.html' %}
 
