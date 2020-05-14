@@ -24,7 +24,7 @@ for name, logger in logging.root.manager.loggerDict.items():
 
 def main():
 
-    if log_level <= 10:
+    if cfg.LOG_LEVEL <= 10:
         import logging_tree
         logging_tree.printout()
 

@@ -53,9 +53,6 @@ def register_user(email, name, surname, password, service_status='user'):
                 User.email == email
         ).one_or_none()
 
-        if email == "" or name == "" or surname == "" or password == "": #or (8 < len(password) < 50):
-            abort(422, "Wrong data")
-
         # checking unique link
         confirmation_link = ''
         while True:
@@ -126,6 +123,8 @@ def reset_password(email):
 
 
 def change_password(u_id, old_password, new_password):
+    if old_password == new_password:
+        abort(409, 'Old and new passwords are equal')
     with get_session() as s:
         user = s.query(User).filter(
                 User.id == u_id
@@ -136,8 +135,6 @@ def change_password(u_id, old_password, new_password):
 
         if not bcrypt.checkpw(opw, pw):
             abort(422, 'Invalid password')
-        if bcrypt.checkpw(npw, pw):
-            abort(409, 'Old and new passwords are equal')
         npw = bcrypt.hashpw(npw, bcrypt.gensalt())
         user.password = npw.decode('utf-8')
         user.cookie_id = uuid.uuid4()
