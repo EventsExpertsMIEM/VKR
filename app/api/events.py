@@ -3,6 +3,8 @@ from flask_login import (login_required, login_user, logout_user, current_user)
 
 from . import *
 from ..logic import events as events_logic
+from ..validation.validation import validate
+from ..validation import schemas
 
 
 bp = Blueprint('events', __name__)
@@ -11,8 +13,10 @@ bp = Blueprint('events', __name__)
 @bp.route('/<int:e_id>', methods=['GET'])
 def event_by_id(e_id):
     if current_user.is_authenticated:
-        return jsonify(part=events_logic.check_participation(current_user.id, e_id),
-                       event=events_logic.get_event_info(e_id))
+        return jsonify(
+            part=events_logic.check_participation(current_user.id, e_id),
+            event=events_logic.get_event_info(e_id)
+        )
     else:
         return jsonify(part='not joined',
                        event=events_logic.get_event_info(e_id))
@@ -21,7 +25,7 @@ def event_by_id(e_id):
 @bp.route('/', methods=['POST'], strict_slashes=False)
 @login_required
 def create_event():
-    data = get_json()
+    data = validate(get_json(), schemas.event_create)
     last_id = events_logic.create_event(current_user.id, data)
     return make_ok(201, str(last_id))
 
@@ -38,10 +42,14 @@ def events():
 @bp.route('/<int:e_id>', methods=['PUT'])
 @login_required
 def put_event_by_id(e_id):
-    if (current_user.service_status == 'user' and
-        events_logic.check_participation(current_user.id, e_id) not in ['creator', 'manager']):
+    if (
+        current_user.service_status == 'user' and
+        events_logic.check_participation(
+            current_user.id, e_id
+        ) not in ['creator', 'manager']
+    ):
         return make_4xx(403, "No rights")
-    data = get_json()
+    data = validate(get_json(), schemas.event_update)
     events_logic.update_event(e_id, data)
     return make_ok(200, 'Successfully updated')
 
@@ -59,10 +67,10 @@ def delete_event_by_id(e_id):
 @bp.route('/<int:e_id>/manager', methods=['POST'])
 @login_required
 def add_manager_to_event(e_id):
-    data = get_json()
+    email = validate(get_json(), schemas.event_add_manager)['email']
     if events_logic.check_participation(current_user.id, e_id) != 'creator':
         return make_4xx(403, "No rights")
-    action = events_logic.add_manager(e_id, data)
+    action = events_logic.add_manager(e_id, email)
     return make_ok(200, 'Successfully ' + action + ' manager')
 
 
@@ -78,7 +86,9 @@ def delete_manager_from_event(e_id):
 @bp.route('/<int:e_id>/join', methods=['POST'])
 @login_required
 def join(e_id):
-    data = get_json()
+    data = validate(get_json(), schemas.event_join)
+    if data['role'] == 'presenter':
+        data = validate(data, schemas.event_join_presenter)
     events_logic.join_event(current_user.id, e_id, data)
     return make_ok(200, 'Successfully joined')
 

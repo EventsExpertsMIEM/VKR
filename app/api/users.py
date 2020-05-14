@@ -4,6 +4,8 @@ from flask_login import (login_required, login_user, logout_user,
 
 from . import *
 from ..logic import users as users_logic
+from ..validation.validation import validate
+from ..validation import schemas
 
 
 bp = Blueprint('users', __name__)
@@ -20,7 +22,7 @@ def user():
 @bp.route('/', methods=['PUT'], strict_slashes=False)
 @login_required
 def update_profile():
-    data = get_json()
+    data = validate(get_json(), schemas.user_update)
     users_logic.update_profile(current_user.id, data)
     return make_ok(200, 'Profile info successfully updated')
 
