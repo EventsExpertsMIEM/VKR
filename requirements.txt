@@ -10,4 +10,4 @@ pg8000
 psycopg2-binary
 requests
 SQLAlchemy
-urllib3
+schema==0.7.2
