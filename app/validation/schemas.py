@@ -141,3 +141,36 @@ event_join_presenter = Schema(
     },
     ignore_extra_keys=True
 )
+
+empty_str_to_none = lambda x: None if x == "" else str(x)
+service_field_error = 'Cannot change service fields!'
+
+user_update = Schema(
+    {
+        Forbidden('id', error=service_field_error): object,
+        Forbidden('status', error=service_field_error): object,
+        Forbidden('confirmation_link',
+                    error=service_field_error): object,
+        Forbidden('cookie_id', error=service_field_error): object,
+        Forbidden('email', error='Cannot change email!'): object,
+        Optional('name'): And(str, lambda x: x != ""),
+        Optional('surname'): And(str, lambda x: x != ""),
+        Forbidden('password', error='Cannot update password!'): object,
+        Forbidden('account_type',
+                    error=service_field_error): object,
+        Forbidden('service_status',
+                    error=service_field_error): object,
+        Forbidden('registration_date',
+                    error=service_field_error): object,
+        Forbidden('disable_date',
+                    error=service_field_error): object,
+        Optional('phone'): Use(empty_str_to_none),
+        Optional('organization'):  Use(empty_str_to_none),
+        Optional('position'):  Use(empty_str_to_none),
+        Optional('country'):  Use(empty_str_to_none),
+        Optional('town'):  Use(empty_str_to_none),
+        Optional('birth'):  Use(empty_str_to_none),
+        Optional('sex'):  Use(empty_str_to_none),
+        Optional('bio'):  Use(empty_str_to_none)
+    }
+)
