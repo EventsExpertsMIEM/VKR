@@ -65,11 +65,16 @@ document.getElementById('btnsubmit_BSCT').addEventListener(
                 }
                 for(let i = 0; i < elements.length; i++) {
                     let element = elements[i]
-                    if (element.value == "") element.value = "Не задано" 
-                    document.getElementById(
-                        element.dataset['profileKey']
-                    ).textContent = element.value
                     element.dataset['old'] = element.value
+                    let displayElement = document.getElementById(
+                        element.dataset['profileKey']
+                    )
+                    if (element.value == "") {
+                        displayElement.textContent = "Не задано"
+                        element.placeholder = "Не задано"
+                    } else {
+                        displayElement.textContent = element.value
+                    }
                 }
                 response.json().then(
                     data => {
