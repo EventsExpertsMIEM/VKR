@@ -16,7 +16,6 @@ def login():
         return make_4xx(409, 'User is currently authenticated')
 
     data = validate(get_json(), schemas.login)
-    logging.getLogger(__name__).debug(data)
     user = accounts_logic.pre_login(data['email'], data['password'])
     login_user(user)
     return make_ok(200, 'User was logined')
@@ -35,7 +34,6 @@ def register():
         return make_4xx(409, 'User is currently authenticated')
 
     data = validate(get_json(), schemas.register)
-    logging.getLogger(__name__).debug(data)
     accounts_logic.register_user(data['email'], data['name'],
                                  data['surname'], data['password'])
     return make_ok(201, 'User was registered')
@@ -50,7 +48,6 @@ def confirm(link):
 @bp.route('/reset_password', methods=['POST'])
 def reset_password():
     data = validate(get_json(), schemas.reset_password)
-    logging.getLogger(__name__).debug(data)
     accounts_logic.reset_password(data['email'])
     return make_ok(200, 'Successfully reset password - see new in your email')
 
