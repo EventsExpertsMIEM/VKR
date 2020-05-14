@@ -148,4 +148,5 @@ class Education(Base):
     programme_id = Column(String, nullable=False)
     university = Column(String, nullable=False)
     end_year = Column(Integer, nullable=False)
+    town = Column(String, nullable=False)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)

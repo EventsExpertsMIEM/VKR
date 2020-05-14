@@ -10,7 +10,7 @@ def add_error_handlers(app):
     app.register_error_handler(404, not_found_handler)
     app.register_error_handler(405, make_405)
     app.register_error_handler(500, server_error_handler)
-    
+
     app.register_error_handler(HTTPException, http_error_handler)
 
     # legacy
