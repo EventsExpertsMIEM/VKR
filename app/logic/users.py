@@ -54,7 +54,7 @@ def get_user_events_by_role(u_id, role, offset, size):
                 Participation.participation_role == role
         ).order_by(desc(Event.start_date))
 
-        if offset and size:
+        if offset is not None and size is not None:
             offset = int(offset)
             size = int(size)
             if offset < 0 or size < 1:
