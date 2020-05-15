@@ -41,3 +41,8 @@ export MAIL_USERNAME=""
 export MAIL_PASSWORD=""
 # Адрес, который будет указан в поле From
 export MAIL_DEFAULT_SENDER=""
+
+# Родителская директория для загруженных файлов
+export FILE_UPLOADS_PARENT_FOLDER=""
+# Максимальный допустимый размер файла в Мб
+export MAX_FILE_SIZE=100
