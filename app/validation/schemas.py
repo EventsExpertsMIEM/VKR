@@ -1,4 +1,5 @@
-from schema import Schema, Use, And, Optional, Hook, SchemaForbiddenKeyError
+from schema import (Schema, Use, And, Optional, Hook,
+                    SchemaForbiddenKeyError, Regex)
 from datetime import date, time
 
 class Forbidden(Hook):
@@ -164,7 +165,12 @@ user_update = Schema(
                     error=service_field_error): object,
         Forbidden('disable_date',
                     error=service_field_error): object,
-        Optional('phone'): Use(empty_str_to_none),
+        Optional('phone'): And(
+                            Use(empty_str_to_none),
+                            Regex(
+                                r'^[0-9]{1,15}$',
+                                error="Phone number must be digits")
+                            ),
         Optional('organization'):  Use(empty_str_to_none),
         Optional('position'):  Use(empty_str_to_none),
         Optional('country'):  Use(empty_str_to_none),
