@@ -1,42 +1,67 @@
-document.addEventListener(
-    'DOMContentLoaded',
-    () => {
-        $("#f_name_surname").submit(function(e) {
-            e.preventDefault();
-            $("#btnsubmit_name_surname").attr("disabled", true);
-            var name = document.getElementById("profile_user_name").value;
-            var surname = document.getElementById("profile_user_surname").value;
-            $.ajax({
-                url: "/api/user/",
-                type: "PUT",
-                data: JSON.stringify({"name": name,
-                                    "surname": surname
-                                    }),
-                contentType: "application/json",
-                dataType: "json",
-                success: function(data){
-                    $("#btnsubmit_name_surname").html(data["description"]);
-                    $("#name_surname").html(name + " " + surname);
-                    $("#profile_user_name").attr('value', name);
-                    $("#profile_user_surname").attr('value', surname);
-                    setTimeout(
-                        function() {
-                            $('#personal_info_modal').modal('hide');
-                            $("#btnsubmit_name_surname").html("Сохранить");
-                            $("#btnsubmit_name_surname").attr("disabled", false);
-                        }, 1000
-                    )
-                },
-                error: function(data){
-                    $("#btnsubmit_name_surname").html(data.responseJSON['error']);
-                    $("#btnsubmit_name_surname").attr("disabled", false);
-                    setTimeout(
-                        function() {
-                            $("#btnsubmit_name_surname").html("Сохранить");
-                        }, 3500
-                    )
+document.addEventListener('DOMContentLoaded', e => {
+
+    var button = document.getElementById('btnsubmit_name_surname')
+    var form = document.getElementById('personal_info_form')
+
+    form.addEventListener('submit', event => {
+
+        event.preventDefault()
+
+        button.disabled = true
+
+        var data = {
+            name: document.getElementById('profile_user_name').value,
+            surname: document.getElementById('profile_user_surname').value
+        }
+
+        fetch(
+            '/api/user/',
+            {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            });
-        });
-        
+            }
+        ).then(
+            response => {
+                if (response.status < 200 || response.status >= 300) {
+                    response.json().then(
+                        body => {
+                            button.textContent = body['error']
+                            setTimeout(
+                                () => {
+                                    button.textContent = 'Сохранить'
+                                    button.disabled = false
+                                },
+                                750
+                            )
+                        }
+                    )
+                    console.log(response)
+                    return
+                }
+                response.json().then(
+                    body => {
+                        button.textContent = body['description']
+                        let displayElement = document
+                                                .getElementById('name_surname')
+                        displayElement
+                            .textContent = `${data['name']} ${data['surname']}`
+                        setTimeout(
+                            () => {
+                                button.textContent = 'Сохранить'
+                                button.disabled = false
+                                $('#personal_info_modal').modal('hide')
+                            },
+                            750
+                        )
+                    }
+                )
+            }
+        ).catch(
+            e => console.log(e)
+        )
+
     })
+})
