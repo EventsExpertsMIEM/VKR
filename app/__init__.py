@@ -3,8 +3,8 @@ from .config import cfg
 
 from .web import (accounts as accounts_web,
                   events as events_web,
-                  users as users_web,
-                  tests as tests_web)
+                  users as users_web
+                  )
 from .api import (accounts as accounts_api,
                   events as events_api,
                   users as users_api,
@@ -39,8 +39,6 @@ app.config.update(
 app.register_blueprint(accounts_web.bp)
 app.register_blueprint(events_web.bp)
 app.register_blueprint(users_web.bp)
-
-app.register_blueprint(tests_web.bp)
 
 app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
