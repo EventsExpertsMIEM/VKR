@@ -38,7 +38,10 @@ def unauthorized_handler(e):
 
 def not_found_handler(e):
     if request.path.startswith('/api/'):
-        return make_404(e)
+        if request.path.startswith('/api/edu/') and request.path.endswith('delete'):
+            return make_404(e, "ENF")
+        else:
+            return make_404(e, "NF")
     else:
         if request.path.startswith('/event/'):
             return web_404(e, "ENF")

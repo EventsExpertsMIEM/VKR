@@ -48,11 +48,14 @@ def make_401(e):
     return jsonify(error="Unauthorized"), 401
 
 
-def make_404(e):
+def make_404(e, param):
     logging.warning('404 - [{}]'.format(e.description))
+    error = e.description
     if e.description[0] == 'T':
-        return jsonify(error="Unknown route"), 404
-    return jsonify(error=e.description), 404
+        error = 'Unknown route'
+    if param == "ENF":
+        error = 'No education fact for thin user with this id'
+    return jsonify(error=error), 404
 
 
 def make_405(e):
