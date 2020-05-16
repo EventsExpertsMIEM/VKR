@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     response.json().then(
                         data => {
-                            var id = data['description'] // id созданного мероприятия
-                            window.location.href = `/event/${id}` // перенаправление на страницу
+                            window.location.href = `/event/${event_id}` // перенаправление на страницу
                         }
                     )
                 }
