@@ -1,0 +1,23 @@
+<!-- leave event Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="leave_event_modal" aria-labelledby="leave_event_modal_label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leave_event_modal_label">Отказ от участия в мероприятии</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Вы уверены, что хотите отказаться от участия в мероприятии?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn_leave_event" class="btn btn-danger" data-id="{{ event.id }}">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script src="/static/js/leave_event.js"></script>
+{% endblock %}
