@@ -35,12 +35,12 @@
           </div> 
       </div>
       <div class="modal-footer">
-        <button type="button" id="btn_join_event" class="btn btn-primary">Отправить</button>
+        <button type="button" id="btn_join_event" class="btn btn-primary" data-id="{{ event.id }}">Отправить</button>
       </div>
     </div>
   </div>
 </div>
 
 {% block extra_js %}
-<script src="/static/js/create_event.js"></script>
+<script src="/static/js/join_event.js"></script>
 {% endblock %}
