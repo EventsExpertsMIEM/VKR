@@ -22,6 +22,7 @@ import logging
 import logging.config
 import sys
 
+monkey.patch_all(ssl=cfg.SSL_ENABLED)
 
 app = Flask(__name__)
 app.config.update(
@@ -58,19 +59,30 @@ login_manager.user_loader(user_loader)
 
 
 def run():
-    monkey.patch_all(ssl=False)
     logger = None
     if cfg.DISABLE_EXISTING_LOGGERS is False:
         logger = logging.getLogger('gevent')
     if cfg.LOGGING['loggers']['gevent'] is not None:
         logger = logging.getLogger('gevent')
-    http_server = WSGIServer(
-        (cfg.HOST, cfg.PORT),
-        app,
-        # log = logger,
-        error_log = logger
-    )
+    if cfg.SSL_ENABLED:
+        logging.debug('SSL enabled\n\tCertfile: {}\n\tKeyfile: {}'.format(
+            cfg.SSL_CERT, cfg.SSL_KEY
+        ))
+        http_server = WSGIServer(
+            (cfg.HOST, cfg.PORT),
+            app,
+            # log = logger,
+            error_log = logger,
+            certfile=cfg.SSL_CERT,
+            keyfile=cfg.SSL_KEY
+        )
+    else:
+        logging.debug('SSL disabled')
+        http_server = WSGIServer(
+            (cfg.HOST, cfg.PORT),
+            app,
+            # log = logger,
+            error_log = logger
+        )
     logging.info('Started server')
-    # from logging_tree import printout
-    # printout()
     http_server.serve_forever()
