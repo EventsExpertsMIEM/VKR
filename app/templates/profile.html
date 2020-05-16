@@ -12,16 +12,19 @@
 {% block content %}
 <div class="row justify-content-center my-auto">
     <div class="col-lg-2">
-      <nav class="nav flex-column"> 
-        <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
-        <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
-        <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
-        <hr class="my-0 w-75 text-center">
-        <p class="text-center my-auto">Мои мероприятия</p>
-        <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
-        <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
-        <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
-      </nav>
+        <nav class="nav flex-column"> 
+            <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
+            <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
+            <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
+            <hr class="my-0 w-75 text-center">
+            <p class="text-center my-auto">Мои мероприятия</p>
+            <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
+            <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
+            <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+            {% if events['manager'] != [] %}
+            <a class="nav-link pl-4" id="nav-events-manager-tab" data-toggle="tab" href="#events-manager-tab" role="tab" aria-controls="events-manager-tab">Клиентские мероприятия</a>
+            {% endif %}
+        </nav>
     </div>
     <div class="col-lg-8">
         <div class="card o-hidden border-0 shadow-sm custom_border">
@@ -153,35 +156,124 @@
                     {% include 'fragments/profile/security.html' %}
 
                     <div class="tab-pane fade mt-3" id="events-part-tab" role="tabpanel" aria-labelledby="nav-events-part-tab">
-                        {% for event in events['viewer'] %}
-                            {{ event.id }}
-                            {{ event.name }}
-                            {{ event.status }}
-                            {{ event.start_date }}<br><br>
-                        {% endfor %}
+                        {% if events['viewer'] == [] %}
+                            <p class="ml-3">Вы пока не участвуете ни в одном мероприятии</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['viewer'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
                     <div class="tab-pane fade mt-3" id="events-lect-tab" role="tabpanel" aria-labelledby="nav-events-lect-tab">
-                        {% for event in events['presenter'] %}
-                            {{ event.id }}
-                            {{ event.name }}
-                            {{ event.status }}
-                            {{ event.start_date }}<br><br>
-                        {% endfor %}
+                        {% if events['presenter'] == [] %}
+                            <p class="ml-3">Вы пока не участвуете ни в одном мероприятии в качестве докладчика</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Статус доклада</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['presenter'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
                     <div class="tab-pane fade mt-3" id="events-org-tab" role="tabpanel" aria-labelledby="nav-events-org-tab">
-                        {% for event in events['manager'] %}
-                            {{ event.id }}
-                            {{ event.name }}
-                            {{ event.status }}
-                            {{ event.start_date }}<br><br>
-                        {% endfor %} <br><br><hr>
-                        {% for event in events['creator'] %}
-                            {{ event.id }}
-                            {{ event.name }}
-                            {{ event.status }}
-                            {{ event.start_date }}<br><br>
-                        {% endfor %}
+                        {% if events['creator'] == [] %}
+                            <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['creator'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <a href="">Управление мероприятием</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
+                    {% if events['manager'] != [] %}
+                    <div class="tab-pane fade mt-3" id="events-manager-tab" role="tabpanel" aria-labelledby="nav-manager-org-tab">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Дата начала</th>
+                                    <th scope="col">Дата окончания</th>
+                                    <th scope="col">Место проведения</th>
+                                    <th scope="col">Статус мероприятия</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
+                            </thead>
+                            {% for event in events['manager'] %}
+                            <tr>
+                                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                <td>{{ event.start_date }}</td>
+                                <td>{{ event.end_date }}</td>
+                                <td>{{ event.location }}</td>
+                                <td>{{ event.status }}</td>
+                                <td>
+                                    <a href="">Управление мероприятием</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
