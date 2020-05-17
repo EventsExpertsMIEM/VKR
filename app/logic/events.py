@@ -27,6 +27,7 @@ def get_event_info(e_id):
             abort(404, 'No event with this id')
 
         return {
+            "id": e_id,
             "creator_email": event.User.email,
             "phone": event.User.phone,
             "name": event.Event.name,
