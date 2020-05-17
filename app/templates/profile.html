@@ -13,21 +13,87 @@
 <div class="row justify-content-center my-auto">
     <div class="col-lg-2">
       <nav class="nav flex-column"> 
-        <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
-        <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
-        <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
+        <a
+            class="nav-link pl-4"
+            id="nav-personal-tab"
+            data-toggle="tab"
+            href="#personal-info-tab"
+            role="tab"
+            aria-controls="personal-info-tab"
+            data-anchor="info"
+        >
+            Инфо
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-education-tab"
+            data-toggle="tab"
+            href="#education-tab"
+            role="tab"
+            aria-controls="education-tab"
+            data-anchor="education"
+        >
+            Образование
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-security-tab"
+            data-toggle="tab"
+            href="#security-tab"
+            role="tab"
+            aria-controls="security-tab"
+            data-anchor="security"
+        >
+            Безопасность
+        </a>
         <hr class="my-0 w-75 text-center">
+
         <p class="text-center my-auto">Мои мероприятия</p>
-        <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
-        <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
-        <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+
+        <a
+            class="nav-link pl-4"
+            id="nav-events-part-tab"
+            data-toggle="tab"
+            href="#events-part-tab"
+            role="tab"
+            aria-controls="events-part-tab"
+            data-anchor="participation"
+        >
+            Участвую
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-lect-tab"
+            data-toggle="tab"
+            href="#events-lect-tab"
+            role="tab"
+            aria-controls="events-lect-tab"
+            data-anchor="presentations"
+        >
+            Выступаю
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-org-tab"
+            data-toggle="tab"
+            href="#events-org-tab"
+            role="tab"
+            aria-controls="events-org-tab"
+            data-anchor="organisation"
+        >
+            Организую
+        </a>
       </nav>
     </div>
     <div class="col-lg-8">
         <div class="card o-hidden border-0 shadow-sm custom_border">
             <div class="card-body p-1">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active text-center mt-3" id="personal-info-tab" role="tabpanel" aria-labelledby="nav-personal-tab">
+                    <div
+                        id="personal-info-tab"
+                        class="tab-pane fade show active text-center mt-3"
+                        role="tabpanel"
+                        aria-labelledby="nav-personal-tab">
                         <div class="row">
                             <div class="col-lg-4">
                                 <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded">
@@ -139,4 +205,5 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="/static/js/profile/main.js"></script>
 {% endblock %}
