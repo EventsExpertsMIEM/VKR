@@ -70,7 +70,9 @@ def get_user_events_by_role(u_id, role, offset, size):
                 'id': event.id,
                 'name': event.name,
                 'status': event.status,
-                'start_date': event.start_date.isoformat()
+                'start_date': event.start_date.isoformat(),
+                'end_date': event.end_date.isoformat(),
+                'location': event.location
             })
     return result
 
