@@ -14,6 +14,12 @@ export PGPASSWORD=""
 # порт приложения
 export PORT=""
 
+# Настройка SSL
+export SSL_ENABLED=""
+
+export SSL_CERT=""
+export SSL_KEY=""
+
 # временно - линк на сервис (http(s)://адрес:порт)
 export SITE_ADDR=""
 
