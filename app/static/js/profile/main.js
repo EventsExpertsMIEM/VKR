@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tabsAnchors = new Map(
         [
-            ['', 'nav-personal-tab'],
             ['info', 'nav-personal-tab'],
             ['education', 'nav-education-tab'],
             ['security', 'nav-security-tab'],
@@ -27,9 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var hash = window.location.hash.slice(1)
 
+    if (hash == '') return
+
     var tabId = tabsAnchors.get(hash)
 
-    var tab = $(`#${tabId}`)
+    var tab = $(document.getElementById(tabId))
 
     tab.tab('show')
 })

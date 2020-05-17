@@ -7,52 +7,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
         event.preventDefault()
 
-        var responsePromise = fetch(
+        button.disabled = true
+
+        fetch(
             '/api/login',
             {
                 method: 'POST',
                 body: JSON.stringify(
                     {
-                        email: document.getElementById('login_user_email').value,
-                        password: document.getElementById('login_user_password').value
+                        email:
+                            document
+                                .getElementById('login_user_email')
+                                    .value,
+                        password: 
+                            document
+                                .getElementById('login_user_password')
+                                    .value
                     }
                 ),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }
-        )
-
-        responsePromise = responsePromise.then(
+        ).then(
             response => {
                 if (response.status < 200 || response.status >= 300) {
                     button.disabled = true
-                    response.json().then(
-                        data => {
-                            button.textContent = data['error']
-                            setTimeout(
-                                () => {
-                                    button.disabled = false
-                                    button.textContent = 'Отправить'
-                                },
-                                750
-                            )
-                        }
+                    return response.json().then(
+                        data => Promise.reject(data['error'])
                     )
-                    return
                 }
                 return response.json()
             }
+        ).then(
+            body => {
+                button.textContent = body['description']
+                setTimeout(
+                    () => {
+                        button.disabled = false
+                        button.textContent = 'Отправить'
+                        const urlParams = 
+                            new URLSearchParams(window.location.search);
+                        const location = urlParams.get('next');
+                        if (location != null) {
+                            window.location = location
+                        } else {
+                            window.location = '/'
+                        }
+                    },
+                    750
+                )
+            }
         )
-        responsePromise.catch(
-            error => console.log(error)
-        )
-
-        responsePromise.then(
-            data => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const location = urlParams.get('next');
-                window.location = location
+        .catch(
+            error => {
+                button.textContent = error
+                setTimeout(
+                    () => {
+                        button.disabled = false
+                        button.textContent = 'Отправить'
+                    },
+                    750
+                )
             }
         )
 

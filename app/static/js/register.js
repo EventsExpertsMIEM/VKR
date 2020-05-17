@@ -53,24 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 )
             }
-        ).catch(
-            error => console.log(error)
         ).then(
             response => {
                 if (response.status < 200 || response.status >= 300) {
-                    response.json().then(
-                        body => {
-                            button.textContent = body['error']
-                            setTimeout(
-                                () => {
-                                    button.disabled = false
-                                    button.textContent = 'Отправить'
-                                },
-                                750
-                            )
-                        }
+                    button.disabled = true
+                    return response.json().then(
+                        data => Promise.reject(data['error'])
                     )
-                    return Promise.reject('Request finished with error')
                 }
                 return response.json()
             }
@@ -87,7 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 )
             }
         ).catch(
-            error => console.log(error)
+            error => {
+                button.textContent = error
+                setTimeout(
+                    () => {
+                        button.disabled = false
+                        button.textContent = 'Отправить'
+                    },
+                    750
+                )
+            }
         )
 
     })
