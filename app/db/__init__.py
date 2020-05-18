@@ -25,15 +25,17 @@ def get_session():
 
 
 def create_tables(password):
-    logging.info('Dropping existing tables')
+    logging.getLogger(__name__).info('Dropping existing tables')
     try:
         Base.metadata.reflect(_engine)
         Base.metadata.drop_all(_engine)
     except Exception as e:
-        logging.info('Failed to drop tables.\n{}'.format(str(e)))
-    logging.info('Creating tables')
+        logging.getLogger(__name__).info(
+            'Failed to drop tables.\n{}'.format(str(e))
+        )
+    logging.getLogger(__name__).info('Creating tables')
     Base.metadata.create_all(_engine)
-    logging.info('Tables was created')
+    logging.getLogger(__name__).info('Tables was created')
     with get_session() as s:
         root = User(
             email=cfg.SUPER_ADMIN_MAIL,
@@ -46,4 +48,35 @@ def create_tables(password):
             account_type='standart'
         )
         s.add(root)
-    logging.info('Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created')
+    logging.getLogger(__name__).info(
+        'Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created'
+    )
+    if cfg.LOG_LEVEL <= 10:
+        add_test_data()
+
+def add_test_data():
+    from ..logic import accounts as accounts_logic
+    from ..logic import events as events_logic
+    from datetime import datetime, timedelta
+
+    logging.getLogger(__name__).info('Filling database with test data')
+    for i in range(1,5):
+        accounts_logic.register_user(
+            email='test{}@test'.format(i),
+            password='123',
+            name='User{}'.format(i),
+            surname='Surname{}'.format(i),
+        )
+    
+    for i in range(1,5):
+        events_logic.create_event(i, {
+            'name': 'Event {}'.format(i),
+            'sm_description': 'Test short description {}'.format(i),
+            'description': 'Test description {}'.format(i),
+            'location': 'Test location {}'.format(i),
+            'site_link': 'www.example.com/{}'.format(i),
+            'additional_info': 'Additional info {}'.format(i),
+            'start_date': datetime.today(),
+            'end_date': datetime.today() + timedelta(days=10),
+            'start_time': datetime.now().time()
+        })

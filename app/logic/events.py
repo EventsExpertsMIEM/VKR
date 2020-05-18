@@ -97,8 +97,9 @@ def create_event(u_id, data):
                                         participation_role='creator')
         s.add(participation)
 
-        logging.info(
-            'Creating event [{}] [{}] [{}] [{}]'.format(
+        logging.getLogger(__name__).info(
+            'Creating event\n\tName: [{}]\n\tStart: [{}]\n\tEnd: [{}]\n\t'
+            'Start time: [{}]'.format(
                 data['name'],
                 data['start_date'],
                 data['end_date'],
