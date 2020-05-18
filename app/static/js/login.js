@@ -32,9 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ).then(
             response => {
                 if (response.status < 200 || response.status >= 300) {
-                    button.disabled = true
                     return response.json().then(
-                        data => Promise.reject(data['error'])
+                        data => Promise.reject(
+                            {
+                                code: response.status,
+                                message: data['error']
+                            }
+                        )
                     )
                 }
                 return response.json()
@@ -61,11 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
         )
         .catch(
             error => {
-                button.textContent = error
+                button.textContent = error.message
                 setTimeout(
                     () => {
                         button.disabled = false
                         button.textContent = 'Отправить'
+                        if (error.code == 409) {
+                            window.location = '/'
+                        }
                     },
                     750
                 )
