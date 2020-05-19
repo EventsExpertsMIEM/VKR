@@ -28,9 +28,6 @@ Report_status = ENUM('unseen', 'approved', 'declined',
 
 Account_type = ENUM('standart', 'oauth', name='account_type_enum')
 
-Level = ENUM('бакалавриат', 'магистратура', 'специалитет', 'аспиратнура',
-             'ассистентура', name='level')
-
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -115,38 +112,16 @@ class ETask(Base):
     status = Column(Task_status, default='todo', nullable=False)
 
 
-class Higher_education_area(Base):
-    __tablename__ = 'higher_education_area'
-
-    id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)
-
-
-class Higher_education_programme(Base):
-    __tablename__ = 'higher_education_programme'
-    __table_args__ = (
-        UniqueConstraint('level', 'id'),
-        )
-
-    area_id = Column(String, ForeignKey(
-                     'higher_education_area.id'), nullable=False)
-    level = Column(Level, primary_key=True)
-    id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)
-
-
 class Education(Base):
     __tablename__ = 'education'
-    __table_args__ = (
-        ForeignKeyConstraint(['level_id', 'programme_id'],
-                             ['higher_education_programme.level',
-                              'higher_education_programme.id']),
-        )
 
     id = Column(Integer, primary_key=True)
-    level_id = Column(Level, nullable=False)
-    programme_id = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    city = Column(String, nullable=False)
     university = Column(String, nullable=False)
-    end_year = Column(Integer, nullable=False)
-    town = Column(String, nullable=False)
+    department = Column(String, nullable=False)
+    program = Column(String, nullable=False)
+    mode = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    graduation_year = Column(Integer, nullable=False)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
