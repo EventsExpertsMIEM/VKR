@@ -1,42 +1,46 @@
-<!-- Reg Modal -->
-  <div class="modal" tabindex="-1" role="dialog" id="join_event_modal" aria-labelledby="join_event_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="join_event_modal_label">Анкета регистрации на мероприятие</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+<!-- join event Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="join_event_modal" aria-labelledby="join_event_modal_label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="join_event_modal_label">Анкета регистрации на мероприятие</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="part_modal_full_name">Имя:</label>                  
+            <input type="text" class="form-control" id="part_modal_full_name" value="{{ current_user.name }} {{ current_user.surname }}" required>
+          </div>
           <div class="form-group">
-              <label for="part_modal_full_name">Имя:</label>                  
-              <input type="text" class="form-control" id="part_modal_full_name" value="{{ current_user.name }} {{ current_user.surname }}" required>
-            </div>
-            <div class="form-group">
-              <label for="part_modal_email">E-mail:</label>
-              <input type="email" class="form-control" id="part_modal_email" value="{{ current_user.email }}" required>
-            </div>
-            <div class="form-group">
-              <label for="part_modal_phone">Телефон:</label>
-              <input type="tel" class="form-control" id="part_modal_phone" value="{{ current_user.phone }}" required>
-            </div>
-            <div class="form-group">
-              <label for="part_modal_org">Организация:</label>
-              <input type="text" class="form-control" id="part_modal_org" value="{{ current_user.organization }}" required>
-            </div>
-            <div class="form-group">
-              <label for="part_modal_pos">Должность:</label>
-              <input type="text" class="form-control" id="part_modal_pos" value="{{ current_user.position }}" required>
-            </div>
-            <div class="form-group">
-              <label for="part_modal_report_file">Загрузка файла доклада (если файл загружен, то вы будете зарегистрированы в качестве докладчика):</label>
-              <input type="file" class="form-control-file" id="part_modal_report_file">
-            </div> 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Отправить</button>
-        </div>
+            <label for="part_modal_email">E-mail:</label>
+            <input type="email" class="form-control" id="part_modal_email" value="{{ current_user.email }}" required>
+          </div>
+          <div class="form-group">
+            <label for="part_modal_phone">Телефон:</label>
+            <input type="tel" class="form-control" id="part_modal_phone" value="{{ current_user.phone }}" required>
+          </div>
+          <div class="form-group">
+            <label for="part_modal_org">Организация:</label>
+            <input type="text" class="form-control" id="part_modal_org" value="{{ current_user.organization }}" required>
+          </div>
+          <div class="form-group">
+            <label for="part_modal_pos">Должность:</label>
+            <input type="text" class="form-control" id="part_modal_pos" value="{{ current_user.position }}" required>
+          </div>
+          <div class="form-group">
+            <label for="part_modal_report_file">Загрузка файла доклада (если файл загружен, то вы будете зарегистрированы в качестве докладчика):</label>
+            <input type="file" class="form-control-file" id="part_modal_report_file">
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn_join_event" class="btn btn-primary" data-id="{{ event.id }}">Отправить</button>
       </div>
     </div>
   </div>
+</div>
+
+{% block extra_js %}
+<script src="/static/js/join_event.js"></script>
+{% endblock %}

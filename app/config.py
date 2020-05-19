@@ -25,6 +25,22 @@ cfg.DB_CONNECTION_STRING = _get_db_connection_string()
 cfg.RUNTIME_FOLDER = os.path.dirname(os.path.abspath(__file__))
 cfg.SCRIPTS_FOLDER = os.getenv('SCRIPT_FOLDER', '{}/scripts'.format(cfg.RUNTIME_FOLDER))
 
+_ssl_enabled = os.getenv('SSL_ENABLED')
+if _ssl_enabled and _ssl_enabled.lower() == "true":
+    cfg.SSL_ENABLED = True
+    _cert = os.getenv('SSL_CERT')
+    _key = os.getenv('SSL_KEY')
+    if _cert is None:
+        raise OSError('No SSL certificate specified despite SSL being enabled')
+    if _key is None:
+        raise OSError(
+                'No SSL certificate key specified despite SSL being enabled'
+        )
+    cfg.SSL_CERT = _cert
+    cfg.SSL_KEY = _key
+else:
+    cfg.SSL_ENABLED = False
+
 cfg.SITE_ADDR = os.getenv('SITE_ADDR')
 
 cfg.SUPER_ADMIN_MAIL = os.getenv('SUPER_ADMIN_MAIL')

@@ -27,6 +27,9 @@ def main():
     if cfg.LOG_LEVEL <= 10:
         import logging_tree
         logging_tree.printout()
+        import pprint
+        pp = pprint.PrettyPrinter()
+        pp.pprint(cfg)
 
     parser = ArgumentParser(description='Events Project service')
 

@@ -13,21 +13,87 @@
 <div class="row justify-content-center my-auto">
     <div class="col-lg-2">
       <nav class="nav flex-column"> 
-        <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
-        <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
-        <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
+        <a
+            class="nav-link pl-4"
+            id="nav-personal-tab"
+            data-toggle="tab"
+            href="#personal-info-tab"
+            role="tab"
+            aria-controls="personal-info-tab"
+            data-anchor="info"
+        >
+            Инфо
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-education-tab"
+            data-toggle="tab"
+            href="#education-tab"
+            role="tab"
+            aria-controls="education-tab"
+            data-anchor="education"
+        >
+            Образование
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-security-tab"
+            data-toggle="tab"
+            href="#security-tab"
+            role="tab"
+            aria-controls="security-tab"
+            data-anchor="security"
+        >
+            Безопасность
+        </a>
         <hr class="my-0 w-75 text-center">
+
         <p class="text-center my-auto">Мои мероприятия</p>
-        <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
-        <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
-        <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+
+        <a
+            class="nav-link pl-4"
+            id="nav-events-part-tab"
+            data-toggle="tab"
+            href="#events-part-tab"
+            role="tab"
+            aria-controls="events-part-tab"
+            data-anchor="participation"
+        >
+            Участвую
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-lect-tab"
+            data-toggle="tab"
+            href="#events-lect-tab"
+            role="tab"
+            aria-controls="events-lect-tab"
+            data-anchor="presentations"
+        >
+            Выступаю
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-org-tab"
+            data-toggle="tab"
+            href="#events-org-tab"
+            role="tab"
+            aria-controls="events-org-tab"
+            data-anchor="organisation"
+        >
+            Организую
+        </a>
       </nav>
     </div>
     <div class="col-lg-8">
         <div class="card o-hidden border-0 shadow-sm custom_border">
             <div class="card-body p-1">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active text-center mt-3" id="personal-info-tab" role="tabpanel" aria-labelledby="nav-personal-tab">
+                    <div
+                        id="personal-info-tab"
+                        class="tab-pane fade show active text-center mt-3"
+                        role="tabpanel"
+                        aria-labelledby="nav-personal-tab">
                         <div class="row">
                             <div class="col-lg-4">
                                 <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded">
@@ -49,36 +115,78 @@
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">День рождения:</p>
-                                    <p id="p_birth">{{ current_user.birth }}</p>
+                                    <p id="p_birth">
+                                        {% if current_user.birth != None %}
+                                        {{ current_user.birth }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                     <a href="" data-toggle="modal" data-target="#personal_BSCT_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Пол:</p>
-                                    <p id="p_sex">{{ current_user.sex }}</p>
+                                    <p id="p_sex">
+                                        {% if current_user.sex != None %}
+                                        {{ current_user.sex }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Страна:</p>
-                                    <p id="p_country">{{ current_user.country }}</p>
+                                    <p id="p_country">
+                                        {% if current_user.country != None %}
+                                        {{ current_user.country }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Город:</p>
-                                    <p id="p_town">{{ current_user.town }}</p>
+                                    <p id="p_town">
+                                        {% if current_user.town != None %}
+                                        {{ current_user.town }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Телефон:</p>
-                                    <p id="p_phone">{{ current_user.phone }}</p>
+                                    <p id="p_phone">
+                                        {% if current_user.phone != None %}
+                                        {{ current_user.phone }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                     <a href="" data-toggle="modal" data-target="#personal_phone_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Место работы:</p>
-                                    <p id="p_organization">{{ current_user.organization }}</p>
+                                    <p class="pr-4 font-weight-bold">Организация:</p>
+                                    <p id="p_organization">
+                                        {% if current_user.organization != None %}
+                                        {{ current_user.organization }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
                                     <a href="" data-toggle="modal" data-target="#organisation_position_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Должность:</p>
-                                    <p id="p_position">{{ current_user.position }}</p>
+                                    <p id="p_position">
+                                        {% if current_user.position != None %}
+                                        {{ current_user.position }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
@@ -92,7 +200,13 @@
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">О себе:</p>
-                                    <p id="p_bio">{{ current_user.bio }}</p>
+                                    <p id="p_bio">
+                                        {% if current_user.bio != None %}
+                                        {{ current_user.bio }}
+                                        {% else %}
+                                        Не заполнено
+                                        {% endif %}
+                                    </p>
                                     <a href="" data-toggle="modal" data-target="#personal_bio_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                             </div>
@@ -105,14 +219,124 @@
                     {% include 'fragments/profile/security.html' %}
 
                     <div class="tab-pane fade mt-3" id="events-part-tab" role="tabpanel" aria-labelledby="nav-events-part-tab">
-                        {{ events }}
+                        {% if events['viewer'] == [] %}
+                            <p class="ml-3">Вы пока не участвуете ни в одном мероприятии</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['viewer'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
                     <div class="tab-pane fade mt-3" id="events-lect-tab" role="tabpanel" aria-labelledby="nav-events-lect-tab">
-
+                        {% if events['presenter'] == [] %}
+                            <p class="ml-3">Вы пока не участвуете ни в одном мероприятии в качестве докладчика</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Статус доклада</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['presenter'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
                     <div class="tab-pane fade mt-3" id="events-org-tab" role="tabpanel" aria-labelledby="nav-events-org-tab">
-
+                        {% if events['creator'] == [] %}
+                            <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
+                        {% else %}
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Дата начала</th>
+                                        <th scope="col">Дата окончания</th>
+                                        <th scope="col">Место проведения</th>
+                                        <th scope="col">Статус мероприятия</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                {% for event in events['creator'] %}
+                                <tr>
+                                    <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.end_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.status }}</td>
+                                    <td>
+                                        <a href="">Управление мероприятием</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     </div>
+                    {% if events['manager'] != [] %}
+                    <div class="tab-pane fade mt-3" id="events-manager-tab" role="tabpanel" aria-labelledby="nav-manager-org-tab">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Дата начала</th>
+                                    <th scope="col">Дата окончания</th>
+                                    <th scope="col">Место проведения</th>
+                                    <th scope="col">Статус мероприятия</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
+                            </thead>
+                            {% for event in events['manager'] %}
+                            <tr>
+                                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                                <td>{{ event.start_date }}</td>
+                                <td>{{ event.end_date }}</td>
+                                <td>{{ event.location }}</td>
+                                <td>{{ event.status }}</td>
+                                <td>
+                                    <a href="">Управление мероприятием</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -136,7 +360,10 @@
 
 {% include 'fragments/profile/self_delete.html' %}
 
+{% include 'fragments/profile/leave_event.html' %}
+
 {% endblock %}
 
 {% block extra_js %}
+<script src="/static/js/profile/main.js"></script>
 {% endblock %}
