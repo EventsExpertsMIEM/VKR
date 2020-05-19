@@ -127,18 +127,7 @@ event_join = Schema(
             Use(str),
             lambda x: x in ('presenter', 'viewer'),
             error='Invalid role'
-        ),
-        Optional('presenter_description'): Use(str),
-        Optional('report_description'): Use(str)
-    },
-    ignore_extra_keys=True
-)
-
-event_join_presenter = Schema(
-    {
-        'role': 'presenter',
-        'presenter_description': Use(str),
-        'report_description': Use(str),
+        )
     },
     ignore_extra_keys=True
 )

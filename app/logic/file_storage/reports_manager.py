@@ -11,13 +11,15 @@ from app import cfg
 
 _file_set = cfg.FILE_UPLOADS.FILE_SETS['REPORT']
 
-def save(file):
+def save(data):
+    file = data['file']
+    size = data['size']
     file_extension = file.filename.rsplit('.', 1)[1].lower()        
     if file_extension not in _file_set.ALLOWED_EXTENSIONS:
         abort(415, "File extension not supported")
     if file.mimetype not in _file_set.ALLOWED_MIME_TYPES:
         abort(415, "File MIME-type not supported")
-    if file.content_length > _file_set.MAX_SIZE: # Не будет работать, пока Chrome и Firefox не перестанут ставить Content-Length равным 0 ¯\_(ツ)_/¯
+    if size > _file_set.MAX_SIZE:
         abort(413, "File size exceeds allowed limit")
 
     filename = str(uuid4())
