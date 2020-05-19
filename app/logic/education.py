@@ -83,6 +83,35 @@ def get_user_education(u_id):
                 'program': edu.program,
                 'mode': edu.mode,
                 'status': edu.status,
-                'graduation_year': edu.graduation_year
+                'graduation_year': edu.graduation_year,
+                'is_main': edu.is_main
             })
     return result
+
+
+def choose_main_education(u_id, edu_id):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id,
+                User.status == 'active',
+        ).one_or_none()
+
+        if not user:
+            abort(404, 'No user with this id')
+
+        edu_main_exists = s.query(Education).filter(
+                Education.u_id == u_id,
+                Education.is_main == True
+        ).one_or_none()
+
+        if edu_main_exists:
+            edu_main_exists.is_main = False
+
+        edu_exists = s.query(Education).filter(
+                Education.id == edu_id
+        ).one_or_none()
+
+        if not edu_exists:
+            abort(404, 'No education fact for thin user with this id')
+
+        edu_exists.is_main = True

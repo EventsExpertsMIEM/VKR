@@ -124,4 +124,5 @@ class Education(Base):
     mode = Column(String, nullable=False)
     status = Column(String, nullable=False)
     graduation_year = Column(Integer, nullable=False)
+    is_main = Column(Boolean, default=False, nullable=False)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)

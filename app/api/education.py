@@ -29,3 +29,10 @@ def delete_edu_by_id(edu_id):
 @login_required
 def get_edu():
     return jsonify(education_logic.get_user_education(current_user.id))
+
+
+@bp.route('/<int:edu_id>/main', methods=['GET'])
+@login_required
+def main_edu_by_id(edu_id):
+    education_logic.choose_main_education(current_user.id, edu_id)
+    return make_ok(200, 'Successfully mark as main')
