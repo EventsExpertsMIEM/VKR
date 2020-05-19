@@ -12,6 +12,7 @@ from .api import (accounts as accounts_api,
                   tasks as tasks_api)
 
 from .errors import add_error_handlers, on_json_loading_failed
+from .logic.file_storage import FileManager
 
 from flask import Flask, Request
 from flask_login import LoginManager
@@ -56,6 +57,9 @@ mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.user_loader(user_loader)
+
+reports_file_manager = FileManager(app, 'REPORTS')
+# avatars_file_manager = FileManager(app, 'AVATARS')
 
 
 def run():

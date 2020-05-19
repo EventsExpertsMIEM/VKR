@@ -1,6 +1,6 @@
+import app
 from ..config import cfg
 from ..db import *
-from .file_storage import reports_manager
 
 from flask import abort
 import logging
@@ -25,9 +25,9 @@ def upload_report(u_id, e_id, data):
             Report.user_id == u_id
         ).one_or_none()
         if report is not None:
-            reports_manager.remove(report.id)
+            app.reports_file_manager.remove(report.id)
             s.delete(report)
-        report_id = reports_manager.save(data)
+        report_id = app.reports_file_manager.save(data)
         report = Report(
             id = report_id,
             event_id = e_id,

@@ -22,22 +22,6 @@ for name, logger in logging.root.manager.loggerDict.items():
         if not isinstance(logger, logging.PlaceHolder) and name not in cfg.LOGGING['loggers']:
             logger.setLevel(log_level)
 
-for K, V in cfg.FILE_UPLOADS.FILE_SETS.items():
-    path = join(cfg.FILE_UPLOADS.PARENT_FOLDER, V.FOLDER)
-    if not exists(path):
-        logging.getLogger(__name__).debug('Creating folder {}'.format(path))
-        makedirs(path)
-    cfg.FILE_UPLOADS.FILE_SETS[K].FOLDER = path
-
-tmp_path = join(cfg.FILE_UPLOADS.PARENT_FOLDER, cfg.FILE_UPLOADS.TEMP_FOLDER)
-
-if not exists(tmp_path):
-    logging.getLogger(__name__).debug(
-        'Creating folder for temporary files {}'.format(path)
-    )
-    makedirs(tmp_path)
-cfg.FILE_UPLOADS.TEMP_FOLDER = tmp_path
-
 def main():
 
     if cfg.LOG_LEVEL <= 10:

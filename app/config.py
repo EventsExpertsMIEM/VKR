@@ -62,16 +62,16 @@ cfg.FILE_UPLOADS = SimpleNamespace()
 cfg.FILE_UPLOADS.PARENT_FOLDER = os.getenv('FILE_UPLOADS_PARENT_FOLDER')
 cfg.FILE_UPLOADS.TEMP_FOLDER = 'tmp'
 cfg.FILE_UPLOADS.FILE_SETS = {
-                                'AVATAR': SimpleNamespace(),
-                                'REPORT': SimpleNamespace()
+                                'AVATARS': SimpleNamespace(),
+                                'REPORTS': SimpleNamespace()
                             }
-avatars = cfg.FILE_UPLOADS.FILE_SETS['AVATAR']
+avatars = cfg.FILE_UPLOADS.FILE_SETS['AVATARS']
 avatars.FOLDER = 'avatars'
 avatars.MAX_SIZE =  8 * 1024 * 1024 # Максимальный размер аватара 8 Мб, спизженно у дискорда,
 avatars.ALLOWED_EXTENSIONS = ('jpg', 'png')
 avatars.ALLOWED_MIME_TYPES = ('image/jpeg', 'image/jpg', 'image/png')
 
-reports = cfg.FILE_UPLOADS.FILE_SETS['REPORT']
+reports = cfg.FILE_UPLOADS.FILE_SETS['REPORTS']
 reports.FOLDER = 'reports'
 reports.ALLOWED_EXTENSIONS = ('doc', 'docx', 'ppt', 'pptx', 'pdf')
 reports.ALLOWED_MIME_TYPES = (
