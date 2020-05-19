@@ -14,7 +14,7 @@ bp = Blueprint('education', __name__)
 @login_required
 def create_edu():
     data = get_json()
-    id = education_logic.create_user_education(current_user.id, data)
+    id = education_logic.add_user_education(current_user.id, data)
     return make_ok(201, str(id))
 
 
@@ -25,7 +25,7 @@ def delete_edu_by_id(edu_id):
     return make_ok(200, 'Successfully deleted')
 
 
-@bp.route('/all', methods=['GET'], strict_slashes=False)
+@bp.route('/all', methods=['GET'])
 @login_required
 def get_edu():
     return jsonify(education_logic.get_user_education(current_user.id))
@@ -36,3 +36,9 @@ def get_edu():
 def main_edu_by_id(edu_id):
     education_logic.choose_main_education(current_user.id, edu_id)
     return make_ok(200, 'Successfully mark as main')
+
+
+@bp.route('/main', methods=['GET'])
+@login_required
+def get_main_edu():
+    return jsonify(education_logic.get_user_main_education(current_user.id))

@@ -13,7 +13,7 @@ import os
 import nanoid
 
 
-def create_user_education(u_id, data):
+def add_user_education(u_id, data):
     with get_session() as s:
         user = s.query(User).filter(
                 User.id == u_id,
@@ -53,7 +53,7 @@ def delete_user_education(u_id, edu_id):
         ).one_or_none()
 
         if not edu_exists:
-            abort(404, 'No education fact for thin user with this id')
+            abort(404, 'No education fact for this user')
 
         s.delete(edu_exists)
 
@@ -112,6 +112,38 @@ def choose_main_education(u_id, edu_id):
         ).one_or_none()
 
         if not edu_exists:
-            abort(404, 'No education fact for thin user with this id')
+            abort(404, 'No education fact for this user')
 
         edu_exists.is_main = True
+
+
+def get_user_main_education(u_id):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id,
+                User.status == 'active',
+        ).one_or_none()
+
+        if not user:
+            abort(404, 'No user with this id')
+
+        education = s.query(Education).filter(
+                Education.u_id == u_id,
+                Education.is_main == True
+        ).one_or_none()
+
+        if not education:
+            abort(404, 'No main education fact for this user')
+
+        return {
+            'id': edu.id,
+            'country': edu.country,
+            'city': edu.city,
+            'university': edu.university,
+            'department': edu.department,
+            'program': edu.program,
+            'mode': edu.mode,
+            'status': edu.status,
+            'graduation_year': edu.graduation_year,
+            'is_main': edu.is_main
+        }
