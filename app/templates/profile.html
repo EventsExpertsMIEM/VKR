@@ -213,7 +213,7 @@
                         </div>          
                     </div>
                     <div class="tab-pane fade mt-3 text-center" id="education-tab" role="tabpanel" aria-labelledby="nav-education-tab">
-                        
+                        <a href="" data-toggle="modal" data-target="#new_edu_modal"><h5>Добавить диплом об образовании</h5></a>
                     </div>
 
                     {% include 'fragments/profile/security.html' %}
@@ -355,6 +355,8 @@
 {% include 'fragments/profile/organisation_position.html' %}
 
 {% include 'fragments/profile/bio.html' %}
+
+{% include 'fragments/profile/new_edu_modal.html' %}
 
 {% include 'fragments/profile/close_all_sessions.html' %}
 
