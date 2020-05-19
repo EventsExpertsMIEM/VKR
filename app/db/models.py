@@ -88,6 +88,7 @@ class Report(Base):
     original_filename = Column(String, nullable=False)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    uploaded_at = Column(DateTime, nullable=False, default=datetime.now)
     last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
     presenter_description = Column(TEXT, nullable=True)
     report_description = Column(TEXT, nullable=True)

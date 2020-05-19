@@ -169,3 +169,11 @@ user_update = Schema(
         Optional('bio'):  Use(empty_str_to_none)
     }
 )
+
+report_info = Schema(
+    {
+        Optional('presenter_description'): Use(str),
+        Optional('report_description'): Use(str)
+    },
+    ignore_extra_keys=True
+)

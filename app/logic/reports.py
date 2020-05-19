@@ -5,6 +5,7 @@ from .file_storage import reports_manager
 from flask import abort
 import logging
 
+
 def upload_report(u_id, e_id, data):
     with get_session() as s:
         event = s.query(Event).get(e_id)
@@ -68,6 +69,64 @@ def get_user_report_for_event(u_id, e_id):
 
         return (*reports_manager.get(report.id), report.original_filename)
 
+
+def get_report_info_by_id(r_id):
+    with get_session() as s:
+        report = s.query(Report).get(r_id)
+        if report is None:
+            abort(404, 'No report found')
+        return {
+            c.name:
+                str(getattr(report, c.name)) for c in report.__table__.columns
+        }
+
+
+def get_report_info_for_event(u_id, e_id):
+    with get_session() as s:
+        report = s.query(Report).filter(
+            Report.user_id == u_id,
+            Report.event_id == e_id
+        ).one_or_none()
+        if report is None:
+            abort(404, 'No report found')
+        return {
+            c.name:
+                str(getattr(report, c.name)) for c in report.__table__.columns
+        }
+
+
+def update_report_info_by_id(r_id, data):
+    with get_session() as s:
+        report = s.query(Report).get(r_id)
+
+        if report is None:
+            abort(404, 'Report not found')
+        
+        for attr in data.keys():
+            setattr(report, attr, data[attr])
+    logging.getLogger(__name__).info(
+        'Report [ id {r_id} ] updated with following data:\n\t{data}'
+            .format(r_id=r_id, data=data)
+    )
+
+
+def update_report_info_for_event(u_id, e_id, data):
+    with get_session() as s:
+        report = s.query(Report).filter(
+                Report.user_id == u_id,
+                Report.event_id == e_id
+            ).one_or_none()
+        if report is None:
+            abort(404, 'Report not found')
+        
+        for attr in data.keys():
+            setattr(report, attr, data[attr])
+    logging.getLogger(__name__).info(
+        'Report [ id {r_id} ] updated with following data:\n\t{data}'
+            .format(r_id=report.id, data=data)
+    )
+
+
 def remove_user_report(u_id, e_id):
     with get_session() as s:
         report = s.query(Report).filter(
@@ -77,12 +136,47 @@ def remove_user_report(u_id, e_id):
         if report is None:
             abort(404, 'No report found')
         reports_manager.remove(report.id)
-        logging.info(
+        logging.getLogger(__name__).info(
             'User [id {u_id}] deleted report [id {r_id}]'
             'from event [id {e_id}]'.format(
                 u_id = u_id,
                 r_id = report.id,
                 e_id = e_id
+            )
+        )
+
+
+#################################### ADMIN ####################################
+
+
+def approve_report(r_id):
+    with get_session() as s:
+        report = s.query(Report).get(r_id)
+        if not report:
+            abort(404, "Report not found")
+        
+        report.report_status = 'approved'
+
+        logging.getLogger(__name__).info(
+            'Report [id {r_id}] approved'.format(
+                r_id = r_id
+            )
+        )
+
+
+def decline_report(r_id):
+    with get_session() as s:
+        participation = s.query(Participation).filter(
+            Participation.report_id == r_id,
+        ).one_or_none()
+        if not participation:
+            abort(404, "Report not found")
+        
+        participation.report_status = 'declined'
+
+        logging.getLogger(__name__).info(
+            'Report [id {r_id}] declined'.format(
+                r_id = r_id
             )
         )
 
@@ -112,27 +206,6 @@ def remove_user_report(u_id, e_id):
 #                 ).all()
 #             )
 #         )
-
-# def get_report_info(u_id, e_id):
-#     with get_session() as s:
-#         event = s.query(Event).get(e_id)
-#         if not event or event.status == 'deleted':
-#             abort(404, 'No event with this id')
-#         participation = s.query(Participation).filter(
-#             Participation.u_id == u_id,
-#             Participation.e_id == e_id,
-#             Participation.participation_role == 'presenter'
-#         ).one_or_none()
-#         if not participation:
-#             abort(424, 'User not joined')
-#         if participation.report_id is None:
-#             abort(404, 'No report found')
-#         result = {}
-#         result['report_id'] = participation.report_id
-#         result['report_name'] = participation.report_name
-#         result['last_updated'] = participation.last_updated
-#         result['status'] = participation.report_status
-#         return result
 
 # def get_reports_for_event(e_id):
 #     with get_session() as s:
@@ -187,38 +260,5 @@ def remove_user_report(u_id, e_id):
 #                     'status': p.report_status
 #                 },
 #                 participations
-#             )
-#         )
-
-
-# def approve_report(r_id):
-#     with get_session() as s:
-#         participation = s.query(Participation).filter(
-#             Participation.report_id == r_id,
-#         ).one_or_none()
-#         if not participation:
-#             abort(404, "Report not found")
-        
-#         participation.report_status = 'approved'
-
-#         logging.info(
-#             'Report [id {r_id}] approved '.format(
-#                 r_id = r_id
-#             )
-#         )
-
-# def decline_report(r_id):
-#     with get_session() as s:
-#         participation = s.query(Participation).filter(
-#             Participation.report_id == r_id,
-#         ).one_or_none()
-#         if not participation:
-#             abort(404, "Report not found")
-        
-#         participation.report_status = 'declined'
-
-#         logging.info(
-#             'Report [id {r_id}] declined '.format(
-#                 r_id = r_id
 #             )
 #         )

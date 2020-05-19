@@ -3,6 +3,9 @@ from flask_login import (login_required, current_user)
 
 from . import *
 from ..logic import reports as reports_logic
+from ..validation.validation import validate
+from ..validation import schemas
+
 
 bp = Blueprint('reports', __name__)
 
@@ -45,7 +48,7 @@ def get_report_by_id(r_id):
 
 @bp.route('/<int:e_id>/report', methods=['GET'])
 @login_required
-def get_current_user_report(e_id):
+def get_current_user_report_for_event(e_id):
     path, report_id, filename = reports_logic.get_user_report_for_event(
         current_user.id,
         e_id
@@ -58,9 +61,37 @@ def get_current_user_report(e_id):
     )
 
 
+@bp.route('/report/<r_id>/info', methods=['GET'])
+@login_required
+def get_report_info_by_id(r_id):
+    return jsonify(reports_logic.get_report_info_by_id(r_id))
+
+
+@bp.route('/<int:e_id>/report/info', methods=['GET'])
+@login_required
+def get_current_user_report_info_for_event(e_id):
+    return jsonify(
+        reports_logic.get_report_info_for_event(current_user.id, e_id)
+    )
+
+@bp.route('/report/<r_id>', methods=['PUT'])
+@login_required
+def update_report_info(r_id):
+    data = validate(get_json(), schemas.report_info)
+    reports_logic.update_report_info_by_id(r_id, data)
+    return make_ok(200, 'Report info updated')
+
+@bp.route('/<int:e_id>/report', methods=['PUT'])
+@login_required
+def update_report_info_for_event(e_id):
+    data = validate(get_json(), schemas.report_info)
+    reports_logic.update_report_info_for_event(current_user.id, e_id, data)
+    return make_ok(200, 'Report info updated')
+
+
 @bp.route('/<int:e_id>/report', methods=['DELETE'])
 @login_required
-def remove_report(e_id):
+def remove_current_user_report_for_event(e_id):
     reports_logic.remove_current_user_report(current_user.id, e_id)
     return make_ok(200, 'Report removed successfully')
 
@@ -70,11 +101,6 @@ def remove_report(e_id):
 #     if current_user.service_status is 'user':
 #         return make_4xx(403, "No rights")
 #     return jsonify(reports_logic.get_all_reports())
-
-# @bp.route('/<int:e_id>/report/info', methods=['GET'])
-# @login_required
-# def get_report_info(e_id):
-#     return jsonify(reports_logic.get_report_info(current_user.id, e_id))
 
 # @bp.route('/<int:e_id>/report/all', methods=['GET'])
 # def get_reports(e_id):
