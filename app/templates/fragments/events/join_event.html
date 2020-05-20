@@ -29,11 +29,11 @@
             <label for="part_modal_pos">Должность:</label>
             <input type="text" class="form-control" id="part_modal_pos" value="{{ current_user.position }}" required>
           </div>
-          <div class="form-group">
-            <label for="part_modal_report_file">Загрузка файла доклада (если файл загружен, то вы будете зарегистрированы в качестве докладчика):</label>
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#leave_event_modal"><input type="file" class="form-control-file" id="part_modal_report_file"></button>
-            
-          </div> 
+          <div class="form-group text-center">
+            <input type="checkbox" class="form-check-input" id="register_as_speaker_checkbox">
+            <label class="form-check-label" for="register_as_speaker_checkbox">Регистрация в качестве спикера</label>       
+          </div>
+          
       </div>
       <div class="modal-footer">
         <button type="button" id="btn_join_event" class="btn btn-primary" data-id="{{ event.id }}">Отправить</button>

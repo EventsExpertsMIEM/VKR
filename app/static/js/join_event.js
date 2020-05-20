@@ -1,12 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     var button = document.getElementById('btn_join_event')
     var event_id = button.dataset.id
+    var checkbox = document.getElementById('register_as_speaker_checkbox')
 
     button.addEventListener(
         'click',
         () => {
-            var data = {
-               role: 'viewer'
+            var data = {}
+            if (checkbox.checked = true) {
+                data = {
+                    role: 'presenter'
+                }
+            }
+
+            else {
+                    data = {
+                        role: 'viewer'
+                    }
+                
             }
             fetch(`/api/event/${event_id}/join`,
                 {
