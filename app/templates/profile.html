@@ -272,7 +272,10 @@
                                     <td>{{ event.location }}</td>
                                     <td>{{ event.status }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#upload_report_modal">Загрузить файл доклада</button>
+                                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#leave_event_modal">Отказаться от участия</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -363,6 +366,8 @@
 {% include 'fragments/profile/self_delete.html' %}
 
 {% include 'fragments/profile/leave_event.html' %}
+
+{% include 'fragments/profile/upload_report.html' %}
 
 {% endblock %}
 
