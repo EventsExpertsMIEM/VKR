@@ -58,11 +58,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.user_loader(user_loader)
 
-reports_file_manager = FileManager(app, 'REPORTS')
+reports_file_manager = FileManager()
+reports_file_manager.set_file_set('REPORTS')
+reports_file_manager.init_app(app)
 # avatars_file_manager = FileManager(app, 'AVATARS')
 
-
-def run():
+def run(purge_files=False):
+    if purge_files:
+        logging.debug('Purging files')
+        reports_file_manager.purge()
     logger = None
     if cfg.DISABLE_EXISTING_LOGGERS is False:
         logger = logging.getLogger('gevent')

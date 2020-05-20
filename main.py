@@ -39,13 +39,15 @@ def main():
 
     args = parser.parse_args()
     
-    if args.create_tables:
-        pw = bcrypt.hashpw(str(cfg.SUPER_ADMIN_PASSWORD).encode('utf-8'), bcrypt.gensalt())
-        db.create_tables(pw.decode('utf-8'))
     cfg.SUPER_ADMIN_PASSWORD = ""
 
     logging.info('Starting server')
     logging.info('IP: ' + cfg.HOST + '  PORT: ' + str(cfg.PORT))
+    if args.create_tables:
+        pw = bcrypt.hashpw(str(cfg.SUPER_ADMIN_PASSWORD).encode('utf-8'), bcrypt.gensalt())
+        db.create_tables(pw.decode('utf-8'))
+        app.run(purge_files=True)
+
     app.run()
 
 

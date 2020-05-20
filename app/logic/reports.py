@@ -25,6 +25,7 @@ def upload_report(u_id, e_id, data):
             Report.user_id == u_id
         ).one_or_none()
         if report is not None:
+            logging.getLogger(__name__).debug(report.id)
             app.reports_file_manager.remove(report.id)
             s.delete(report)
         report_id = app.reports_file_manager.save(data)
@@ -37,8 +38,8 @@ def upload_report(u_id, e_id, data):
         s.add(report)
     logging.getLogger(__name__).info(
         'User [id {u_id}] uploaded report file '
-        '[{fname}] for event [id {e_id}].'
-        'Saved [id {r_id}]'.format(
+        '[{fname}] for event [id {e_id}]. '
+        'Saved with id [{r_id}]'.format(
             u_id = u_id,
             e_id = e_id,
             fname = report.original_filename,
@@ -53,7 +54,7 @@ def get_report_by_id(r_id):
         report = s.query(Report).get(r_id)
         if report is None:
             abort(404, 'Report not found')
-        return (*reports_manager.get(report.id), report.original_filename)
+        return (*app.reports_file_manager.get(report.id), report.original_filename)
 
 
 def get_user_report_for_event(u_id, e_id):
@@ -67,7 +68,7 @@ def get_user_report_for_event(u_id, e_id):
         if report is None:
             abort(404, 'Report not found')
 
-        return (*reports_manager.get(report.id), report.original_filename)
+        return (*app.reports_file_manager.get(report.id), report.original_filename)
 
 
 def get_report_info_by_id(r_id):
@@ -127,7 +128,7 @@ def update_report_info_for_event(u_id, e_id, data):
     )
 
 
-def remove_user_report(u_id, e_id):
+def remove_current_user_report(u_id, e_id):
     with get_session() as s:
         report = s.query(Report).filter(
             Report.event_id == e_id,
@@ -135,7 +136,8 @@ def remove_user_report(u_id, e_id):
         ).one_or_none()
         if report is None:
             abort(404, 'No report found')
-        reports_manager.remove(report.id)
+        app.reports_file_manager.remove(report.id)
+        s.delete(report)
         logging.getLogger(__name__).info(
             'User [id {u_id}] deleted report [id {r_id}]'
             'from event [id {e_id}]'.format(
