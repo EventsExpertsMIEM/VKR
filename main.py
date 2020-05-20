@@ -38,8 +38,6 @@ def main():
                         help='Creates data base tables before launch.')
 
     args = parser.parse_args()
-    
-    cfg.SUPER_ADMIN_PASSWORD = ""
 
     logging.info('Starting server')
     logging.info('IP: ' + cfg.HOST + '  PORT: ' + str(cfg.PORT))

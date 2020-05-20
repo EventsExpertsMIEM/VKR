@@ -48,6 +48,7 @@ def create_tables(password):
             account_type='standart'
         )
         s.add(root)
+    cfg.SUPER_ADMIN_PASSWORD = ""
     logging.getLogger(__name__).info(
         'Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created'
     )
