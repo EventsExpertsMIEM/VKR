@@ -1,0 +1,173 @@
+{% extends "/blank.html" %}
+
+{% block title %}
+<title>Events - профиль</title>
+{% endblock %}
+
+{% block page%}
+<div class="topbar-divider d-none d-sm-block text-center"></div>
+<span class="navbar-brand text-secondary">Личный кабинет</span>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-auto">
+    <div class="col-lg-2">
+      <nav class="nav flex-column"> 
+        <a
+            class="nav-link pl-4"
+            id="nav-users-tab"
+            data-toggle="tab"
+            href="#users-tab"
+            role="tab"
+            aria-controls="users-tab"
+            data-anchor="users"
+        >
+            Пользователи
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-tab"
+            data-toggle="tab"
+            href="#events-tab"
+            role="tab"
+            aria-controls="events-tab"
+            data-anchor="events"
+        >
+            Мероприятия
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-tags-tab"
+            data-toggle="tab"
+            href="#tags-tab"
+            role="tab"
+            aria-controls="tags-tab"
+            data-anchor="tags"
+        >
+            Научные области
+        </a>
+      </nav>
+    </div>
+    <div class="col-lg-8">
+        <div class="card o-hidden border-0 shadow-sm custom_border">
+            <div class="card-body p-1">
+                <div class="tab-content" id="nav-tabContent">
+                    <div
+                        id="users-tab"
+                        class="tab-pane fade show active text-center mt-3"
+                        role="tabpanel"
+                        aria-labelledby="nav-users-tab">
+                            <p>TABLE HARCODED</p>
+                            <table>
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Имя пользователя</th>
+                                        <th scope="col">Роль</th>
+                                        <th scope="col">Управление</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>1</td>
+                                    <td><a href="">admin</a></td>
+                                    <td><select class="form-control" id="userRole">
+                                    <option selected="selected">Администратор</option>
+                                    <option>Менеджер</option>
+                                    <option>Организатор</option>
+                                    <option>Участник</option>
+                                    </select></td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="">iivanov@mail.ru</a></td>
+                                    <td><select class="form-control" id="userRole">
+                                    <option>Администратор</option>
+                                    <option>Менеджер</option>
+                                    <option selected="selected">Организатор</option>
+                                    <option>Участник</option>
+                                    </select></td>
+                                    <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#user_block_modal">Заблокировать</button></td>
+                                </tr>
+                            </table>
+                    </div>
+                    <div 
+                        id="events-tab"
+                        class="tab-pane fade mt-3 text-center"
+                        role="tabpanel"
+                        aria-labelledby="nav-events-tab">
+                            <table class="table">
+                                <thead class="thead-light">
+                                  <tr>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Даты проведения</th>
+                                    <th scope="col">Место проведения</th>
+                                    <th scope="col">Статус</th>
+                                    <th scope="col">Управление</th>
+                                  </tr>
+                                </thead>
+
+                            </table>
+                            {% for event in events %}
+                            <tr>
+                                <td>{{event.name}}</td>
+                                <td>{{event.start_date}} - {{event.end_date}}</td>
+                                <td>{{event.location}}</td>
+                                <td>Регистрация открыта HARDCODED</td>
+                                <td><a href="">Управление мероприятием</a></td>
+                            </tr>
+                            {% endfor %}
+                    </div>
+                    <div 
+                        id="tags-tab"
+                        class="tab-pane fade mt-3 text-center"
+                        role="tabpanel"
+                        aria-labelledby="nav-tags-tab">
+                            <p>TABLE HARCODED</p>
+                            <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Действия</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>Робототехника</td>
+                                    <td>
+                                      <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#EditTagModal">Редактировать</button>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#TagDelModal">Удалить</button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>Микроконтроллеры</td>
+                                    <td>
+                                      <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#EditTagModal">Редактировать</button>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#TagDelModal">Удалить</button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_modals%}
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
