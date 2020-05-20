@@ -1,3 +1,9 @@
+function leaveEventsHandler(id) {
+
+    document.getElementById('leave_event_modal').dataset.eventId = id
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     var elements = Array.from(document.getElementsByClassName('nav-link'))
@@ -11,6 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             )
         }
+    )
+
+    var leaveEventButtons = Array.from(
+        document.getElementsByClassName('leave-event-button')
+    )
+
+    leaveEventButtons.forEach(
+        button => button.addEventListener('click', 
+            event => leaveEventsHandler(event.currentTarget.dataset.id)
+        )
     )
 
     const tabsAnchors = new Map(

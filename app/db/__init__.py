@@ -74,7 +74,7 @@ def add_test_data():
             'sm_description': 'Test short description {}'.format(i),
             'description': 'Test description {}'.format(i),
             'location': 'Test location {}'.format(i),
-            'site_link': 'www.example.com/{}'.format(i),
+            'site_link': 'http://www.example.com/{}'.format(i),
             'additional_info': 'Additional info {}'.format(i),
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
