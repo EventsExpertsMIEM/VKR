@@ -127,18 +127,7 @@ event_join = Schema(
             Use(str),
             lambda x: x in ('presenter', 'viewer'),
             error='Invalid role'
-        ),
-        Optional('presenter_description'): Use(str),
-        Optional('report_description'): Use(str)
-    },
-    ignore_extra_keys=True
-)
-
-event_join_presenter = Schema(
-    {
-        'role': 'presenter',
-        'presenter_description': Use(str),
-        'report_description': Use(str),
+        )
     },
     ignore_extra_keys=True
 )
@@ -179,4 +168,12 @@ user_update = Schema(
         Optional('sex'):  Use(empty_str_to_none),
         Optional('bio'):  Use(empty_str_to_none)
     }
+)
+
+report_info = Schema(
+    {
+        Optional('presenter_description'): Use(str),
+        Optional('report_description'): Use(str)
+    },
+    ignore_extra_keys=True
 )

@@ -97,8 +97,9 @@ def create_event(u_id, data):
                                         participation_role='creator')
         s.add(participation)
 
-        logging.info(
-            'Creating event [{}] [{}] [{}] [{}]'.format(
+        logging.getLogger(__name__).info(
+            'Creating event\n\tName: [{}]\n\tStart: [{}]\n\tEnd: [{}]\n\t'
+            'Start time: [{}]'.format(
                 data['name'],
                 data['start_date'],
                 data['end_date'],
@@ -251,11 +252,8 @@ def join_event(u_id, e_id, data):
         if data['role'] == 'presenter':
             role = 'presenter'
             participation.participation_role = role
-            participation.presenter_description = data['presenter_description']
-            participation.report_description = data['report_description']
-            participation.report_status = 'unseen'
         s.add(participation)
-        logging.info(
+        logging.getLogger(__name__).info(
             'User [id {}] joined event [id {}] as [{}]'.format(
                 u_id,
                 e_id,

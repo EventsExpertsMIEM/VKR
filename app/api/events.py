@@ -87,8 +87,6 @@ def delete_manager_from_event(e_id):
 @login_required
 def join(e_id):
     data = validate(get_json(), schemas.event_join)
-    if data['role'] == 'presenter':
-        data = validate(data, schemas.event_join_presenter)
     events_logic.join_event(current_user.id, e_id, data)
     return make_ok(200, 'Successfully joined')
 
