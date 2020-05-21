@@ -497,7 +497,6 @@
 
         <hr class="m-0">
 
-
         <section
         id="nginx-config"
         class="resume-section p-3 p-lg-5 d-flex align-items-center">
@@ -510,15 +509,15 @@ server {
     # включено обязательное шифрование с помощью директивы ssl
     listen 80 ssl;
 
-    # В качестве переменной server_name необходимо установить домен, на котором будет работать приложение
-    server_name congress-events.ru;
+    # %domain-name% - домен, на котором будет работать приложение
+    server_name %domain-name%;
 
     # Пути, по которым находятся TLS сертификат и приватный ключ от него
-    # - www.congress-events.ru.crt - Файл сертификата
-    # - www.congress-events.ru.key - Приватный ключ сертификата
+    # - %certificate%.crt - Файл сертификата
+    # - %certificate_private_key%.key - Приватный ключ сертификата
     # В качестве примера приведены стандартные пути размещения для сертификатов и ключей в CentOS 7
-    ssl_certificate /etc/pki/tls/certs/www.congress-events.ru.crt;
-    ssl_certificate_key /etc/pki/tls/private/www.congress-events.ru.key;
+    ssl_certificate /etc/pki/tls/certs/%certificate%.crt;
+    ssl_certificate_key /etc/pki/tls/private/%certificate_private_key%.key;
 
     # При попытке подключится к HTTPS серверу посредством HTTP возникнет ошибка под номером 497
     # Данная директива указывает серверу на то, что при возникновении ошибки 497
@@ -534,7 +533,12 @@ server {
         proxy_set_header Host $http_host;
 
         # Директива proxy_pass устанавливает адрес, на который необходимо перенаправлять запросы
-        proxy_pass https://192.168.255.99:45000/;
+        # - %ip% - ip адресс бекэнд сервера
+        # - %port% - порт, на котором работает бекэнд сервер
+        # Для обеспечения дополнительной безопасности рекомендуется запускать бекэнд сервер
+        # с включенной поддержкой TLS. В случае, если бекэнд запущен без использования TLS
+        # в директиве proxy_pass необходимо заменить https на http
+        proxy_pass https://%ip%:%port%/;
     }
 }
 </code></pre>
@@ -543,8 +547,6 @@ server {
     </section>
 
     <hr class="m-0">
-
-
 
         <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="usage">
             <div class="w-100">
