@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="img/favicon_circle.png">
+    <title>REST API</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/resume.min.css" rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-dark.min.css">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js">
+    </script>
+
+</head>
+
+<body id="page-top">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+            <span class="d-block d-lg-none">Events Project</span>
+            <span class="d-none d-lg-block">
+                <img class="img-fluid img-profile rounded-circle border-0 mx-auto w-50" src="img/logo.jpg" alt="">
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#restapi">REST API</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#restapi_accounts">Accounts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#restapi_users">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#restapi_events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#restapi_reports">Reports</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="restapi">
+            <div class="w-100">
+                <h2 class="mb-5">REST API (need to complete)</h2>
+                <p>Далее идет описание REST API.</p>
+                <p>Основным форматом является json (но не всегда), для чего необходимо указывать в заголовках
+                    <kbd>application/json</kbd>. В случае отсутсвия данного заголовка или же некорретно составленного
+                    тела будет возвращена ошибка с http кодом 415.</p>
+                <p>Ниже приведены описания всех возможных ответов сервера:</p>
+                <div><kbd>200</kbd> - основной ответ в случае успешного выполнения запроса.</div>
+                <div><kbd>201</kbd> - ответ при успешном создании.</div>
+                <p></p>
+                <div><kbd>400</kbd> - ответ при неправильных ключах json.</div>
+                <div><kbd>401</kbd> - ответ незалогиненому пользователю.</div>
+                <div><kbd>403</kbd> - ответ при отсутствии доступа к выполняемому действию.</div>
+                <div><kbd>404</kbd> - ответ при отсутствии запрашиваемого пути или запрашиваемых данных.</div>
+                <div><kbd>405</kbd> - ответ при отсутствии метода у данного пути.</div>
+                <div><kbd>409</kbd> - ответ при конфликте состояния.</div>
+                <div><kbd>415</kbd> - ответ при некорректном json.</div>
+                <div><kbd>422</kbd> - ответ при некорретных поданых данных.</div>
+            </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="restapi_accounts">
+            <div class="w-100">
+                <h2 class="mb-5">Accounts</h2>
+                <p>Ручки, связанные с аккаунтами.</p>
+
+                <div><kbd>/login</kbd><code> - [POST]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Авторизация пользователя в системе.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>email</kbd> - почта пользователя</li>
+                        <li><kbd>password</kbd> - пароль пользователя</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                        <li><kbd>name</kbd> - имя пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия пользователя</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>404 - </code>пользователь не найден</li>
+                    <li><code>409 - </code>пользователь уже авторизован</li>
+                    <li><code>409 - </code>попытка авторизации в забаненого пользователя</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>неверный пароль</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/logout</kbd><code> - [GET/POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Логаут пользователя из системы.</li>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                </ul>
+
+                <div><kbd>/register</kbd><code> - [POST]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Регистрация пользователя в системе.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>email</kbd> - почта пользователя</li>
+                        <li><kbd>name</kbd> - имя пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия пользователя</li>
+                        <li><kbd>password</kbd> - пароль пользователя</li>
+                    </ul>
+                    <li><code>201 CREATED</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>409 - </code>пользователь уже авторизован</li>
+                    <li><code>409 - </code>пользователь с таким <code>email</code> уже зарегистрирован или забанен</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                </ul>
+
+                <div><kbd>/confirm/[link]</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Подтверждение аккаунта по ссылке.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>link</kbd> - ссылка подтверждения пользователя из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>404 - </code>пользователь с таким <code>link</code> не найден</li>
+                    <li><code>409 - </code>пользователь с таким <code>link</code> уже подтвержден или не может быть
+                        подтверждён</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/change_password</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Смена пароля.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>old_password</kbd> - старый пароль</li>
+                        <li><kbd>new_password</kbd> - новый пароль</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>неверный пароль</li>
+                    <li><code>422 - </code>старый пароль совпадает с новым</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/reset_password</kbd><code> - [POST]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Сброс пароля.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>email</kbd> - почта аккаунта</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd> с указанием посмотреть новый пароль на почте</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>404 - </code>пользователь с таким <code>email</code> не найден</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/close_all_sessions</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Завершение всех сессий кроме текущей.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>password</kbd> - пароль</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>неверный пароль</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/delete</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Удаление своего профиля.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>password</kbd> - пароль</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>неверный пароль</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/status</kbd><code> - [GET] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение статуса текущего пользователя в системе.</li>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>service_status</kbd> - статус</li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/user/[id]/ban</kbd><code> - [GET] - </code>LOGIN+RIGHTS REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Бан пользователя.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id пользователя из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>пользователь с таким <code>id</code> не найден</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/user/[id]/role/[role]</kbd><code> - [PUT] - </code>LOGIN+RIGHTS REQUIRED
+                </div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Изменение привилегий.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id пользователя из url</li>
+                        <li><kbd>[role]</kbd> - новая role для пользователя из url -
+                            <code>admin</code>/<code>moderator</code>/<code>user</code></li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>пользователь с таким <code>id</code> не найден</li>
+                    <li><code>409 - </code>пользователь уже имеет такой статус</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="restapi_users">
+            <div class="w-100">
+                <h2 class="mb-5">Users</h2>
+                <p>Ручки, связанные с информацией о пользователях.</p>
+                <p>Все ручки данной категории имеют префикс <code>/user</code> (т.е. первая ручка <code>/</code>
+                    является <code>/user/</code>).</p>
+
+                <div class="text-warning"><kbd>/</kbd><code> - [GET] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение информации о текущем пользователе.</li>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>email</kbd> - почта текущего пользователя</li>
+                        <li><kbd>name</kbd> - имя текущего пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия текущего пользователя</li>
+                        <li><kbd>service_status</kbd> - статус текущего пользователя в системе</li>
+                        <li><kbd>phone</kbd> - телефон текущего пользователя</li>
+                        <li><kbd>organization</kbd> - организация/компания текущего пользователя</li>
+                        <li><kbd>position</kbd> - должность текущего пользователя</li>
+                        <li><kbd>country</kbd> - страна текущего пользователя</li>
+                        <li><kbd>town</kbd> - город текущего пользователя</li>
+                        <li><kbd>sex</kbd> - пол текущего пользователя</li>
+                        <li><kbd>birth</kbd> - дата рождения текущего пользователя в iso формате</li>
+                        <li><kbd>bio</kbd> - дополнительное описание текущего пользователя</li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/</kbd><code> - [PUT] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Обновление информации о текущем пользователе.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li>Все поля опциональны и должны быть из списка ниже</li>
+                        <li><kbd>name</kbd> - имя пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия пользователя</li>
+                        <li><kbd>phone</kbd> - телефон пользователя</li>
+                        <li><kbd>organization</kbd> - организация/компания пользователя</li>
+                        <li><kbd>position</kbd> - должность пользователя</li>
+                        <li><kbd>country</kbd> - страна пользователя</li>
+                        <li><kbd>town</kbd> - город пользователя</li>
+                        <li><kbd>sex</kbd> - пол пользователя</li>
+                        <li><kbd>birth</kbd> - дата рождения пользователя в iso формате</li>
+                        <li><kbd>bio</kbd> - дополнительное описание пользователя</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/events/[role]</kbd><code> - [GET] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение данных о мероприятиях текущего пользователя по ролям (от новых к поздним).</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[role]</kbd> - роль пользователя в мероприятии из url -
+                            <code>creator</code>/<code>manager</code>/<code>presenter</code>/<code>viewer</code></li>
+                        <li>Опционально позволяет использовать query string для выборки из всех элементов в виде
+                            <kbd>?offset=value&size=value</kbd>, где</li>
+                        <ul>
+                            <li><kbd>offset</kbd> - начальный элемент выборки, не меньше 0</li>
+                            <li><kbd>size</kbd> - количество элементов в выборке, больше 2</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>id</kbd> - id мероприятия</li>
+                        <li><kbd>name</kbd> - название мероприятия</li>
+                        <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные параметры query string</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>422 - </code>некорректные данные или роль</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/all</kbd><code> - [GET] - </code>LOGIN+RIGHTS REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение списка пользователей системы.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li>Опционально позволяет использовать query string для выборки из всех элементов в виде
+                            <kbd>?offset=value&size=value</kbd>, где</li>
+                        <ul>
+                            <li><kbd>offset</kbd> - начальный элемент выборки, не меньше 0</li>
+                            <li><kbd>size</kbd> - количество элементов в выборке, больше 2</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>id</kbd> - id пользователя</li>
+                        <li><kbd>email</kbd> - почта пользователя</li>
+                        <li><kbd>name</kbd> - имя пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия пользователя</li>
+                        <li><kbd>service_status</kbd> - статус пользователя</li>
+                        <li><kbd>status</kbd> - статус аккаунта пользователя</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные параметры query string</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>422 - </code>некорректные данные</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]</kbd><code> - [GET] - </code>LOGIN+RIGHTS REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение информации о пользователе.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id пользователя из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>email</kbd> - почта пользователя</li>
+                        <li><kbd>name</kbd> - имя пользователя</li>
+                        <li><kbd>surname</kbd> - фамилия пользователя</li>
+                        <li><kbd>service_status</kbd> - статус пользователя в системе</li>
+                        <li><kbd>phone</kbd> - телефон пользователя</li>
+                        <li><kbd>organization</kbd> - организация/компания пользователя</li>
+                        <li><kbd>position</kbd> - должность пользователя</li>
+                        <li><kbd>country</kbd> - страна пользователя</li>
+                        <li><kbd>town</kbd> - город пользователя</li>
+                        <li><kbd>sex</kbd> - пол пользователя</li>
+                        <li><kbd>birth</kbd> - дата рождения пользователя в iso формате</li>
+                        <li><kbd>bio</kbd> - дополнительное описание пользователя</li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>пользователь с таким <code>id</code> не найден</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/events/[role]</kbd><code> - [GET] - </code>LOGIN+RIGHTS REQUIRED
+                </div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение данных о мероприятиях пользователя по ролям (от новых к поздним).</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id пользователя из url</li>
+                        <li><kbd>[role]</kbd> - роль пользователя в мероприятии из url -
+                            <code>creator</code>/<code>manager</code>/<code>presenter</code>/<code>viewer</code></li>
+                        <li>Опционально позволяет использовать query string для выборки из всех элементов в виде
+                            <kbd>?offset=value&size=value</kbd>, где</li>
+                        <ul>
+                            <li><kbd>offset</kbd> - начальный элемент выборки, не меньше 0</li>
+                            <li><kbd>size</kbd> - количество элементов в выборке, больше 2</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>id</kbd> - id мероприятия</li>
+                        <li><kbd>name</kbd> - название мероприятия</li>
+                        <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные параметры query string</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>пользователь с таким <code>id</code> не найден</li>
+                    <li><code>422 - </code>некорректные данные или роль</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="restapi_events">
+            <div class="w-100">
+                <h2 class="mb-5">Events</h2>
+                <p>Ручки, связанные с мероприятиями.</p>
+                <p>Все ручки данной категории имеют префикс <code>/event</code> (т.е. первая ручка <code>/</code>
+                    является <code>/event/</code>).</p>
+
+                <div class="text-warning"><kbd>/</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Создание мероприятия.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>name</kbd> - название мероприятия</li>
+                        <li><kbd>sm_description</kbd> - краткое описание мероприятия</li>
+                        <li><kbd>description</kbd> - полное описание мероприятия</li>
+                        <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                        <li><kbd>end_date</kbd> - дата окончания мероприятия в iso формате (ключ может отсутствовать,
+                            если мероприятие проводится один день)</li>
+                        <li><kbd>start_time</kbd> - время начала мероприятия в iso формате (может остуствовать, если
+                            мероприятие проводится несколько дней)</li>
+                        <li><kbd>location</kbd> - место проведения мероприятия</li>
+                        <li><kbd>site_link</kbd> - ссылка на собственный сайт мероприятия</li>
+                        <li><kbd>additional_info</kbd> - дополнительная информация мероприятия</li>
+                    </ul>
+                    <li><code>201 CREATED</code></li>
+                    <ul>
+                        <li><kbd>description</kbd> - id созданного мероприятия</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>некорректные данные (скорее всего даты и время)</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]</kbd><code> - [PUT] - </code>LOGIN+RIGHTS REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Изменение данных о мероприятии.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприяния из url</li>
+                        <li><code>JSON</code></li>
+                        <ul>
+                            <li>Все поля опциональны и должны быть из списка ниже</li>
+                            <li><kbd>name</kbd> - название мероприятия</li>
+                            <li><kbd>sm_description</kbd> - краткое описание мероприятия</li>
+                            <li><kbd>description</kbd> - полное описание мероприятия</li>
+                            <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                            <li><kbd>end_date</kbd> - дата окончания мероприятия в iso формате (ключ может
+                                отсутствовать, если мероприятие проводится один день)</li>
+                            <li><kbd>start_time</kbd> - время начала мероприятия в iso формате (может остуствовать)</li>
+                            <li><kbd>location</kbd> - место проведения мероприятия</li>
+                            <li><kbd>site_link</kbd> - ссылка на собственный сайт мероприятия</li>
+                            <li><kbd>additional_info</kbd> - дополнительная информация мероприятия</li>
+                            <li><kbd>guests_info</kbd> - информация для гостей</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение информации о мероприятии.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприяния из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>part</kbd> - тип учатия в мероприятии (создатель, мэнэджер, докладчик и т.д.)</li>
+                        <li><kbd>event</kbd> - данные по мероприятию</li>
+                        <ul>
+                            <li><kbd>creator_email</kbd> - почта создателя мероприятия</li>
+                            <li><kbd>phone</kbd> - телефон создателя мероприятия</li>
+                            <li><kbd>name</kbd> - название мероприятия</li>
+                            <li><kbd>sm_description</kbd> - краткое описание мероприятия</li>
+                            <li><kbd>description</kbd> - полное описание мероприятия</li>
+                            <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                            <li><kbd>end_date</kbd> - дата окончания мероприятия в iso формате</li>
+                            <li><kbd>start_time</kbd> - время начала мероприятия в iso формате</li>
+                            <li><kbd>location</kbd> - место проведения мероприятия</li>
+                            <li><kbd>site_link</kbd> - ссылка на собственный сайт мероприятия</li>
+                            <li><kbd>additional_info</kbd> - дополнительная информация мероприятия</li>
+                        </ul>
+                    </ul>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/delete</kbd><code> - [GET] - </code>LOGIN+RIGHTS REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Удаление мероприятия.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприяния из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>нет прав на выполнение</li>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                    <li><code>409 - </code>мероприятие уже имеет удалено</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/all</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение списка мероприятий (от новых к поздним).</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li>Опционально позволяет использовать query string для выборки из всех элементов в виде
+                            <kbd>?offset=value&size=value</kbd>, где</li>
+                        <ul>
+                            <li><kbd>offset</kbd> - начальный элемент выборки, не меньше 0</li>
+                            <li><kbd>size</kbd> - количество элементов в выборке, больше 2</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>id</kbd> - id мероприятия</li>
+                        <li><kbd>name</kbd> - название мероприятия</li>
+                        <li><kbd>sm_description</kbd> - краткое описание мероприятия</li>
+                        <li><kbd>start_date</kbd> - дата начала мероприятия в iso формате</li>
+                        <li><kbd>end_date</kbd> - дата окончания мероприятия в iso формате</li>
+                        <li><kbd>start_time</kbd> - время начала мероприятия в iso формате</li>
+                        <li><kbd>location</kbd> - место проведения мероприятия</li>
+                        <li><kbd>site_link</kbd> - ссылка на собственный сайт мероприятия</li>
+                    </ul>
+                    <li><code>400 - </code>некорректные параметры query string</li>
+                    <li><code>422 - </code>некорректные данные</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/join</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Запись на мероприятие.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприяния из url</li>
+                        <li><code>JSON</code></li>
+                        <ul>
+                            <li><kbd>role</kbd> - роль участия (<code>presenter</code>/<code>viewer</code>)</li>
+                            <li>Если <code>presenter</code> то также</li>
+                            <li><kbd>report</kbd> - доклад</li>
+                            <li><kbd>presenter_description</kbd> - описание докладчика</li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>400 - </code>некорректные ключи json</li>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                    <li><code>409 - </code>пользователь уже является частью мероприятия как [role]</li>
+                    <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+                    <li><code>422 - </code>некорректные данные</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/presenters</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получение списка докладчиков мероприятия.</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприяния из url</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>name</kbd> - имя докладчика</li>
+                        <li><kbd>surname</kbd> - фамилия докладчика</li>
+                        <li><kbd>report</kbd> - доклад</li>
+                        <li><kbd>presenter_description</kbd> - описание докладчика</li>
+                    </ul>
+                    <li><code>404 - </code>мероприятие с таким <code>id</code> не найдено</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="restapi_reports">
+            <div class="w-100">
+                <h2 class="mb-5">Reports</h2>
+                <p>Ручки, связанные с докладами.</p>
+                <p>Все ручки данной категории имеют префикс <code>/event</code> (т.е. первая ручка <code>/</code>
+                    является <code>/event/</code>).</p>
+
+                <div class="text-warning"><kbd>/[id]/report</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Загрузка доклада на мероприятие</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                        <li><code>multipart-form-data</code></li>
+                        <ul>
+                            <li><kbd>file</kbd> - файл с докладом (<code>pdf</code>, <code>word/x</code>,
+                                <code>ppt/x</code>) </li>
+                        </ul>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>401 - </code>не залогинен</li>
+                    <li><code>403 - </code>отсутсвует файл</li>
+                    <li><code>404 - </code>мероприятие не найдено</li>
+                    <li><code>413 - </code>размер файла превышает допустимый</li>
+                    <li><code>415 - </code>неподдерживаемый формат файла</li>
+                    <li><code>424 - </code>пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/report/all</kbd><code> - [GET] - </code>LOGIN REQUIRED + RIGHTS REQUIRED
+                </div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получает список всех загруженных докладов для всех мероприятий, доступна</li>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>event_id</kbd> - id мероприятия</li>
+                        <li><kbd>user_id</kbd> - id ползьвателя (докладчика)</li>
+                        <li><kbd>report_id</kbd> - id доклада</li>
+                        <li><kbd>name</kbd> - имя файла доклада</li>
+                        <li><kbd>last_update</kbd> - дата последнего изменения</li>
+                        <li><kbd>status</kbd> - статус доклада</li>
+                    </ul>
+                </ul>
+
+                <div class="text-warning"><kbd>/report/[id]</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получить файл доклада по id</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id доклада</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>filename</kbd> - файл доклада как attachment</li>
+                    </ul>
+                    <li><code>404 - </code> доклад с заданным id не найден</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/report</kbd><code> - [GET]</code> LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получить файл доклада текущего пользователя для заданного мероприятия</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>filename</kbd> - файл доклада как attachment</li>
+                    </ul>
+                    <li><code>404 - </code> мероприятие с заданным id не найден или пользователь не загружал доклад</li>
+                    <li><code>424 - </code> пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/report/info</kbd><code> - [GET]</code> LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получить информацию о докладе текущего пользователя на заданное мероприятие</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                    </ul>
+                    <li><code>200 OK - JSON</code></li>
+                    <ul>
+                        <li><kbd>report_id</kbd> - id доклада</li>
+                        <li><kbd>report_name</kbd> - имя файла с докладом</li>
+                        <li><kbd>last_updated</kbd> - дата последнего изменения</li>
+                        <li><kbd>status</kbd> - статус доклада</li>
+                    </ul>
+                    <li><code>404 - </code> мероприятие с заданным id не найден или пользователь не загружал доклад</li>
+                    <li><code>424 - </code> пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/report/all</kbd><code> - [GET]</code></div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получить информацию о всех докладах на заданном мероприятии, возвращает толкьо одобренные
+                        доклады</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                    </ul>
+                    <li><code>200 OK - JSON</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>report_id</kbd> - id доклада</li>
+                        <li><kbd>report_name</kbd> - имя файла с докладом</li>
+                        <li><kbd>last_updated</kbd> - дата последнего изменения</li>
+                    </ul>
+                    <li><code>404 - </code> мероприятие с заданным id не найден или пользователь не загружал доклад</li>
+                    <li><code>424 - </code> пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/report/all</kbd><code> - [GET]</code> LOGIN REQUIRED + RIGHTS
+                    REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Получить информацию о всех докладах на заданном мероприятии, возвращает все доклады, доступна
+                        только админам</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                    </ul>
+                    <li><code>200 OK - JSON</code></li>
+                    <ul>
+                        <li>Список</li>
+                        <li><kbd>report_id</kbd> - id доклада</li>
+                        <li><kbd>report_name</kbd> - имя файла с докладом</li>
+                        <li><kbd>last_updated</kbd> - дата последнего изменения</li>
+                        <li><kbd>status</kbd> - статус доклада</li>
+                    </ul>
+                    <li><code>404 - </code> мероприятие с заданным id не найден или пользователь не загружал доклад</li>
+                    <li><code>424 - </code> пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/[id]/report</kbd><code> - [DELETT]</code> LOGIN REQUIRED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Удалить доклад текущего пользователя для конкретного мероприятия</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id мероприятия</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>404 - </code> мероприятие с заданным id не найден или пользователь не загружал доклад</li>
+                    <li><code>424 - </code> пользователь не присоеденился к мероприятию</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/report/[id]/approve</kbd><code> - [DELETT]</code> LOGIN + RIGHTS
+                    REQUIERED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Одобрить доклад с заданным id</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id доклада</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>404 - </code> доклад с заданным id не найден</li>
+                </ul>
+
+                <div class="text-warning"><kbd>/report/[id]/decline</kbd><code> - [DELETT]</code> LOGIN + RIGHTS
+                    REQUIERED</div>
+                <ul class="list-group-flush" style="list-style-type:none;">
+                    <li>Отклонить доклад с заданным id</li>
+                    <li><code>Принимает</code></li>
+                    <ul>
+                        <li><kbd>[id]</kbd> - id доклада</li>
+                    </ul>
+                    <li><code>200 OK</code></li>
+                    <ul>
+                        <li><kbd>description</kbd></li>
+                    </ul>
+                    <li><code>404 - </code> доклад с заданным id не найден</li>
+                </ul>
+
+                <!-- <div class="text-warning"><kbd>/change_password</kbd><code> - [POST] - </code>LOGIN REQUIRED</div>
+        <ul class="list-group-flush" style="list-style-type:none;">
+          <li>Смена пароля.</li>
+          <li><code>Принимает</code></li>
+          <ul>
+            <li><kbd>old_password</kbd> - старый пароль</li>
+            <li><kbd>new_password</kbd> - новый пароль</li>
+          </ul>
+          <li><code>200 OK</code></li>
+          <ul>
+            <li><kbd>description</kbd></li>
+          </ul>
+          <li><code>400 - </code>некорректные ключи json</li>
+          <li><code>401 - </code>не залогинен</li>
+          <li><code>415 - </code>прислан не json, или же он составлен неверно</li>
+          <li><code>422 - </code>неверный пароль</li>
+          <li><code>422 - </code>старый пароль совпадает с новым</li>
+        </ul> -->
+
+        </section>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/resume.min.js"></script>
+
+    <script>
+        hljs.highlightBlock(document.getElementById('nginx-config-text'));
+    </script>
+
+</body>
+
+</html>
