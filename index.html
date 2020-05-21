@@ -21,6 +21,13 @@
     <!-- Custom styles for this template -->
     <link href="css/resume.min.css" rel="stylesheet">
 
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/gradient-dark.min.css">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js">
+    </script>
+
 </head>
 
 <body id="page-top">
@@ -55,6 +62,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#setup">setup.sh</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#nginx-config">NGINX</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#usage">Running</a>
@@ -486,6 +496,55 @@
         </section>
 
         <hr class="m-0">
+
+
+        <section
+        id="nginx-config"
+        class="resume-section p-3 p-lg-5 d-flex align-items-center">
+        <div class="w-100">
+            <h2 class="mb-5">Nginx</h2>
+            <pre><code class="nginxconf">
+server {
+
+    # Прокси сервер открывается на стандортном порту для HTTP трафика, но для дополнительной безопасности
+    # включено обязательное шифрование с помощью директивы ssl
+    listen 80 ssl;
+
+    # В качестве переменной server_name необходимо установить домен, на котором будет работать приложение
+    server_name congress-events.ru;
+
+    # Пути, по которым находятся TLS сертификат и приватный ключ от него
+    # - www.congress-events.ru.crt - Файл сертификата
+    # - www.congress-events.ru.key - Приватный ключ сертификата
+    # В качестве примера приведены стандартные пути размещения для сертификатов и ключей в CentOS 7
+    ssl_certificate /etc/pki/tls/certs/www.congress-events.ru.crt;
+    ssl_certificate_key /etc/pki/tls/private/www.congress-events.ru.key;
+
+    # При попытке подключится к HTTPS серверу посредством HTTP возникнет ошибка под номером 497
+    # Данная директива указывает серверу на то, что при возникновении ошибки 497
+    # нобходимо произвести переподключение с использованием протокола HTTPS
+    error_page 497 301 =307 https://$http_host$uri;
+
+    # Настройка проксирования запросов
+    # Директива location / говорит о необходимости перенаправлять все запросы 
+    location / {
+        # Необходимо установить заголовок Host включающий в себя полный запрос,
+        # так как по умолчанию в заголовке Host не учитывается номер порта, на который пришел запрос
+        # что приводит к некорректному формированию редирктов
+        proxy_set_header Host $http_host;
+
+        # Директива proxy_pass устанавливает адрес, на который необходимо перенаправлять запросы
+        proxy_pass https://192.168.255.99:45000/;
+    }
+}
+</code></pre>
+            <p></p>
+        </div>
+    </section>
+
+    <hr class="m-0">
+
+
 
         <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="usage">
             <div class="w-100">
@@ -1297,6 +1356,8 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/resume.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
 
 </body>
 
