@@ -52,8 +52,6 @@ def create_tables(password):
     logging.getLogger(__name__).info(
         'Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created'
     )
-    if cfg.LOG_LEVEL <= 10:
-        add_test_data()
 
 def add_test_data():
     from ..logic import accounts as accounts_logic
@@ -83,8 +81,8 @@ def add_test_data():
             'start_time': datetime.now().time()
         })
 
-    for i in range(14, 16):
-        events_logic.create_event(2, {
+    for i in range(13, 16):
+        events_logic.create_event(3, {
             'name': 'Event {}'.format(i),
             'sm_description': 'Test short description {}'.format(i),
             'description': 'Test description {}'.format(i),

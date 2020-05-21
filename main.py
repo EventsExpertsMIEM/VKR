@@ -24,6 +24,18 @@ for name, logger in logging.root.manager.loggerDict.items():
 
 def main():
 
+    parser = ArgumentParser(description='Events Project service')
+
+    parser.add_argument('--create-tables', action='store_true',
+                        dest='create_tables',
+                        help='Creates data base tables before launch.')
+
+    parser.add_argument('--add-mock-data', action='store_true',
+                        dest='add_data',
+                        help='Fill the database with mock data')
+
+    args = parser.parse_args()
+
     if cfg.LOG_LEVEL <= 10:
         import logging_tree
         logging_tree.printout()
@@ -31,19 +43,13 @@ def main():
         pp = pprint.PrettyPrinter()
         pp.pprint(cfg)
 
-    parser = ArgumentParser(description='Events Project service')
-
-    parser.add_argument('--create-tables', action='store_true',
-                        dest='create_tables',
-                        help='Creates data base tables before launch.')
-
-    args = parser.parse_args()
-
     logging.info('Starting server')
     logging.info('IP: ' + cfg.HOST + '  PORT: ' + str(cfg.PORT))
     if args.create_tables:
         pw = bcrypt.hashpw(str(cfg.SUPER_ADMIN_PASSWORD).encode('utf-8'), bcrypt.gensalt())
         db.create_tables(pw.decode('utf-8'))
+        if args.add_data:
+            db.add_test_data()
         app.run(purge_files=True)
 
     app.run()
