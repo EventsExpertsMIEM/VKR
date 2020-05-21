@@ -83,6 +83,19 @@ def add_test_data():
             'start_time': datetime.now().time()
         })
 
+    for i in range(14, 16):
+        events_logic.create_event(2, {
+            'name': 'Event {}'.format(i),
+            'sm_description': 'Test short description {}'.format(i),
+            'description': 'Test description {}'.format(i),
+            'location': 'Test location {}'.format(i),
+            'site_link': 'http://www.example.com/{}'.format(i),
+            'additional_info': 'Additional info {}'.format(i),
+            'start_date': datetime.today(),
+            'end_date': datetime.today() + timedelta(days=10),
+            'start_time': datetime.now().time()
+        })
+
     for i in range(1,13):
         events_logic.join_event((i + 1) % 4 + 1, i, {
             'role': 'viewer'
