@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'click',
         () => {
             var data = {}
-            if (checkbox.checked = true) {
+            if (checkbox.checked == true) {
                 data = {
                     role: 'presenter'
                 }
@@ -30,31 +30,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             ).then(
                 response => {
-                    console.log(response) // TODO: Error handling
                     if (response.status < 200 || response.status >= 300) {
-                        button.disabled = true
-                        response.json().then(
-                            data => {
-                                button.textContent = data['error']
-                                setTimeout(
-                                    () => {
-                                        button.disabled = false
-                                        button.textContent = 'Отправить'
-                                    },
-                                    750
-                                )
-                            }
+                        return response.json().then(
+                            data => Promise.reject(
+                                {
+                                    code: response.status,
+                                    message: data['error']
+                                }
+                            )
                         )
-                        return
                     }
-                    response.json().then(
-                        data => {
-                            window.location.href = `/event/${event_id}` // перенаправление на страницу
-                        }
+                    return response.json()
+                }
+            ).then(
+                data => {
+                    button.textContent = data['description']
+                    setTimeout(
+                        () => {
+                            button.disabled = false
+                            button.textContent = 'Отправить'
+                            $(document.getElementById('join_event_modal'))
+                                .modal('hide')
+                        },
+                        750
                     )
                 }
             ).catch(
-                e => console.log(e) // TODO: Error handling
+                error => {
+                    button.textContent = error.message
+                    setTimeout(
+                        () => {
+                            button.disabled = false
+                            button.textContent = 'Отправить'
+                        },
+                        750
+                    )
+                }
             )
         }
     )

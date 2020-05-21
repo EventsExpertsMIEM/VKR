@@ -37,7 +37,7 @@
 	    {% if current_user.is_authenticated %}
 	    <button type="button" class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#join_event_modal">Регистрация для участников</button>
 	    {% else %}
-	    <a class="btn btn-outline-primary mb-2" href="/login" role="button">Регистрация для участников</a>
+	    <a class="btn btn-outline-primary mb-2" href="/login?next=/event/{{ event.id }}" role="button">Регистрация для участников</a>
 	    {% endif %}
 	</div>
 </div>
