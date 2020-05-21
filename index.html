@@ -23,7 +23,7 @@
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/gradient-dark.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-dark.min.css">
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js">
     </script>
@@ -503,7 +503,7 @@
         class="resume-section p-3 p-lg-5 d-flex align-items-center">
         <div class="w-100">
             <h2 class="mb-5">Nginx</h2>
-            <pre><code class="nginxconf">
+            <pre><code class="nginxconf" id="nginx-config-text">
 server {
 
     # Прокси сервер открывается на стандортном порту для HTTP трафика, но для дополнительной безопасности
@@ -1357,7 +1357,9 @@ server {
     <!-- Custom scripts for this template -->
     <script src="js/resume.min.js"></script>
 
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+        hljs.highlightBlock(document.getElementById('nginx-config-text'));
+    </script>
 
 </body>
 
