@@ -48,6 +48,7 @@ def create_tables(password):
             account_type='standart'
         )
         s.add(root)
+    cfg.SUPER_ADMIN_PASSWORD = ""
     logging.getLogger(__name__).info(
         'Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created'
     )
@@ -60,16 +61,17 @@ def add_test_data():
     from datetime import datetime, timedelta
 
     logging.getLogger(__name__).info('Filling database with test data')
-    for i in range(1,5):
+
+    for i in range(1,4):
         accounts_logic.register_user(
             email='test{}@test'.format(i),
             password='123',
             name='User{}'.format(i),
             surname='Surname{}'.format(i),
         )
-    
-    for i in range(1,5):
-        events_logic.create_event(i, {
+
+    for i in range(1,13):
+        events_logic.create_event(i % 4 + 1, {
             'name': 'Event {}'.format(i),
             'sm_description': 'Test short description {}'.format(i),
             'description': 'Test description {}'.format(i),
@@ -79,4 +81,12 @@ def add_test_data():
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
             'start_time': datetime.now().time()
+        })
+
+    for i in range(1,13):
+        events_logic.join_event((i + 1) % 4 + 1, i, {
+            'role': 'viewer'
+        })
+        events_logic.join_event((i + 2) % 4 + 1, i, {
+            'role': 'presenter'
         })
