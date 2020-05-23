@@ -1,0 +1,176 @@
+<div
+    id="events-part-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-events-part-tab">
+    {% if events['viewer'] == [] %}
+        <p class="ml-3">Вы пока не участвуете ни в одном мероприятии</p>
+    {% else %}
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Дата начала</th>
+                    <th scope="col">Дата окончания</th>
+                    <th scope="col">Место проведения</th>
+                    <th scope="col">Статус мероприятия</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            {% for event in events['viewer'] %}
+            <tr>
+                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                <td>{{ event.start_date }}</td>
+                <td>{{ event.end_date }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.status }}</td>
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger leave-event-button"
+                        data-toggle="modal"
+                        data-target="#leave_event_modal"
+                        data-id="{{ event.id }}"
+                    >
+                        Отказаться от участия
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+<div
+    id="events-lect-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-events-lect-tab">
+    {% if events['presenter'] == [] %}
+        <p class="ml-3">
+            Вы пока не участвуете ни в одном мероприятии в качестве докладчика
+        </p>
+    {% else %}
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Дата начала</th>
+                    <th scope="col">Дата окончания</th>
+                    <th scope="col">Место проведения</th>
+                    <th scope="col">Статус мероприятия</th>
+                    <th scope="col">Статус доклада</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            {% for event in events['presenter'] %}
+            <tr>
+                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                <td>{{ event.start_date }}</td>
+                <td>{{ event.end_date }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.status }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button
+                            id="event_report_button_{{ event.id }}"
+                            type="button"
+                            class="btn btn-outline-primary upload-report-button"
+                            data-toggle="modal"
+                            data-target="#upload_report_modal"
+                            data-id="{{ event.id }}"
+                            data-report-id="{{ event.report.id }}"
+                            data-report-status="{{ event.report.report_status }}"
+                            data-report-filename="{{ event.report.filename }}"
+                            data-presenter-description="{{ event.report.presenter_description }}"
+                            data-report-description="{{ event.report.report_description }}"
+                        >
+                            Загрузить файл доклада
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger leave-event-button"
+                            data-toggle="modal"
+                            data-target="#leave_event_modal"
+                            data-id="{{ event.id }}"
+                        >
+                            Отказаться от участия
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            {% include 'fragments/profile/upload_report.html' %}
+
+        </table>
+    {% endif %}
+</div>
+<div
+    id="events-org-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-events-org-tab">
+    {% if events['creator'] == [] %}
+        <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
+    {% else %}
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Дата начала</th>
+                    <th scope="col">Дата окончания</th>
+                    <th scope="col">Место проведения</th>
+                    <th scope="col">Статус мероприятия</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            {% for event in events['creator'] %}
+            <tr>
+                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                <td>{{ event.start_date }}</td>
+                <td>{{ event.end_date }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.status }}</td>
+                <td>
+                    <a href="" data-id="{{ event.id }}">
+                        Управление мероприятием
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+{% if events['manager'] != [] %}
+<div
+    id="events-manager-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-manager-org-tab">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Место проведения</th>
+                <th scope="col">Статус мероприятия</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        {% for event in events['manager'] %}
+        <tr>
+            <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
+            <td>{{ event.start_date }}</td>
+            <td>{{ event.end_date }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.status }}</td>
+            <td>
+                <a href="" data-id="{{ event.id }}">Управление мероприятием </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}

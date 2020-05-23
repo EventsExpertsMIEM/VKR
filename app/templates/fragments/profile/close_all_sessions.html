@@ -1,0 +1,25 @@
+<div class="modal" tabindex="-1" role="dialog" id="close_all_sessions_modal" aria-labelledby="close_all_sessions_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="close_all_sessions_modal_label">Завершить все сессии</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p>Введите пароль, чтобы подтвердить завершение всех сессий, кроме текущей:</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control custom_border" id="close_all_sessions_password" type="password" value='' placeholder="Текущий пароль" />
+                </div>
+                <div class="form-group text-center">
+                    <button type="button" id="btn_CAS" class="btn btn-primary border-secondary btn-user btn-block custom_border">Завершить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/profile/security/close_all_sessions.js"></script>

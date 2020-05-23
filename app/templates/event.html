@@ -1,0 +1,56 @@
+{% extends "/blank.html" %}
+
+{% block title %}
+<title>Events</title>
+{% endblock %}
+
+{% block page%}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">{{event.name}}</h1>
+<p>{{event.sm_description}}</p>
+<div class="row d-flex align-items-center">
+	<div class="col-lg-3 col-md-6 col-sm-6">
+		<h4>Даты проведения:</h4>
+	  	<p>{{event.start_date}} - {{event.end_date}}</p>
+	  	<h4>Время начала:</h4>
+	  	<p>{{event.start_time}}</p>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6">
+	  <h4>Место проведения:</h4>
+	  <p>{{event.location}}</p>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6">
+	  <center>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	    <a href="#" class="badge badge-primary">HARDCODED</a>
+	  </center>
+	</div>
+	<div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center">
+	    <a href="{{event.site_link}}" class="btn btn-primary mb-2">Сайт мероприятия</a>
+	    {% if current_user.is_authenticated %}
+	    <button type="button" class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#join_event_modal">Регистрация для участников</button>
+	    {% else %}
+	    <a class="btn btn-outline-primary mb-2" href="/login?next=/event/{{ event.id }}" role="button">Регистрация для участников</a>
+	    {% endif %}
+	</div>
+</div>
+<p>{{event.description}}</p>
+<h4>Дополнительная информация:</h4>
+<p>{{event.additional_info}}</p>
+{% endblock %}
+
+{% block extra_modals%}
+
+{% include 'fragments/events/join_event.html' %}
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

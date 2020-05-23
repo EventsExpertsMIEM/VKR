@@ -1,4 +1,5 @@
-from schema import Schema, Use, And, Optional, Hook, SchemaForbiddenKeyError
+from schema import (Schema, Use, And, Optional, Hook,
+                    SchemaForbiddenKeyError, Regex)
 from datetime import date, time
 
 class Forbidden(Hook):
@@ -126,18 +127,7 @@ event_join = Schema(
             Use(str),
             lambda x: x in ('presenter', 'viewer'),
             error='Invalid role'
-        ),
-        Optional('presenter_description'): Use(str),
-        Optional('report_description'): Use(str)
-    },
-    ignore_extra_keys=True
-)
-
-event_join_presenter = Schema(
-    {
-        'role': 'presenter',
-        'presenter_description': Use(str),
-        'report_description': Use(str),
+        )
     },
     ignore_extra_keys=True
 )
@@ -153,8 +143,8 @@ user_update = Schema(
                     error=service_field_error): object,
         Forbidden('cookie_id', error=service_field_error): object,
         Forbidden('email', error='Cannot change email!'): object,
-        Optional('name'): And(str, lambda x: x != ""),
-        Optional('surname'): And(str, lambda x: x != ""),
+        Optional('name'): And(Use(str), lambda x: x != ""),
+        Optional('surname'): And(Use(str), lambda x: x != ""),
         Forbidden('password', error='Cannot update password!'): object,
         Forbidden('account_type',
                     error=service_field_error): object,
@@ -164,7 +154,12 @@ user_update = Schema(
                     error=service_field_error): object,
         Forbidden('disable_date',
                     error=service_field_error): object,
-        Optional('phone'): Use(empty_str_to_none),
+        Optional('phone'): And(
+                            Use(empty_str_to_none),
+                            Regex(
+                                r'^[0-9]{1,15}$',
+                                error="Phone number must be digits")
+                            ),
         Optional('organization'):  Use(empty_str_to_none),
         Optional('position'):  Use(empty_str_to_none),
         Optional('country'):  Use(empty_str_to_none),
@@ -173,6 +168,14 @@ user_update = Schema(
         Optional('sex'):  Use(empty_str_to_none),
         Optional('bio'):  Use(empty_str_to_none)
     }
+)
+
+report_info = Schema(
+    {
+        Optional('presenter_description'): Use(str),
+        Optional('report_description'): Use(str)
+    },
+    ignore_extra_keys=True
 )
 
 education = Schema(

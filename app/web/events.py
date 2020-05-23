@@ -24,7 +24,7 @@ def home():
 @login_required
 def create_event():
     return render_template(
-        '/_create_event.html',
+        '/create_event.html',
         current_user=current_user,
     )
 
@@ -33,7 +33,7 @@ def create_event():
 def event(e_id):
     event = events_logic.get_event_info(e_id)
     return render_template(
-        '/_event.html',
+        '/event.html',
         event=event,
         current_user=current_user,
     )

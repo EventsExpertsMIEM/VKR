@@ -1,0 +1,65 @@
+<!-- upload report Modal -->
+<div
+    id="upload_report_modal"
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="upload_report_modal_label"
+    aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="upload_report_modal_label">
+            Загрузка доклада
+        </h5>
+        <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="upload_report_file">
+                Для участвия в мероприятии в качестве спикера зарузите файл доклада:
+            </label>
+            <div id="uploaded_file"></div>
+            <input
+                id="upload_report_file"
+                type="file"
+                class="form-control-file">
+		</div>
+		<div class="form-group report-info">
+			<label for="report_description">Описание доклада:</label>
+            <textarea
+                id="report_description"
+                class="form-control"
+                rows="3"
+                maxlength="200">
+            </textarea>
+		</div>
+		<div class="form-group report-info">
+			<label for="speaker_description">Описание спикера:</label>
+            <textarea
+                id="speaker_description"
+                class="form-control"
+                rows="3"
+                maxlength="200">
+            </textarea>
+		</div>
+      </div>
+      <div class="modal-footer">
+          <button id="save_report_info_button" class="report-info">
+              Save
+          </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script src="/static/js/profile/upload_report.js"></script>
+{% endblock %}

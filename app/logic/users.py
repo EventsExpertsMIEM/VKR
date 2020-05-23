@@ -12,7 +12,6 @@ import requests
 import os
 import nanoid
 
-
 # NEW
 
 def get_user_info(u_id):
@@ -48,13 +47,31 @@ def get_user_events_by_role(u_id, role, offset, size):
         if not user:
             abort(404, 'No user with this id')
 
-        events = s.query(Participation, Event).filter(
-                Participation.e_id == Event.id,
-                Participation.u_id == u_id,
-                Participation.participation_role == role
-        ).order_by(desc(Event.start_date))
+        events = None
 
-        if offset and size:
+        if role == 'presenter':
+            events = s.query(
+                Participation,
+                Event,
+                Report
+            ).join(
+                Event,
+                Event.id == Participation.e_id
+            ).outerjoin(
+                Report,
+                Report.event_id == Event.id
+            ).filter(
+                    Participation.u_id == u_id,
+                    Participation.participation_role == role
+            ).order_by(desc(Event.start_date))
+        else:
+            events = s.query(Participation, Event).filter(
+                    Participation.e_id == Event.id,
+                    Participation.u_id == u_id,
+                    Participation.participation_role == role
+            ).order_by(desc(Event.start_date))
+
+        if offset is not None and size is not None:
             offset = int(offset)
             size = int(size)
             if offset < 0 or size < 1:
@@ -65,13 +82,38 @@ def get_user_events_by_role(u_id, role, offset, size):
         else:
             abort(400, 'Wrong query string arg')
 
-        for participant, event in events:
-            result.append({
-                'id': event.id,
-                'name': event.name,
-                'status': event.status,
-                'start_date': event.start_date.isoformat()
-            })
+        if role == 'presenter':
+            for participant, event, report in events:
+                report_dict = None
+                if report is not None:
+                    report_dict = {
+                        'id': report.id,
+                        'filename': report.original_filename,
+                        'uploaded_at': report.uploaded_at,
+                        'last_updated': report.last_updated,
+                        'presenter_description': report.presenter_description,
+                        'report_description': report.report_description,
+                        'report_status': report.report_status
+                    }
+                result.append({
+                    'id': event.id,
+                    'name': event.name,
+                    'status': event.status,
+                    'start_date': event.start_date.isoformat(),
+                    'end_date': event.end_date.isoformat(),
+                    'location': event.location,
+                    'report': report_dict
+                })
+        else:
+            for participant, event in events:
+                result.append({
+                    'id': event.id,
+                    'name': event.name,
+                    'status': event.status,
+                    'start_date': event.start_date.isoformat(),
+                    'end_date': event.end_date.isoformat(),
+                    'location': event.location
+                })
     return result
 
 
@@ -82,27 +124,10 @@ def update_profile(u_id, data):
                 User.status == 'active',
         ).one_or_none()
 
-
         if not user:
             abort(404, 'No user with this id')
         for arg in data.keys():
-            getattr(user, arg)
-            if arg in ['email', 'password', 'id', 'status', 'confirmation_link', 'cookie_id', 'service_status', 'registration_date', 'disable_date']:
-                abort(400, "Can't change this field(s)")
-            if arg == 'birth':
-                if data[arg] == "":
-                    setattr(user, arg, None)
-                else:
-                    birth = data[arg].split('-')
-                    birth_date = date(int(birth[0]), int(birth[1]), int(birth[2]))
-                    setattr(user, arg, birth_date)
-            else:
-                if (arg == 'name' and data[arg] == "") or (arg == 'surname' and data[arg] == ""):
-                    abort(422, "Wrong data")
-                if data[arg] == "":
-                    setattr(user, arg, None)
-                else:
-                    setattr(user, arg, data[arg])
+            setattr(user, arg, data[arg])
 
 
 # админка

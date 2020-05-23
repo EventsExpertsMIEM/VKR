@@ -3,15 +3,17 @@ from .config import cfg
 
 from .web import (accounts as accounts_web,
                   events as events_web,
-                  users as users_web,
-                  tests as tests_web)
+                  users as users_web
+                  )
 from .api import (accounts as accounts_api,
                   events as events_api,
                   users as users_api,
-                  tasks as tasks_api,
-                  education as education_api)
+                  reports as reports_api,
+                  education as education_api,
+                  tasks as tasks_api)
 
 from .errors import add_error_handlers, on_json_loading_failed
+from .logic.file_storage import FileManager
 
 from flask import Flask, Request
 from flask_login import LoginManager
@@ -23,6 +25,7 @@ import logging
 import logging.config
 import sys
 
+monkey.patch_all(ssl=cfg.SSL_ENABLED)
 
 app = Flask(__name__)
 app.config.update(
@@ -41,13 +44,12 @@ app.register_blueprint(accounts_web.bp)
 app.register_blueprint(events_web.bp)
 app.register_blueprint(users_web.bp)
 
-app.register_blueprint(tests_web.bp)
-
 app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
 app.register_blueprint(users_api.bp, url_prefix='/api/user')
 app.register_blueprint(tasks_api.bp, url_prefix='/api/event')
 app.register_blueprint(education_api.bp, url_prefix='/api/edu')
+app.register_blueprint(reports_api.bp, url_prefix='/api/event')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed
@@ -58,21 +60,39 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.user_loader(user_loader)
 
+reports_file_manager = FileManager()
+reports_file_manager.set_file_set('REPORTS')
+reports_file_manager.init_app(app)
+# avatars_file_manager = FileManager(app, 'AVATARS')
 
-def run():
-    monkey.patch_all(ssl=False)
+def run(purge_files=False):
+    if purge_files:
+        logging.debug('Purging files')
+        reports_file_manager.purge()
     logger = None
     if cfg.DISABLE_EXISTING_LOGGERS is False:
         logger = logging.getLogger('gevent')
     if cfg.LOGGING['loggers']['gevent'] is not None:
         logger = logging.getLogger('gevent')
-    http_server = WSGIServer(
-        (cfg.HOST, cfg.PORT),
-        app,
-        # log = logger,
-        error_log = logger
-    )
+    if cfg.SSL_ENABLED:
+        logging.debug('SSL enabled\n\tCertfile: {}\n\tKeyfile: {}'.format(
+            cfg.SSL_CERT, cfg.SSL_KEY
+        ))
+        http_server = WSGIServer(
+            (cfg.HOST, cfg.PORT),
+            app,
+            log = logger,
+            error_log = logger,
+            certfile=cfg.SSL_CERT,
+            keyfile=cfg.SSL_KEY
+        )
+    else:
+        logging.debug('SSL disabled')
+        http_server = WSGIServer(
+            (cfg.HOST, cfg.PORT),
+            app,
+            # log = logger,
+            error_log = logger
+        )
     logging.info('Started server')
-    # from logging_tree import printout
-    # printout()
     http_server.serve_forever()

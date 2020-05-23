@@ -10,7 +10,8 @@ from ..mails import send_500_email
 
 def web_401(e):
     logging.warning('401 - [{}]'.format(e))
-    return redirect(url_for('accounts_web.login'))
+    response = redirect(url_for('accounts_web.login', next=request.path))
+    return response
 
 
 def web_404(e, param):

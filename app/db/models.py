@@ -23,7 +23,6 @@ Task_status = ENUM('todo', 'inprocess', 'waiting', 'done', 'deleted',
                    name='task_status')
 Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
-
 Account_type = ENUM('standart', 'oauth', name='account_type_enum')
 
 
@@ -81,6 +80,19 @@ class Event(Base):
     additional_info = Column(TEXT, nullable=False)
     guests_info = Column(TEXT, nullable=True)
 
+class Report(Base):
+
+    __tablename__ = 'reports'
+
+    id = Column(String, primary_key=True)
+    original_filename = Column(String, nullable=False)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    uploaded_at = Column(DateTime, nullable=False, default=datetime.now)
+    last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
+    presenter_description = Column(TEXT, nullable=True)
+    report_description = Column(TEXT, nullable=True)
+    report_status = Column(Report_status, nullable=True, default='unseen')
 
 class Participation(Base):
     __tablename__ = 'participations'

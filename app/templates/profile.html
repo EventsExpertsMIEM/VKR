@@ -13,21 +13,87 @@
 <div class="row justify-content-center my-auto">
     <div class="col-lg-2">
       <nav class="nav flex-column"> 
-        <a class="nav-link pl-4" id="nav-personal-tab" data-toggle="tab" href="#personal-info-tab" role="tab" aria-controls="personal-info-tab">Инфо</a>
-        <a class="nav-link pl-4" id="nav-education-tab" data-toggle="tab" href="#education-tab" role="tab" aria-controls="education-tab">Образование</a>
-        <a class="nav-link pl-4" id="nav-security-tab" data-toggle="tab" href="#security-tab" role="tab" aria-controls="security-tab">Безопасность</a>
+        <a
+            class="nav-link pl-4"
+            id="nav-personal-tab"
+            data-toggle="tab"
+            href="#personal-info-tab"
+            role="tab"
+            aria-controls="personal-info-tab"
+            data-anchor="info"
+        >
+            Персональная информация
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-education-tab"
+            data-toggle="tab"
+            href="#education-tab"
+            role="tab"
+            aria-controls="education-tab"
+            data-anchor="education"
+        >
+            Образование
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-security-tab"
+            data-toggle="tab"
+            href="#security-tab"
+            role="tab"
+            aria-controls="security-tab"
+            data-anchor="security"
+        >
+            Безопасность
+        </a>
         <hr class="my-0 w-75 text-center">
+
         <p class="text-center my-auto">Мои мероприятия</p>
-        <a class="nav-link pl-4" id="nav-events-part-tab" data-toggle="tab" href="#events-part-tab" role="tab" aria-controls="events-part-tab">Участвую</a>
-        <a class="nav-link pl-4" id="nav-events-lect-tab" data-toggle="tab" href="#events-lect-tab" role="tab" aria-controls="events-lect-tab">Выступаю</a>
-        <a class="nav-link pl-4" id="nav-events-org-tab" data-toggle="tab" href="#events-org-tab" role="tab" aria-controls="events-org-tab">Организую</a>
+
+        <a
+            class="nav-link pl-4"
+            id="nav-events-part-tab"
+            data-toggle="tab"
+            href="#events-part-tab"
+            role="tab"
+            aria-controls="events-part-tab"
+            data-anchor="participation"
+        >
+            Участвую
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-lect-tab"
+            data-toggle="tab"
+            href="#events-lect-tab"
+            role="tab"
+            aria-controls="events-lect-tab"
+            data-anchor="presentations"
+        >
+            Выступаю
+        </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-org-tab"
+            data-toggle="tab"
+            href="#events-org-tab"
+            role="tab"
+            aria-controls="events-org-tab"
+            data-anchor="organisation"
+        >
+            Организую
+        </a>
       </nav>
     </div>
     <div class="col-lg-8">
         <div class="card o-hidden border-0 shadow-sm custom_border">
             <div class="card-body p-1">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active text-center mt-3" id="personal-info-tab" role="tabpanel" aria-labelledby="nav-personal-tab">
+                    <div
+                        id="personal-info-tab"
+                        class="tab-pane fade show active text-center mt-3"
+                        role="tabpanel"
+                        aria-labelledby="nav-personal-tab">
                         <div class="row">
                             <div class="col-lg-4">
                                 <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded">
@@ -49,36 +115,78 @@
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">День рождения:</p>
-                                    <p id="p_birth">{{ current_user.birth }}</p>
+                                    <p id="p_birth">
+                                        {% if current_user.birth != None %}
+                                        {{ current_user.birth }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                     <a href="" data-toggle="modal" data-target="#personal_BSCT_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Пол:</p>
-                                    <p id="p_sex">{{ current_user.sex }}</p>
+                                    <p id="p_sex">
+                                        {% if current_user.sex != None %}
+                                        {{ current_user.sex }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Страна:</p>
-                                    <p id="p_country">{{ current_user.country }}</p>
+                                    <p id="p_country">
+                                        {% if current_user.country != None %}
+                                        {{ current_user.country }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Город:</p>
-                                    <p id="p_town">{{ current_user.town }}</p>
+                                    <p id="p_town">
+                                        {% if current_user.town != None %}
+                                        {{ current_user.town }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Телефон:</p>
-                                    <p id="p_phone">{{ current_user.phone }}</p>
-                                    <a href="" data-toggle="modal" data-target="#personal_T_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
+                                    <p id="p_phone">
+                                        {% if current_user.phone != None %}
+                                        {{ current_user.phone }}
+                                        {% else %}
+                                        Не указан
+                                        {% endif %}
+                                    </p>
+                                    <a href="" data-toggle="modal" data-target="#personal_phone_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Место работы:</p>
-                                    <p id="p_organization">{{ current_user.organization }}</p>
-                                    <a href="" data-toggle="modal" data-target="#personal_OP_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
+                                    <p class="pr-4 font-weight-bold">Организация:</p>
+                                    <p id="p_organization">
+                                        {% if current_user.organization != None %}
+                                        {{ current_user.organization }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
+                                    <a href="" data-toggle="modal" data-target="#organisation_position_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">Должность:</p>
-                                    <p id="p_position">{{ current_user.position }}</p>
+                                    <p id="p_position">
+                                        {% if current_user.position != None %}
+                                        {{ current_user.position }}
+                                        {% else %}
+                                        Не указана
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
@@ -92,45 +200,26 @@
                                 <hr class="pt-0 mt-0">
                                 <div class="text-left d-flex"> 
                                     <p class="pr-4 font-weight-bold">О себе:</p>
-                                    <p id="p_bio">{{ current_user.bio }}</p>
-                                    <a href="" data-toggle="modal" data-target="#personal_B_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
+                                    <p id="p_bio">
+                                        {% if current_user.bio != None %}
+                                        {{ current_user.bio }}
+                                        {% else %}
+                                        Не заполнено
+                                        {% endif %}
+                                    </p>
+                                    <a href="" data-toggle="modal" data-target="#personal_bio_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
                                 </div>
                             </div>
                         </div>          
                     </div>
                     <div class="tab-pane fade mt-3 text-center" id="education-tab" role="tabpanel" aria-labelledby="nav-education-tab">
-                        
+                        <a href="" data-toggle="modal" data-target="#new_edu_modal"><h5>Добавить диплом об образовании</h5></a>
                     </div>
-                    <div class="tab-pane fade mt-3" id="security-tab" role="tabpanel" aria-labelledby="nav-security-tab">
-                        <form class="px-4" id="f_security" oninput='profile_new_password_repeat.setCustomValidity(profile_new_password_repeat.value != profile_new_password.value ? "Пароли не совпадают" : "")'>
-                            <h4>Смена пароля</h4>
-                            <div class="form-group">                  
-                                <input class="form-control custom_border" id="profile_old_password" type="password" value='' placeholder="Текущий пароль" />
-                            </div>
-                            <div class="form-group"> 
-                                <input class="form-control custom_border" id="profile_new_password" type="password" value='' placeholder="Новый пароль"/>
-                            </div>
-                            <div class="form-group"> 
-                                <input class="form-control custom_border" id="profile_new_password_repeat" type="password" value=''placeholder="Новый пароль еще раз"/>
-                            </div>
-                            <div class="row justify-content-md-center">
-                                <div class="col-6 d-flex flex-column justify-content-center">
-                                    <button type="submit" id="btn_change_password" class="btn btn-secondary custom_border mt-1">Сохранить новый пароль</button>
-                                    <button type="button" class="btn btn-primary custom_border mt-1" data-toggle="modal" data-target="#close_all_sessions_modal">Завершить все сессии, кроме текущей</button> 
-                                    <button type="button" class="btn btn-danger custom_border mt-1" data-toggle="modal" data-target="#delete_account_modal">Удалить аккаунт</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane fade mt-3" id="events-part-tab" role="tabpanel" aria-labelledby="nav-events-part-tab">
 
-                    </div>
-                    <div class="tab-pane fade mt-3" id="events-lect-tab" role="tabpanel" aria-labelledby="nav-events-lect-tab">
+                    {% include 'fragments/profile/security.html' %}
 
-                    </div>
-                    <div class="tab-pane fade mt-3" id="events-org-tab" role="tabpanel" aria-labelledby="nav-events-org-tab">
-
-                    </div>
+                    {% include 'fragments/profile/events.html' %}
+                    
                 </div>
             </div>
         </div>
@@ -139,127 +228,29 @@
 {% endblock %}
 
 {% block extra_modals%}
-<div class="modal" tabindex="-1" role="dialog" id="personal_info_modal" aria-labelledby="personal_info_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="personal_info_modal_label">Редактирование персональной информации:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="f_name_surname">
-                    <div class="form-group">
-                        <label for="profile_user_name">Имя:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_name" value="{{ current_user.name }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="profile_user_surname">Фамилия:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_surname" value="{{ current_user.surname }}" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" id="btnsubmit_name_surname" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Сохранить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal" tabindex="-1" role="dialog" id="personal_BSCT_modal" aria-labelledby="personal_BSCT_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="personal_BSCT_modal_label">Редактирование персональной информации:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="f_BSCT">
-                    <div class="form-group">
-                        <label for="profile_user_birth">Дата Рождения:</label>
-                        <input type="text" class="form-control custom_border" id="profile_user_birth" placeholder="yyyy-mm-dd" value="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}" birth_old="{% if current_user.birth != None %}{{ current_user.birth }}{% endif %}">
-                    </div>
-                    <div class="form-group">
-                        <label for="profile_user_sex">Пол:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_sex" value="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}" sex_old="{% if current_user.sex != None %}{{ current_user.sex }}{% endif %}">
-                    </div>
-                    <div class="form-group">
-                        <label for="profile_user_country">Страна:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_country" value="{% if current_user.country != None %}{{ current_user.country }}{% endif %}" country_old="{% if current_user.country != None %}{{ current_user.country }}{% endif %}">
-                    </div>
-                    <div class="form-group">
-                        <label for="profile_user_town">Город:</label>                 
-                        <input type="text" class="form-control custom_border" id="profile_user_town" value="{% if current_user.town != None %}{{ current_user.town }}{% endif %}" town_old="{% if current_user.town != None %}{{ current_user.town }}{% endif %}">
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" id="btnsubmit_BSCT" class="btn btn-secondary border-secondary btn-user btn-block custom_border">Сохранить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'fragments/profile/personal_info.html' %}
 
-<div class="modal" tabindex="-1" role="dialog" id="close_all_sessions_modal" aria-labelledby="close_all_sessions_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="close_all_sessions_modal_label">Завершить все сессии</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="f_close_all_sessions">
-                    <div class="form-group">
-                        <p>Введите пароль, чтобы подтвердить завершение всех сессий, кроме текущей:</p>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control custom_border" id="close_all_sessions_password" type="password" value='' placeholder="Текущий пароль" />
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" id="btnsubmit_CAS" class="btn btn-primary border-secondary btn-user btn-block custom_border">Завершить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'fragments/profile/bsct.html' %}
 
-<div class="modal" tabindex="-1" role="dialog" id="delete_account_modal" aria-labelledby="delete_account_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="delete_account_modal_label">Удалить аккаунт</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="f_delete_account">
-                    <div class="form-group">
-                        <p>Введите пароль, чтобы подтвердить удаление аккаунта:</p>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control custom_border" id="delete_account_password" type="password" value='' placeholder="Текущий пароль" />
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" id="btnsubmit_delete_account" class="btn btn-danger border-secondary btn-user btn-block custom_border">Удалить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'fragments/profile/phone.html' %}
+
+{% include 'fragments/profile/organisation_position.html' %}
+
+{% include 'fragments/profile/bio.html' %}
+
+{% include 'fragments/profile/new_edu_modal.html' %}
+
+{% include 'fragments/profile/close_all_sessions.html' %}
+
+{% include 'fragments/profile/self_delete.html' %}
+
+{% include 'fragments/profile/leave_event.html' %}
+
+{% include 'fragments/profile/upload_report.html' %}
+
 {% endblock %}
 
 {% block extra_js %}
-<script src="/static/js_custom/change_name_surname.js"></script>
-<script src="/static/js_custom/change_BSCT.js"></script>
-<script src="/static/js_custom/change_password.js"></script>
-<script src="/static/js_custom/close_all_sessions.js"></script>
-<script src="/static/js_custom/self_delete.js"></script>
+<script src="/static/js/profile/main.js"></script>
 {% endblock %}

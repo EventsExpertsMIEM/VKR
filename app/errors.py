@@ -14,11 +14,11 @@ def add_error_handlers(app):
     app.register_error_handler(HTTPException, http_error_handler)
 
     # legacy
-    app.register_error_handler(IntegrityError, make_400)
-    app.register_error_handler(KeyError, make_400)
-    app.register_error_handler(AttributeError, make_400)
-    app.register_error_handler(ValueError, make_422)
-    app.register_error_handler(IndexError, make_422)
+    # app.register_error_handler(IntegrityError, make_400)
+    # app.register_error_handler(KeyError, make_400)
+    # app.register_error_handler(AttributeError, make_400)
+    # app.register_error_handler(ValueError, make_422)
+    # app.register_error_handler(IndexError, make_422)
 
 
 def http_error_handler(e):
