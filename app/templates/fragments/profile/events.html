@@ -55,8 +55,6 @@
                 <tr>
                     <th scope="col">Название</th>
                     <th scope="col">Дата начала</th>
-                    <th scope="col">Дата окончания</th>
-                    <th scope="col">Место проведения</th>
                     <th scope="col">Статус мероприятия</th>
                     <th scope="col">Название файла доклада</th>
                     <th scope="col">Статус доклада</th>
@@ -67,8 +65,6 @@
             <tr>
                 <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
                 <td>{{ event.start_date }}</td>
-                <td>{{ event.end_date }}</td>
-                <td>{{ event.location }}</td>
                 <td>{{ event.status }}</td>
                 <td>{{ event.report.filename }}</td>
                 <td>
