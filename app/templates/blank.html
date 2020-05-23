@@ -58,7 +58,7 @@
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Личный кабинет
                             </a>
                             {% if current_user.service_status == 'superadmin' %}
-                                <a class="dropdown-item text-center" href="#">Административная панель</a>
+                                <a class="dropdown-item text-center" href="/admin">Административная панель</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-center" href="/logout">

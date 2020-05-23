@@ -58,7 +58,7 @@
                         role="tabpanel"
                         aria-labelledby="nav-users-tab">
                             <p>TABLE HARCODED</p>
-                            <table>
+                            <table class="table">
                                 <thead class="thead-light">
                                     <tr>
                                         <th scope="col">#</th>
@@ -67,28 +67,30 @@
                                         <th scope="col">Управление</th>
                                     </tr>
                                 </thead>
-                                <tr>
-                                    <td>1</td>
-                                    <td><a href="">admin</a></td>
-                                    <td><select class="form-control" id="userRole">
-                                    <option selected="selected">Администратор</option>
-                                    <option>Менеджер</option>
-                                    <option>Организатор</option>
-                                    <option>Участник</option>
-                                    </select></td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="">iivanov@mail.ru</a></td>
-                                    <td><select class="form-control" id="userRole">
-                                    <option>Администратор</option>
-                                    <option>Менеджер</option>
-                                    <option selected="selected">Организатор</option>
-                                    <option>Участник</option>
-                                    </select></td>
-                                    <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#user_block_modal">Заблокировать</button></td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><a href="">admin</a></td>
+                                        <td><select class="form-control" id="userRole">
+                                        <option selected="selected">Администратор</option>
+                                        <option>Менеджер</option>
+                                        <option>Организатор</option>
+                                        <option>Участник</option>
+                                        </select></td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><a href="">iivanov@mail.ru</a></td>
+                                        <td><select class="form-control" id="userRole">
+                                        <option>Администратор</option>
+                                        <option>Менеджер</option>
+                                        <option selected="selected">Организатор</option>
+                                        <option>Участник</option>
+                                        </select></td>
+                                        <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#user_block_modal">Заблокировать</button></td>
+                                    </tr>
+                                </tbody>
                             </table>
                     </div>
                     <div 
@@ -106,17 +108,18 @@
                                     <th scope="col">Управление</th>
                                   </tr>
                                 </thead>
-
+                                <tbody>
+                                    {% for event in events %}
+                                    <tr>
+                                        <td>{{event.name}}</td>
+                                        <td>{{event.start_date}} - {{event.end_date}}</td>
+                                        <td>{{event.location}}</td>
+                                        <td>Регистрация открыта HARDCODED</td>
+                                        <td><a href="">Управление мероприятием</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
-                            {% for event in events %}
-                            <tr>
-                                <td>{{event.name}}</td>
-                                <td>{{event.start_date}} - {{event.end_date}}</td>
-                                <td>{{event.location}}</td>
-                                <td>Регистрация открыта HARDCODED</td>
-                                <td><a href="">Управление мероприятием</a></td>
-                            </tr>
-                            {% endfor %}
                     </div>
                     <div 
                         id="tags-tab"
