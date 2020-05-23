@@ -10,7 +10,7 @@ def add_error_handlers(app):
     app.register_error_handler(404, not_found_handler)
     app.register_error_handler(405, make_405)
     app.register_error_handler(500, server_error_handler)
-    
+
     app.register_error_handler(HTTPException, http_error_handler)
 
     # legacy
@@ -38,7 +38,10 @@ def unauthorized_handler(e):
 
 def not_found_handler(e):
     if request.path.startswith('/api/'):
-        return make_404(e)
+        if request.path.startswith('/api/edu/') and request.path.endswith('delete'):
+            return make_404(e, "ENF")
+        else:
+            return make_404(e, "NF")
     else:
         if request.path.startswith('/event/'):
             return web_404(e, "ENF")

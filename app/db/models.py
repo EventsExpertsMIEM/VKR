@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, Integer, String, ForeignKey,
-                        DateTime, Date, Time, Boolean, UniqueConstraint)
+                        DateTime, Date, Time, Boolean)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
 from flask_login import UserMixin
@@ -101,7 +101,14 @@ class Participation(Base):
     e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     participation_role = Column(Participation_role, default='viewer',
-                            nullable=False)
+                                nullable=False)
+    report_name = Column(TEXT, nullable=True)
+    report_id = Column(TEXT, nullable=True, unique=True)
+    last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
+    presenter_description = Column(TEXT, nullable=True)
+    report = Column(TEXT, nullable=True)
+    report_description = Column(TEXT, nullable=True)
+    report_status = Column(Report_status, nullable=True)
 
 
 class ETask(Base):
@@ -113,3 +120,19 @@ class ETask(Base):
     description = Column(String, nullable=False)
     deadline = Column(Date, nullable=True)
     status = Column(Task_status, default='todo', nullable=False)
+
+
+class Education(Base):
+    __tablename__ = 'education'
+
+    id = Column(Integer, primary_key=True)
+    country = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    university = Column(String, nullable=True)
+    department = Column(String, nullable=True)
+    program = Column(String, nullable=True)
+    mode = Column(String, nullable=True)
+    status = Column(String, nullable=True)
+    graduation_year = Column(Integer, nullable=True)
+    is_main = Column(Boolean, default=False, nullable=True)
+    u_id = Column(Integer, ForeignKey('users.id'), nullable=True)

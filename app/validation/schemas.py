@@ -177,3 +177,16 @@ report_info = Schema(
     },
     ignore_extra_keys=True
 )
+
+education = Schema(
+    {
+        Optional('country', default=None): Use(str),
+        Optional('city', default=None): Use(str),
+        Optional('university', default=None): Use(str),
+        Optional('department', default=None): Use(str),
+        Optional('program', default=None): Use(str),
+        Optional('mode', default=None): Use(str),
+        Optional('status', default=None): Use(str),
+        Optional('graduation_year', default=None): int
+    }
+)

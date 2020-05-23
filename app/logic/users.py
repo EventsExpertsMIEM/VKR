@@ -135,7 +135,7 @@ def update_profile(u_id, data):
 def get_users(offset, size):
     result = []
     with get_session() as s:
-        users = s.query(User)
+        users = s.query(User).all()
         if offset and size:
             offset = int(offset)
             size = int(size)

@@ -9,6 +9,7 @@ from .api import (accounts as accounts_api,
                   events as events_api,
                   users as users_api,
                   reports as reports_api,
+                  education as education_api,
                   tasks as tasks_api)
 
 from .errors import add_error_handlers, on_json_loading_failed
@@ -47,6 +48,7 @@ app.register_blueprint(accounts_api.bp, url_prefix='/api')
 app.register_blueprint(events_api.bp, url_prefix='/api/event')
 app.register_blueprint(users_api.bp, url_prefix='/api/user')
 app.register_blueprint(tasks_api.bp, url_prefix='/api/event')
+app.register_blueprint(education_api.bp, url_prefix='/api/edu')
 app.register_blueprint(reports_api.bp, url_prefix='/api/event')
 
 add_error_handlers(app)
