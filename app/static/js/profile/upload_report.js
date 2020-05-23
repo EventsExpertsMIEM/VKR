@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
     var fileInput = document.getElementById('upload_report_file')
 
     var button = document.getElementById('save_report_info_button')
@@ -8,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var modal = document.getElementById('upload_report_modal')
 
     var uploadedFile = document.getElementById('uploaded_file')
+
+    if (window.fileInputEventListenerDefined) return //Horrible hack
 
     fileInput.addEventListener('change', () => {
 
@@ -49,7 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ).then(
             body => {
-                modal.dataset.reportId = body['description']
+
+                var reportButton =
+                    document
+                        .getElementById(`event_report_button_${eventId}`)
+                // data-report-id="{{ event.report.id }}"
+                // data-report-status="{{ event.report.report_status }}"
+                // data-report-filename="{{ event.report.filename }}"
+                // data-presenter-description="{{ event.report.presenter_description }}"
+                // data-report-description="{{ event.report.report_description }}"
+
+                var reportId = body['description']
+
+                reportButton.dataset.reportId = reportId
+                reportButton.dataset.reportStatus = 'unseen'
+                reportButton.dataset.reportFilename = file.name
+                reportButton.dataset.presenterDescription=""
+                reportButton.dataset.reportDescription=""
+
+                modal.dataset.reportId = reportId
                 fileInput.style.display = 'none'
                 uploadedFile.textContent =
 `Uploaded file ${file.name}
@@ -74,8 +93,12 @@ Status: unseen`
 
     })
 
+    window.fileInputEventListenerDefined = true
+
     button.addEventListener('click', () => {
-        var reportId = modal.dataset.reportId
+        const reportId = modal.dataset.reportId
+        const eventId = modal.dataset.eventId
+
 
         var data = {
             report_description:
@@ -115,6 +138,16 @@ Status: unseen`
         ).then(
             body => {
                 button.textContent = body['description']
+                var reportButton =
+                document
+                    .getElementById(`event_report_button_${eventId}`)
+                
+                reportButton
+                    .dataset
+                        .presenterDescription = data['presenter_description']
+                reportButton
+                    .dataset
+                        .reportDescription = data['report_description']
                 setTimeout(
                     () => {
                         button.disabled = false
