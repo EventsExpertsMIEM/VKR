@@ -47,5 +47,13 @@ def reset_password():
     if current_user.is_authenticated:
         return redirect(url_for('events_web.home'))
     return render_template(
-        '/_reset_password.html'
+        '/password_recovery.html'
+    )
+
+@bp.route('/reset_password/success')
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('events_web.home'))
+    return render_template(
+        '/password_recovery_successful.html'
     )
