@@ -13,9 +13,6 @@ def _get_db_connection_string():
         return db_connection_string
     return 'postgresql://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}'.format(**os.environ)
 
-def _get_number(env):
-    return int(os.getenv(env))
-
 
 cfg.CSRF_ENABLED = False if os.getenv('DISABLE_CSRF') else True
 cfg.SECRET_KEY = os.getenv('SECRET_KEY', os.urandom(24))
@@ -57,7 +54,15 @@ cfg.MAIL_USERNAME = os.getenv('MAIL_USERNAME')
 cfg.MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 cfg.MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
 
-cfg.MAX_FILE_SIZE = _get_number('MAX_FILE_SIZE') * 1024 * 1024 # Глобальный максимальны размер файла, которы фласк может переварить
+
+__max_file_size = os.getenv('MAX_FILE_SIZE')
+
+if __max_file_size is not None:
+    __max_file_size = int(__max_file_size) * 1024 * 1024
+else:
+    __max_file_size = 100 * 1024 * 1024
+
+cfg.MAX_FILE_SIZE = __max_file_size # Глобальный максимальны размер файла, которы фласк может переварить
 cfg.FILE_UPLOADS = SimpleNamespace()
 cfg.FILE_UPLOADS.PARENT_FOLDER = os.getenv('FILE_UPLOADS_PARENT_FOLDER')
 cfg.FILE_UPLOADS.TEMP_FOLDER = 'tmp'
