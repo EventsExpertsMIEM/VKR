@@ -48,21 +48,3 @@ def create_tables(password):
         )
         s.add(root)
     logging.info('Default user with mail [' + cfg.SUPER_ADMIN_MAIL + '] was created')
-
-    with get_session() as s:
-        with open('./app/db/Higher_education_area.csv', newline='') as csvfile:
-            data = csv.reader(csvfile, delimiter=';')
-            for row in data:
-                area = Higher_education_area(id=row[0], name=row[1])
-                s.add(area)
-
-    with get_session() as s:
-        with open('./app/db/Higher_education_programme.csv', newline='') as csvfile:
-            data = csv.reader(csvfile, delimiter=';')
-            for row in data:
-                programme = Higher_education_programme(area_id=row[0],
-                                                       level=row[1],
-                                                       id=row[2],
-                                                       name=row[3])
-                s.add(programme)
-    logging.info('Education fiels were added')
