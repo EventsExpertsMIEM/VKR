@@ -79,7 +79,7 @@ def run(purge_files=False):
         http_server = WSGIServer(
             (cfg.HOST, cfg.PORT),
             app,
-            # log = logger,
+            log = logger,
             error_log = logger,
             certfile=cfg.SSL_CERT,
             keyfile=cfg.SSL_KEY
