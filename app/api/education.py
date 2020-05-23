@@ -13,7 +13,7 @@ bp = Blueprint('education', __name__)
 @bp.route('/', methods=['POST'], strict_slashes=False)
 @login_required
 def create_edu():
-    data = get_json()
+    data = validate(get_json(), schemas.education)
     id = education_logic.add_user_education(current_user.id, data)
     return make_ok(201, str(id))
 
