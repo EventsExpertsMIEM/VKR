@@ -58,6 +58,7 @@
                     <th scope="col">Дата окончания</th>
                     <th scope="col">Место проведения</th>
                     <th scope="col">Статус мероприятия</th>
+                    <th scope="col">Название файла доклада</th>
                     <th scope="col">Статус доклада</th>
                     <th scope="col">Действия</th>
                 </tr>
@@ -69,6 +70,16 @@
                 <td>{{ event.end_date }}</td>
                 <td>{{ event.location }}</td>
                 <td>{{ event.status }}</td>
+                <td>{{ event.report.filename }}</td>
+                <td>
+                    {% if event.report.report_status == 'unseen' %}
+                    На модерации
+                    {% elif event.report.report_status == 'declined' %}
+                    Отклонен
+                    {% elif event.report.report_status == 'approved' %}
+                    Принят
+                    {% endif %}
+                </td>
                 <td>
                     <div class="btn-group" role="group">
                         <button
@@ -87,6 +98,15 @@
                         </button>
                         <button
                             type="button"
+                            class="btn btn-outline-danger upload-report-button"
+                            data-toggle="modal"
+                            data-target="#delete_report_modal"
+                            data-report-id="{{ event.report.id }}"
+                        >
+                            Удалить доклад
+                        </button>
+                        <button
+                            type="button"
                             class="btn btn-outline-danger leave-event-button"
                             data-toggle="modal"
                             data-target="#leave_event_modal"
@@ -101,6 +121,7 @@
             {% endfor %}
 
             {% include 'fragments/profile/upload_report.html' %}
+            {% include 'fragments/profile/delete_report.html' %}
 
         </table>
     {% endif %}
