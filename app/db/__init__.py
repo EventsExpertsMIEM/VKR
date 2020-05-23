@@ -1,7 +1,6 @@
 from .models import *
 from ..config import cfg
 import logging
-import csv
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker

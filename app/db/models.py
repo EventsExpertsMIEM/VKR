@@ -1,8 +1,6 @@
 from sqlalchemy import (Column, Integer, String, ForeignKey,
-                        DateTime, Date, Time, Boolean, UniqueConstraint,
-                        ForeignKeyConstraint)
+                        DateTime, Date, Time, Boolean)
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
 from flask_login import UserMixin
 
