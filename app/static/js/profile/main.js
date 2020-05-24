@@ -97,23 +97,4 @@ Status: ${reportStatus}`
     var tab = $(document.getElementById(tabId))
 
     tab.tab('show')
-
-    var manageEventLinks = document.getElementsByClassName('manage_event_link')
-
-    Array.from(manageEventLinks).forEach(
-        link => link.addEventListener(
-            'click',
-            event => {
-                var managementNav =
-                    document.getElementById('nav-events-management-tab')
-                managementNav.click()
-                managementNav.style.display = ''
-                var eventId = event.target.dataset.eventId
-                var managementTab =
-                    document.getElementById('events-management-tab')
-                managementTab.dataset.eventId = eventId
-                
-            }
-        )
-    )
 })

@@ -262,7 +262,9 @@ def join_event(u_id, e_id, data):
         )
 
 def get_participants_for_event(e_id, u_id):
-    result = []
+    result = {
+        'participants': []
+    }
     with get_session() as s:
         event, creator = s.query(Event, Participation).filter(
             Event.id == e_id,
@@ -275,16 +277,27 @@ def get_participants_for_event(e_id, u_id):
             abort(403, 'Forbidden')
         users = s.query(User, Participation).filter(
                 User.id == Participation.u_id,
-                Participation.e_id == e_id
+                Participation.e_id == e_id,
+                or_(
+                    Participation.participation_role == 'viewer',
+                    Participation.participation_role == 'presenter'
+                )
         ).all()
 
+        result['event'] = {
+            'id': e_id,
+            'name': event.name
+        }
+
         for user, participation in users:
-            result.append({
-                'email': user.email,
-                'name': user.name,
-                'surname': user.surname,
-                'role': participation.participation_role,
-                'registration_date': participation.participation_date
-            })
+            result['participants'].append(
+                {
+                    'email': user.email,
+                    'name': user.name,
+                    'surname': user.surname,
+                    'role': participation.participation_role,
+                    'registration_date': participation.participation_date
+                }
+            )
 
     return result
