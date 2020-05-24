@@ -1,0 +1,403 @@
+<div
+    class="tab-pane fade mt-3"
+    id="events-management-tab"
+    role="tabpanel"
+    aria-labelledby="nav-events-management-tab"
+>
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a
+                class="nav-link active"
+                id="nav-org-participants"
+                data-toggle="tab"
+                href="#org-participants"
+                role="tab"
+                aria-controls="org-participants"
+            >Список участников</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="nav-org-reports"
+                data-toggle="tab"
+                href="#org-reports"
+                role="tab"
+                aria-controls="org-reports"
+            >Управление докладами</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="nav-org-tasks"
+                data-toggle="tab"
+                href="#org-tasks"
+                role="tab"
+                aria-controls="org-tasks"
+            >Управление задачами</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="nav-org-general"
+                data-toggle="tab"
+                href="#org-general"
+                role="tab"
+                aria-controls="org-general"
+            >Редактирование общей информации</a>
+        </li>
+    </ul>
+    <div
+        class="tab-content"
+        id="nav-tabContent"
+    >
+        <div
+            class="tab-pane fade show active mt-3"
+            id="org-participants"
+            role="tabpanel"
+            aria-labelledby="nav-org-participants"
+        >
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">e-mail</th>
+                        <th scope="col">ФИО</th>
+                        <th scope="col">Дата регистрации</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>iivanov@mail.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td>28.03.2020</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>iivanov@mail.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td>28.03.2020</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>iivanov@mail.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td>28.03.2020</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div
+            class="tab-pane fade mt-3"
+            id="org-reports"
+            role="tabpanel"
+            aria-labelledby="nav-org-reports"
+        >
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>e-mail автора</th>
+                        <th>ФИО автора</th>
+                        <th>Файл доклада</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>user@test.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td><a href="">Програмирование микроконтроллеров для роботов-помощников, встроенных в систему
+                                умного дома</a></td>
+                        <td>На модерации</td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                            >
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-secondary"
+                                >Одобрить</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                >Отклонить</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>user@test.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td><a href="">Програмирование микроконтроллеров для роботов-помощников, встроенных в систему
+                                умного дома</a></td>
+                        <td>Одобрен</td>
+                        <td>
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                            >Отклонить</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>user@test.ru</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td><a href="">Програмирование микроконтроллеров для роботов-помощников, встроенных в систему
+                                умного дома</a></td>
+                        <td>Отклонен</td>
+                        <td>
+                            <button
+                                type="submit"
+                                class="btn btn-outline-secondary"
+                            >Одобрить</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div
+            class="tab-pane fade mt-3"
+            id="org-tasks"
+            role="tabpanel"
+            aria-labelledby="nav-org-tasks"
+        >
+            <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createTaskModal"
+            >
+                Создать задачу
+            </button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Срок выполнения</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><a
+                                href=""
+                                data-toggle="modal"
+                                data-target="#task1Modal"
+                            >Бронирование номеров в гостинице
+                                Radisson</a></td>
+                        <td>28.03.2020</td>
+                        <td>Выполнено</td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                            >
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    data-toggle="modal"
+                                    data-target="#TaskDelModal"
+                                >Удалить</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Бронирование номеров в гостинице Hilton</td>
+                        <td>28.03.2020</td>
+                        <td>Не выполнено</td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                            >
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    data-toggle="modal"
+                                    data-target="#EditTaskModal"
+                                >Редактировать</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    data-toggle="modal"
+                                    data-target="#TaskDelModal"
+                                >Удалить</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="background-color: lightcoral;">
+                        <th scope="row">3</th>
+                        <td>Заказ раздаточных материалов в типографии</td>
+                        <td>21.03.2020</td>
+                        <td>Просрочено</td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                            >
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    data-toggle="modal"
+                                    data-target="#EditTaskModal"
+                                >Редактировать</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    data-toggle="modal"
+                                    data-target="#TaskDelModal"
+                                >Удалить</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Заказ выездного кейтеринга</td>
+                        <td>28.03.2020</td>
+                        <td>Выполнено</td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                            >
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    data-toggle="modal"
+                                    data-target="#TaskDelModal"
+                                >Удалить</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div
+            class="tab-pane fade mt-3"
+            id="org-general"
+            role="tabpanel"
+            aria-labelledby="nav-org-general"
+        >
+            <form>
+                <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="eventTitle"
+                        placeholder="V ежегодная конференция ботоводове"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Дата проведения мероприятия:</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="eventDate"
+                        value="2018-07-22"
+                        min="2019-01-01"
+                        max="2030-12-31"
+                    >
+                </div>
+                <div class="form-group">
+                    <!-- подключить API от яндекса  -->
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="eventAdress"
+                        placeholder="Москва, Крокус Сити Холл"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="eventURL"
+                        placeholder="Сайт мероприятия"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="eventManagerMail"
+                        placeholder="Почта ответственного менеджера"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <textarea
+                        class="form-control"
+                        id="eventDescShort"
+                        rows="5"
+                        placeholder="V ежегодная конференция для ботоводов-любителей и профессионалов пройдет в этом году при поддержке крупнейших российских IT компаний. Приглашаем вас принять участие и заслушать доклады разработчиков и руководителей."
+                        required
+                    ></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea
+                        class="form-control"
+                        id="eventDescFull"
+                        rows="10"
+                        placeholder="Полное описание мероприятия"
+                    ></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea
+                        class="form-control"
+                        id="eventAddInfo"
+                        rows="5"
+                        placeholder="Дополнительная информация"
+                    ></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-5 text-center">
+                        <select class="custom-select">
+                            <option
+                                value=""
+                                readonly=""
+                            >Выберите научные области</option>
+                            <option value="Организация">Организация</option>
+                            <option value="Программирование">Программирование</option>
+                            <option value="Медицина">Медицина</option>
+                            <option value="Мероприятия">Мероприятия</option>
+                            <option value="Физика">Физика</option>
+                            <option value="Химия">Химия</option>
+                            <option value="Электроника">Электроника</option>
+                        </select>
+                    </div>
+                    <div class="col-7 text-center">
+                        <a
+                            href="#"
+                            class="badge badge-primary"
+                        >Робототехника</a>
+                        <a
+                            href="#"
+                            class="badge badge-primary"
+                        >Программирование МК</a>
+                        <a
+                            href="#"
+                            class="badge badge-primary"
+                        >Искуственный интеллект</a>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

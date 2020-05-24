@@ -154,7 +154,12 @@
                 <td>{{ event.location }}</td>
                 <td>{{ event.status }}</td>
                 <td>
-                    <a href="" data-id="{{ event.id }}">
+                    <a
+                        id="manage_event_{{ event.id }}"
+                        class="manage_event_link"
+                        data-event-id="{{ event.id }}"
+                        href="#management"
+                    >
                         Управление мероприятием
                     </a>
                 </td>
