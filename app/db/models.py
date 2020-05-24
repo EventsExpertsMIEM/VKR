@@ -1,5 +1,5 @@
-from sqlalchemy import (Column, Integer, String, ForeignKey,
-                        DateTime, Date, Time, Boolean, UniqueConstraint)
+from sqlalchemy import (Column, Integer, String, ForeignKey, DateTime,
+                        Date, Time, Boolean, UniqueConstraint, inspect)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
 from flask_login import UserMixin
@@ -25,6 +25,10 @@ Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
 Account_type = ENUM('standart', 'oauth', name='account_type_enum')
 
+
+def result_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+        for c in inspect(obj).mapper.column_attrs}
 
 class User(Base, UserMixin):
     __tablename__ = 'users'

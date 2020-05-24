@@ -74,12 +74,14 @@ def get_current_user_report_info_for_event(e_id):
         reports_logic.get_report_info_for_event(current_user.id, e_id)
     )
 
+
 @bp.route('/report/<r_id>', methods=['PUT'])
 @login_required
 def update_report_info(r_id):
     data = validate(get_json(), schemas.report_info)
     reports_logic.update_report_info_by_id(r_id, data)
     return make_ok(200, 'Report info updated')
+
 
 @bp.route('/<int:e_id>/report', methods=['PUT'])
 @login_required
@@ -95,6 +97,35 @@ def remove_current_user_report_for_event(e_id):
     reports_logic.remove_current_user_report(current_user.id, e_id)
     return make_ok(200, 'Report removed successfully')
 
+
+#################################### ADMIN ####################################
+
+
+@bp.route('/<int:e_id>/management/reports/all', methods=['GET'])
+@login_required
+def get_reports_for_event(e_id):
+    return jsonify(reports_logic.get_all_reports_for_event(e_id, current_user.id))
+
+
+@bp.route('report/<r_id>/approve', methods=['POST'])
+@login_required
+def approve_report(r_id):
+    reports_logic.approve_report(r_id, current_user.id)
+    return make_ok(200, 'Report approved')
+
+
+@bp.route('report/<r_id>/decline', methods=['POST'])
+@login_required
+def decline_report(r_id):
+    reports_logic.decline_report(r_id, current_user.id)
+    return make_ok(200, 'Report declined')
+
+# def get_reports(e_id):
+#     if not current_user.is_authenticated or current_user.service_status is 'user':
+#         return jsonify(reports_logic.get_reports_for_event(e_id))
+#     else:
+#         return jsonify(reports_logic.get_report_for_event_admin(e_id))
+
 # @bp.route('/report/all', methods=['GET'])
 # @login_required
 # def get_all_reports():
@@ -108,19 +139,3 @@ def remove_current_user_report_for_event(e_id):
 #         return jsonify(reports_logic.get_reports_for_event(e_id))
 #     else:
 #         return jsonify(reports_logic.get_report_for_event_admin(e_id))
-
-# @bp.route('report/<r_id>/approve', methods=['POST'])
-# @login_required
-# def approve_report(r_id):
-#     if current_user.service_status is 'user':
-#         abort(403, 'No rights')
-#     reports_logic.approve_report(r_id)
-#     return make_ok(200, 'Report approved')
-
-# @bp.route('report/<r_id>/decline', methods=['POST'])
-# @login_required
-# def decline_report(r_id):
-#     if current_user.service_status is 'user':
-#         abort(403, 'No rights')
-#     reports_logic.decline_report(r_id)
-#     return make_ok(200, 'Report declined')

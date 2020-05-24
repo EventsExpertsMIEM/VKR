@@ -8,8 +8,11 @@ function getParticipantInfo(data, count) {
 
     var row = document.createElement('tr')
 
+    var countCell = getCell(count)
+    countCell.scope = 'row'
+
     var cells = [
-        getCell(count),
+        countCell,
         getCell(data.email),
         getCell(`${data.name} ${data.surname}`),
         getCell(data.role),
@@ -25,7 +28,7 @@ function getParticipantInfo(data, count) {
 }
 
 
-function addData(data) {
+function addParticipantsData(data) {
 
     var tableBody =
         document
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ).then(
                     body => {
 
-                        addData(body.participants)
+                        addParticipantsData(body.participants)
 
                         showTab(body.event.id, body.event.name)
                     }

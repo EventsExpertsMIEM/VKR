@@ -151,12 +151,47 @@ def remove_current_user_report(u_id, e_id):
 #################################### ADMIN ####################################
 
 
-def approve_report(r_id):
+def get_all_reports_for_event(e_id, u_id):
+    with get_session() as s:
+        creator = s.query(Participation).filter(
+            Participation.e_id == e_id,
+            Participation.u_id == u_id
+        ).one_or_none()
+        if creator.participation_role != 'creator':
+            abort(403, 'No rights')
+        result = s.query(Report, User).filter(
+            Report.user_id == User.id,
+            Report.event_id == e_id
+        ).all()
+        return [
+            {
+                'id': r.id,
+                'filename': r.original_filename,
+                'status': r.report_status,
+                'report_description': r.report_description,
+                'presenter_description': r.presenter_description,
+                'author': {
+                    'email': u.email,
+                    'name': u.name,
+                    'surname': u.surname
+                }
+            } for r,u in result
+        ]
+
+def approve_report(r_id, u_id):
     with get_session() as s:
         report = s.query(Report).get(r_id)
         if not report:
             abort(404, "Report not found")
         
+        creator = s.query(Participation).filter(
+            Participation.e_id == report.event_id,
+            Participation.participation_role == 'creator'
+        ).one_or_none()
+
+        if creator.u_id != u_id:
+            abort(403, 'No rights')
+
         report.report_status = 'approved'
 
         logging.getLogger(__name__).info(
@@ -166,15 +201,21 @@ def approve_report(r_id):
         )
 
 
-def decline_report(r_id):
+def decline_report(r_id, u_id):
     with get_session() as s:
-        participation = s.query(Participation).filter(
-            Participation.report_id == r_id,
-        ).one_or_none()
-        if not participation:
+        report = s.query(Report).get(r_id)
+        if not report:
             abort(404, "Report not found")
         
-        participation.report_status = 'declined'
+        creator = s.query(Participation).filter(
+            Participation.e_id == report.event_id,
+            Participation.participation_role == 'creator'
+        ).one_or_none()
+
+        if creator.u_id != u_id:
+            abort(403, 'No rights')
+
+        report.report_status = 'declined'
 
         logging.getLogger(__name__).info(
             'Report [id {r_id}] declined'.format(
