@@ -102,6 +102,7 @@ class Participation(Base):
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     participation_role = Column(Participation_role, default='viewer',
                             nullable=False)
+    participation_date = Column(DateTime, nullable=False, default=datetime.now)
 
 
 class ETask(Base):

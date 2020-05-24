@@ -93,3 +93,8 @@ def join(e_id):
 @bp.route('/<int:e_id>/presenters', methods=['GET'])
 def presenters(e_id):
     return jsonify(events_logic.get_presenters(e_id))
+
+@bp.route('/<int:e_id>/participants', methods=['GET'])
+@login_required
+def participants(e_id):
+    return jsonify(events_logic.get_participants_for_event(e_id, current_user.id))

@@ -203,29 +203,29 @@ def check_participation(u_id, e_id):
             return 'not joined'
 
 
-def get_presenters(e_id):
-    result = []
-    with get_session() as s:
-        event = s.query(Event).get(e_id)
-        if not event or event.status == 'deleted':
-            abort(404, 'No event with this id')
-        users = s.query(User, Participation).filter(
-                User.id == Participation.u_id,
-                Participation.e_id == e_id,
-                Participation.participation_role == 'presenter',
-                Participation.report_status == 'approved'
-        ).all()
+# def get_presenters(e_id):
+#     result = []
+#     with get_session() as s:
+#         event = s.query(Event).get(e_id)
+#         if not event or event.status == 'deleted':
+#             abort(404, 'No event with this id')
+#         users = s.query(User, Participation).filter(
+#                 User.id == Participation.u_id,
+#                 Participation.e_id == e_id,
+#                 Participation.participation_role == 'presenter',
+#                 Participation.report_status == 'approved'
+#         ).all()
 
-        for user, participant in users:
-            result.append({
-                'name': user.name,
-                'surname': user.surname,
-                'report': participant.report,
-                'presenter_description': participant.presenter_description,
-                'report_description': participant.report_description
-            })
+#         for user, participant in users:
+#             result.append({
+#                 'name': user.name,
+#                 'surname': user.surname,
+#                 'report': participant.report,
+#                 'presenter_description': participant.presenter_description,
+#                 'report_description': participant.report_description
+#             })
 
-    return result
+#     return result
 
 
 def join_event(u_id, e_id, data):
@@ -260,3 +260,31 @@ def join_event(u_id, e_id, data):
                 role
             )
         )
+
+def get_participants_for_event(e_id, u_id):
+    result = []
+    with get_session() as s:
+        event, creator = s.query(Event, Participation).filter(
+            Event.id == e_id,
+            Participation.e_id == e_id,
+            Participation.participation_role == 'creator'
+        ).one_or_none()
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+        if creator.u_id != u_id:
+            abort(403, 'Forbidden')
+        users = s.query(User, Participation).filter(
+                User.id == Participation.u_id,
+                Participation.e_id == e_id
+        ).all()
+
+        for user, participation in users:
+            result.append({
+                'email': user.email,
+                'name': user.name,
+                'surname': user.surname,
+                'role': participation.participation_role,
+                'registration_date': participation.participation_date
+            })
+
+    return result
