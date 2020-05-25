@@ -24,7 +24,7 @@ def update_event_status(event):
 
 def get_event_info(e_id):
     with get_session() as s:
-        event = s.query(Event, Participation, User).filter(
+        result = s.query(Event, Participation, User).filter(
                 Event.id == e_id,
                 Participation.e_id == Event.id,
                 Event.status != 'deleted',
@@ -32,24 +32,25 @@ def get_event_info(e_id):
                 Participation.participation_role == 'creator'
         ).first()
 
-        if not event:
+        if not result:
             abort(404, 'No event with this id')
 
-        event = update_event_status(event)
+        event = update_event_status(result.Event)
+
 
         return {
             "id": e_id,
-            "creator_email": event.User.email,
-            "phone": event.User.phone,
-            "name": event.Event.name,
-            "sm_description": event.Event.sm_description,
-            "description": event.Event.description,
-            "start_date": event.Event.start_date.isoformat(),
-            "end_date": event.Event.end_date.isoformat(),
-            "start_time": event.Event.start_time.isoformat(),
-            "location": event.Event.location,
-            "site_link": event.Event.site_link,
-            "additional_info": event.Event.additional_info,
+            "creator_email": result.User.email,
+            "phone": result.User.phone,
+            "name": event.name,
+            "sm_description": event.sm_description,
+            "description": event.description,
+            "start_date": event.start_date.isoformat(),
+            "end_date": event.end_date.isoformat(),
+            "start_time": event.start_time.isoformat(),
+            "location": event.location,
+            "site_link": event.site_link,
+            "additional_info": event.additional_info,
             "status": event.status
         }
 

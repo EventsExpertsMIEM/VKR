@@ -148,6 +148,16 @@ def remove_current_user_report(u_id, e_id):
         )
 
 
+def get_reports_for_event(e_id):
+    with get_session() as s:
+        reports = s.query(Report).filter(
+            Report.event_id == e_id,
+            Report.report_status == 'approved'
+        ).all()
+
+        return [result_as_dict(i) for i in reports]
+
+
 #################################### ADMIN ####################################
 
 

@@ -98,12 +98,16 @@ def remove_current_user_report_for_event(e_id):
     return make_ok(200, 'Report removed successfully')
 
 
+@bp.route('/<int:e_id>/report/all', methods=['GET'])
+def get_reports_for_event(e_id):
+    return jsonify(reports_logic.get_reports_for_event(e_id))
+
 #################################### ADMIN ####################################
 
 
 @bp.route('/<int:e_id>/management/reports/all', methods=['GET'])
 @login_required
-def get_reports_for_event(e_id):
+def get_all_reports_for_event(e_id):
     return jsonify(reports_logic.get_all_reports_for_event(e_id, current_user.id))
 
 
