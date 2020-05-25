@@ -53,8 +53,8 @@ def get_tasks(e_id):
 @bp.route('/<int:e_id>/task/<int:t_id>', methods=['PUT'])
 @login_required
 def update_task(e_id, t_id):
-    data = get_json()
+    data = validate(get_json(), schemas.update_task)
     if events_logic.check_participation(current_user.id, e_id) not in ['creator', 'manager']:
         return make_4xx(403, "No rights")
-    tasks_logic.update_task(e_id, t_id, data)
+    tasks_logic.update_task(t_id, data)
     return make_ok(200, "Task was updated")

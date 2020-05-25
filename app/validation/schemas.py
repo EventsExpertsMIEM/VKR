@@ -188,3 +188,14 @@ task = Schema(
         )
     }
 )
+
+update_task = Schema(
+    {
+        Optional('name'): Use(str),
+        Optional('description'): Use(str),
+        Optional('deadline'): Use(
+            datetime.fromisoformat,
+            error="Invalid time format"
+        )
+    }
+)
