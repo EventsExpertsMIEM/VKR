@@ -244,19 +244,19 @@ def check_participation(u_id, e_id):
 def join_event(u_id, e_id, data):
     with get_session() as s:
         event = s.query(Event).get(e_id)
-        if not event or event.status == 'deleted':
-            abort(404, 'No event with this id')
+        if not event or event.status != 'active':
+            abort(404, 'No active event found')
 
-        is_consists = s.query(Participation).filter(
+        already_joined = s.query(Participation).filter(
                 Participation.u_id == u_id,
                 Participation.e_id == e_id
         ).one_or_none()
 
-        if is_consists:
+        if already_joined:
             abort(
                 409,
                 'User has already joined this event as [{}]'.format(
-                    is_consists.participation_role
+                    already_joined.participation_role
                 )
             )
         role = 'viewer'
