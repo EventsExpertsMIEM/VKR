@@ -118,5 +118,5 @@ class ETask(Base):
     e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     name = Column(String, nullable=False)
     description = Column(String, nullable=False)
-    deadline = Column(Date, nullable=True)
+    deadline = Column(DateTime, nullable=True)
     status = Column(Task_status, default='todo', nullable=False)

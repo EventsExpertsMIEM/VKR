@@ -1,6 +1,6 @@
 from schema import (Schema, Use, And, Optional, Hook,
                     SchemaForbiddenKeyError, Regex)
-from datetime import date, time
+from datetime import date, time, datetime
 
 class Forbidden(Hook):
     def __init__(self, *args, **kwargs):
@@ -176,4 +176,15 @@ report_info = Schema(
         Optional('report_description'): Use(str)
     },
     ignore_extra_keys=True
+)
+
+task = Schema(
+    {
+        'name': Use(str),
+        'description': Use(str),
+        Optional('deadline', default=None): Use(
+            datetime.fromisoformat,
+            error="Invlid time format"
+        )
+    }
 )
