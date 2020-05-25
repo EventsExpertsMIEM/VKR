@@ -1,5 +1,5 @@
-from sqlalchemy import (Column, Integer, String, ForeignKey,
-                        DateTime, Date, Time, Boolean, UniqueConstraint)
+from sqlalchemy import (Column, Integer, String, ForeignKey, DateTime,
+                        Date, Time, Boolean, UniqueConstraint, inspect)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
 from flask_login import UserMixin
@@ -15,6 +15,8 @@ Base = declarative_base()
 
 Status = ENUM('unconfirmed', 'active', 'deleted', 'banned',
               name='status')
+Event_status = ENUM('active', 'closed', 'archived', 'deleted',
+                    name='event_status')
 Participation_role = ENUM('creator', 'manager', 'presenter', 'viewer',
                           name='participation_role')
 Service_status = ENUM('superadmin', 'admin', 'moderator', 'user',
@@ -25,6 +27,10 @@ Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
 Account_type = ENUM('standart', 'oauth', name='account_type_enum')
 
+
+def result_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+        for c in inspect(obj).mapper.column_attrs}
 
 class User(Base, UserMixin):
     __tablename__ = 'users'
@@ -63,7 +69,7 @@ class Event(Base):
     __tablename__ = 'events'
 
     id = Column(Integer, primary_key=True)
-    status = Column(Status, default='active', nullable=False)
+    status = Column(Event_status, default='active', nullable=False)
     views = Column(Integer, default=0, nullable=False)
 
     name = Column(String, nullable=False)
@@ -88,8 +94,8 @@ class Report(Base):
     original_filename = Column(String, nullable=False)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    uploaded_at = Column(DateTime, nullable=False, default=datetime.now)
-    last_updated = Column(DateTime, nullable=True, onupdate=datetime.now)
+    uploaded_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    last_updated = Column(DateTime, nullable=True, onupdate=datetime.utcnow)
     presenter_description = Column(TEXT, nullable=True)
     report_description = Column(TEXT, nullable=True)
     report_status = Column(Report_status, nullable=True, default='unseen')
@@ -102,6 +108,7 @@ class Participation(Base):
     u_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     participation_role = Column(Participation_role, default='viewer',
                             nullable=False)
+    participation_date = Column(DateTime, nullable=False, default=datetime.utcnow)
 
 
 class ETask(Base):

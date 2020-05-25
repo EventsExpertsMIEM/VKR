@@ -79,6 +79,7 @@
                 <td>
                     <div class="btn-group" role="group">
                         <button
+                            id="event_report_button_{{ event.id }}"
                             type="button"
                             class="btn btn-outline-primary btn-sm upload-report-button"
                             data-toggle="modal"
@@ -149,7 +150,12 @@
                 <td>{{ event.location }}</td>
                 <td>{{ event.status }}</td>
                 <td>
-                    <a href="" data-id="{{ event.id }}">
+                    <a
+                        id="manage_event_{{ event.id }}"
+                        class="manage_event_link"
+                        data-event-id="{{ event.id }}"
+                        href="#management"
+                    >
                         Управление мероприятием
                     </a>
                 </td>

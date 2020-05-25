@@ -83,6 +83,18 @@
         >
             Организую
         </a>
+        <a
+            class="nav-link pl-4"
+            id="nav-events-management-tab"
+            data-toggle="tab"
+            href="#events-management-tab"
+            role="tab"
+            aria-controls="events-management-tab"
+            data-anchor="management"
+            style="display: none;"
+        >
+            Управление мероприятием
+        </a>
       </nav>
     </div>
     <div class="col-lg-9">
@@ -219,6 +231,8 @@
                     {% include 'fragments/profile/security.html' %}
 
                     {% include 'fragments/profile/events.html' %}
+
+                    {% include 'fragments/profile/event_management.html' %}
                     
                 </div>
             </div>
