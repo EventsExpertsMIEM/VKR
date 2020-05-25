@@ -2,7 +2,8 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from ..logic import accounts as accounts_logic
+from ..logic import (accounts as accounts_logic, events as events_logic,
+                        users as users_logic)
 
 import logging
 
@@ -63,6 +64,12 @@ def reset_password_success():
 def admin_panale():
     if current_user.service_status == 'user':
         return make_4xx(403, "No rights")
+
+    events = events_logic.get_events()
+    users = users_logic.get_users()
+
     return render_template(
-        '/admin.html'
+        '/admin.html',
+        events=events,
+        users=users
     )

@@ -132,27 +132,40 @@ def update_profile(u_id, data):
 
 # админка
 
-def get_users(offset, size):
-    result = []
+def get_users(offset=None, size=None):
+
+    try:
+        if offset is not None:
+            offset=int(offset)
+        if size is not None:
+            size=int(size)
+    except:
+        abort(400, 'Offset and size must be integers')
+
+    logging.getLogger(__name__).debug("Offset: {}\tSize: {}".format(offset, size))
+
     with get_session() as s:
         users = s.query(User)
-        if offset and size:
-            offset = int(offset)
-            size = int(size)
+        if offset is not None and size is not None:
             if offset < 0 or size < 1:
                 abort(422, 'Offset or size has wrong values')
             users = users.slice(offset, offset+size)
-        elif not offset and not size:
+        elif offset is not None:
+            users = users.offset(offset)
+        elif size is not None:
+            users = users.limit(size)
+        elif offset is None and size is None:
             users = users.all()
         else:
             abort(400, 'Wrong query string arg')
-        for user in users:
-            result.append({
+
+        return [
+            {
                 'id': user.id,
                 'email': user.email,
                 'name': user.name,
                 'surname': user.surname,
                 'service_status': user.service_status,
                 'status': user.status
-            })
-    return result
+            } for user in users
+        ]
