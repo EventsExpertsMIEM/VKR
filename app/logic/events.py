@@ -55,8 +55,16 @@ def get_event_info(e_id):
         }
 
 
-def get_events(offset="", size=""):
-    result = []
+def get_events(offset=None, size=None):
+
+    try:
+        if offset is not None:
+            offset=int(offset)
+        if size is not None:
+            size=int(size)
+    except:
+        abort(400, 'Offset and size must be integers')
+
     with get_session() as s:
         events = s.query(
             Event
@@ -65,13 +73,17 @@ def get_events(offset="", size=""):
         ).order_by(
             desc(Event.start_date)
         )
-        if offset and size:
-            offset = int(offset)
-            size = int(size)
+
+
+        if offset is not None and size is not None:
             if offset < 0 or size < 1:
                 abort(422, 'Offset or size has wrong values')
             events = events.slice(offset, offset+size)
-        elif not offset and not size:
+        elif offset is not None:
+            events = events.offset(offset)
+        elif size is not None:
+            events = events.limit(size)
+        elif offset is None and size is None:
             events = events.all()
         else:
             abort(400, 'Wrong query string arg')
