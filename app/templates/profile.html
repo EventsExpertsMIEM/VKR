@@ -12,228 +12,128 @@
 {% block content %}
 <div class="row justify-content-center my-auto">
     <div class="col-lg-2">
-      <nav class="nav flex-column"> 
-        <a
-            class="nav-link pl-4"
-            id="nav-personal-tab"
-            data-toggle="tab"
-            href="#personal-info-tab"
-            role="tab"
-            aria-controls="personal-info-tab"
-            data-anchor="info"
-        >
-            Персональная информация
-        </a>
-        <a
-            class="nav-link pl-4"
-            id="nav-education-tab"
-            data-toggle="tab"
-            href="#education-tab"
-            role="tab"
-            aria-controls="education-tab"
-            data-anchor="education"
-        >
-            Образование
-        </a>
-        <a
-            class="nav-link pl-4"
-            id="nav-security-tab"
-            data-toggle="tab"
-            href="#security-tab"
-            role="tab"
-            aria-controls="security-tab"
-            data-anchor="security"
-        >
-            Безопасность
-        </a>
-        <hr class="my-0 w-75 text-center">
+        <nav class="nav flex-column">
+            <a
+                class="nav-link pl-4"
+                id="nav-personal-tab"
+                data-toggle="tab"
+                href="#personal-info-tab"
+                role="tab"
+                aria-controls="personal-info-tab"
+                data-anchor="info"
+            >
+                Персональная информация
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-education-tab"
+                data-toggle="tab"
+                href="#education-tab"
+                role="tab"
+                aria-controls="education-tab"
+                data-anchor="education"
+            >
+                Образование
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-security-tab"
+                data-toggle="tab"
+                href="#security-tab"
+                role="tab"
+                aria-controls="security-tab"
+                data-anchor="security"
+            >
+                Безопасность
+            </a>
+            <hr class="my-0 w-75 text-center">
 
-        <p class="text-center my-auto">Мои мероприятия</p>
+            <p class="text-center my-auto">Мои мероприятия</p>
 
-        <a
-            class="nav-link pl-4"
-            id="nav-events-part-tab"
-            data-toggle="tab"
-            href="#events-part-tab"
-            role="tab"
-            aria-controls="events-part-tab"
-            data-anchor="participation"
-        >
-            Участвую
-        </a>
-        <a
-            class="nav-link pl-4"
-            id="nav-events-lect-tab"
-            data-toggle="tab"
-            href="#events-lect-tab"
-            role="tab"
-            aria-controls="events-lect-tab"
-            data-anchor="presentations"
-        >
-            Выступаю
-        </a>
-        <a
-            class="nav-link pl-4"
-            id="nav-events-org-tab"
-            data-toggle="tab"
-            href="#events-org-tab"
-            role="tab"
-            aria-controls="events-org-tab"
-            data-anchor="organisation"
-        >
-            Организую
-        </a>
-        <a
-            class="nav-link pl-4"
-            id="nav-events-management-tab"
-            data-toggle="tab"
-            href="#events-management-tab"
-            role="tab"
-            aria-controls="events-management-tab"
-            data-anchor="management"
-            style="display: none;"
-        >
-            Управление мероприятием
-        </a>
-      </nav>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-part-tab"
+                data-toggle="tab"
+                href="#events-part-tab"
+                role="tab"
+                aria-controls="events-part-tab"
+                data-anchor="participation"
+            >
+                Участвую
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-lect-tab"
+                data-toggle="tab"
+                href="#events-lect-tab"
+                role="tab"
+                aria-controls="events-lect-tab"
+                data-anchor="presentations"
+            >
+                Выступаю
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-org-tab"
+                data-toggle="tab"
+                href="#events-org-tab"
+                role="tab"
+                aria-controls="events-org-tab"
+                data-anchor="organisation"
+            >
+                Организую
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-management-tab"
+                data-toggle="tab"
+                href="#events-management-tab"
+                role="tab"
+                aria-controls="events-management-tab"
+                data-anchor="management"
+                style="display: none;"
+            >
+                Управление мероприятием
+            </a>
+        </nav>
     </div>
     <div class="col-lg-9">
         <div class="card o-hidden border-0 shadow-sm custom_border">
             <div class="card-body p-1">
-                <div class="tab-content" id="nav-tabContent">
+                <div
+                    class="tab-content"
+                    id="nav-tabContent"
+                >
+
+                    {% include 'fragments/profile/user_info/general.html' %}
+
                     <div
-                        id="personal-info-tab"
-                        class="tab-pane fade show active text-center mt-3"
+                        class="tab-pane fade mt-3 text-center"
+                        id="education-tab"
                         role="tabpanel"
-                        aria-labelledby="nav-personal-tab">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <img alt="User Pic" src="/static/img/ava.jpeg" id="profile-image1" class="img-fluid rounded">
-                                <a href="" data-toggle="modal" data-target="#personal_IMG_modal" class="ml-2"><i class="far fa-edit"></i>ИЗМЕНИТЬ КАРТИНОШКУ</a>
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="text-left d-flex justify-content-between"> 
-                                    <h5 id="name_surname">{{ current_user.name }} {{ current_user.surname }}</h5>
-                                    <a href="" data-toggle="modal" data-target="#personal_info_modal" class="ml-2"><i class="far fa-edit"></i></a>
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">E-mail:</p>
-                                    <p id="p_email">{{ current_user.email }}</p>
-                                    {% if current_user.account_type != 'standart' %} 
-                                    <a href="" data-toggle="modal" data-target="#personal_M_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
-                                    {% endif %}
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">День рождения:</p>
-                                    <p id="p_birth">
-                                        {% if current_user.birth != None %}
-                                        {{ current_user.birth }}
-                                        {% else %}
-                                        Не указан
-                                        {% endif %}
-                                    </p>
-                                    <a href="" data-toggle="modal" data-target="#personal_BSCT_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
-                                </div>
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Пол:</p>
-                                    <p id="p_sex">
-                                        {% if current_user.sex != None %}
-                                        {{ current_user.sex }}
-                                        {% else %}
-                                        Не указан
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Страна:</p>
-                                    <p id="p_country">
-                                        {% if current_user.country != None %}
-                                        {{ current_user.country }}
-                                        {% else %}
-                                        Не указана
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Город:</p>
-                                    <p id="p_town">
-                                        {% if current_user.town != None %}
-                                        {{ current_user.town }}
-                                        {% else %}
-                                        Не указан
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Телефон:</p>
-                                    <p id="p_phone">
-                                        {% if current_user.phone != None %}
-                                        {{ current_user.phone }}
-                                        {% else %}
-                                        Не указан
-                                        {% endif %}
-                                    </p>
-                                    <a href="" data-toggle="modal" data-target="#personal_phone_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Организация:</p>
-                                    <p id="p_organization">
-                                        {% if current_user.organization != None %}
-                                        {{ current_user.organization }}
-                                        {% else %}
-                                        Не указана
-                                        {% endif %}
-                                    </p>
-                                    <a href="" data-toggle="modal" data-target="#organisation_position_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
-                                </div>
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Должность:</p>
-                                    <p id="p_position">
-                                        {% if current_user.position != None %}
-                                        {{ current_user.position }}
-                                        {% else %}
-                                        Не указана
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Статус в системе:</p>
-                                    <p>{{ current_user.service_status }}</p>
-                                </div>
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">Дата регистрации:</p>
-                                    <p>{{ current_user.registration_date }}</p>
-                                </div>
-                                <hr class="pt-0 mt-0">
-                                <div class="text-left d-flex"> 
-                                    <p class="pr-4 font-weight-bold">О себе:</p>
-                                    <p id="p_bio">
-                                        {% if current_user.bio != None %}
-                                        {{ current_user.bio }}
-                                        {% else %}
-                                        Не заполнено
-                                        {% endif %}
-                                    </p>
-                                    <a href="" data-toggle="modal" data-target="#personal_bio_modal" class="ml-2 ml-auto"><i class="far fa-edit"></i></a>
-                                </div>
-                            </div>
-                        </div>          
-                    </div>
-                    <div class="tab-pane fade mt-3 text-center" id="education-tab" role="tabpanel" aria-labelledby="nav-education-tab">
-                        <a href="" data-toggle="modal" data-target="#new_edu_modal"><h5>Добавить диплом об образовании</h5></a>
+                        aria-labelledby="nav-education-tab"
+                    >
+                        <a
+                            href=""
+                            data-toggle="modal"
+                            data-target="#new_edu_modal"
+                        >
+                            <h5>Добавить диплом об образовании</h5>
+                        </a>
                     </div>
 
-                    {% include 'fragments/profile/security.html' %}
+                    {% include 'fragments/profile/security/security.html' %}
 
-                    {% include 'fragments/profile/events.html' %}
+                    {% include 'fragments/profile/events/viewer.html' %}
 
-                    {% include 'fragments/profile/event_management.html' %}
-                    
+                    {% include 'fragments/profile/events/presenter.html' %}
+
+                    {% include 'fragments/profile/events/creator.html' %}
+
+                    {% include 'fragments/profile/events/manager.html' %}
+
+                    {% include 'fragments/profile/event_management/event_management.html' %}
+
                 </div>
             </div>
         </div>
@@ -243,25 +143,25 @@
 
 {% block extra_modals%}
 
-{% include 'fragments/profile/personal_info.html' %}
+{% include 'fragments/profile/user_info/personal_info.html' %}
 
-{% include 'fragments/profile/bsct.html' %}
+{% include 'fragments/profile/user_info/bsct.html' %}
 
-{% include 'fragments/profile/phone.html' %}
+{% include 'fragments/profile/user_info/phone.html' %}
 
-{% include 'fragments/profile/organisation_position.html' %}
+{% include 'fragments/profile/user_info/organisation_position.html' %}
 
-{% include 'fragments/profile/bio.html' %}
+{% include 'fragments/profile/user_info/bio.html' %}
 
-{% include 'fragments/profile/new_edu_modal.html' %}
+{% include 'fragments/profile/user_info/new_edu_modal.html' %}
 
-{% include 'fragments/profile/close_all_sessions.html' %}
+{% include 'fragments/profile/security/close_all_sessions_modal.html' %}
 
-{% include 'fragments/profile/self_delete.html' %}
+{% include 'fragments/profile/security/self_delete_modal.html' %}
 
-{% include 'fragments/profile/leave_event.html' %}
+{% include 'fragments/profile/events/leave_event_modal.html' %}
 
-{% include 'fragments/profile/upload_report.html' %}
+{% include 'fragments/profile/events/upload_report_modal.html' %}
 
 {% endblock %}
 
