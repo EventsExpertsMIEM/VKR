@@ -1,4 +1,6 @@
-function getParticipantInfo(data, count) {
+export { getParticipantsInfo, addParticipantsData, showTab}
+
+function getParticipantsInfo(data, count) {
 
     var getCell = text => {
         var cell = document.createElement('td')
@@ -38,7 +40,7 @@ function addParticipantsData(data) {
     tableBody.innerHTML = ''
 
     for(let i in data) {
-        tableBody.appendChild(getParticipantInfo(data[i], Number(i) + 1))
+        tableBody.appendChild(getParticipantsInfo(data[i], Number(i) + 1))
     }
 
 }
@@ -57,38 +59,3 @@ function showTab(eventId, eventName) {
 
     managementNav.click()
 }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    var manageEventLinks = document.getElementsByClassName('manage_event_link')
-
-    Array.from(manageEventLinks).forEach(
-        link => link.addEventListener(
-            'click',
-            event => {
-
-                var eventId = event.target.dataset.eventId
-
-                fetch(`/api/event/${eventId}/participants`).then(
-                    response => {
-                        if (response.status != 200) {
-                            return Promise.reject('Something went wrong')
-                        }
-
-                        return response.json()
-                    }
-                ).then(
-                    body => {
-
-                        addParticipantsData(body.participants)
-
-                        showTab(body.event.id, body.event.name)
-                    }
-                ).catch(
-                    error => console.log(error)
-                )
-
-            }
-        )
-    )
-})

@@ -1,5 +1,6 @@
+export {approveReport, declineReport, getReportsInfo, addReportsData, loadData}
+
 function approveReport(event) {
-    console.log(event)
     var reportId = event.target.dataset.reportId;
 
     fetch(`/api/event/report/${reportId}/approve`, { method: 'POST' }).then(
@@ -164,11 +165,3 @@ function loadData() {
     )
 
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    var reportsNavTab = document.getElementById('nav-org-reports')
-
-    reportsNavTab.addEventListener('click', loadData)
-
-})
