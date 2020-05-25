@@ -63,7 +63,7 @@ def reset_password_success():
 @login_required
 def admin_panale():
     if current_user.service_status == 'user':
-        return make_4xx(403, "No rights")
+        return abort(403, "No rights")
 
     events = events_logic.get_events()
     users = users_logic.get_users()
