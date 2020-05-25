@@ -12,19 +12,30 @@ import requests
 import os
 import nanoid
 
+def update_event_status(event):
+    now = datetime.utcnow().date()
+    if event.start_date > now:
+        event.status = 'active'
+    elif event.start_date < now and event.end_date > now:
+        event.status = 'closed'
+    elif event.end_date < now:
+        event.status = 'archived'
+    return event
 
 def get_event_info(e_id):
     with get_session() as s:
         event = s.query(Event, Participation, User).filter(
                 Event.id == e_id,
                 Participation.e_id == Event.id,
-                Event.status == 'active',
+                Event.status != 'deleted',
                 Participation.u_id == User.id,
                 Participation.participation_role == 'creator'
         ).first()
 
         if not event:
             abort(404, 'No event with this id')
+
+        event = update_event_status(event)
 
         return {
             "id": e_id,
@@ -38,7 +49,8 @@ def get_event_info(e_id):
             "start_time": event.Event.start_time.isoformat(),
             "location": event.Event.location,
             "site_link": event.Event.site_link,
-            "additional_info": event.Event.additional_info
+            "additional_info": event.Event.additional_info,
+            "status": event.status
         }
 
 
@@ -48,7 +60,7 @@ def get_events(offset="", size=""):
         events = s.query(
             Event
         ).filter(
-            Event.status == 'active'
+            Event.status != 'deleted'
         ).order_by(
             desc(Event.start_date)
         )
@@ -63,8 +75,8 @@ def get_events(offset="", size=""):
         else:
             abort(400, 'Wrong query string arg')
 
-        for event in events:
-            result.append({
+        return [
+            {
                 'id': event.id,
                 'name': event.name,
                 'sm_description': event.sm_description,
@@ -72,9 +84,10 @@ def get_events(offset="", size=""):
                 'end_date': event.end_date.isoformat(),
                 'start_time': event.start_time.isoformat(),
                 'location': event.location,
-                'site_link': event.site_link
-            })
-    return result
+                'site_link': event.site_link,
+                "status": event.status
+            } for event in [update_event_status(event) for event in events]
+        ]
 
 
 def create_event(u_id, data):
@@ -185,7 +198,7 @@ def delete_event(e_id):
         if event.status == 'deleted':
             abort(409, 'Event already deleted')
         event.status = 'deleted'
-            
+
 
 def check_participation(u_id, e_id):
     with get_session() as s:
