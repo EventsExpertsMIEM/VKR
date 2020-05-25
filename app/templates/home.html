@@ -21,7 +21,13 @@
                     <p class="card-text">{{event.sm_description}}</p>
                 </li>
                 <li class="list-group-item text-center">
-                    <small class="text-muted">{{event.start_date}}</small>
+                    <small class="text-muted">
+                        {% if event.start_date != event.end_date %}
+                        {{event.start_date}} - {{event.end_date}}
+                        {% else %}
+                        {{event.start_date}}
+                        {% endif %}
+                    </small>
                 </li>
                 <li class="list-group-item text-center">
                     <small class="text-muted">{{event.location}}</small>
@@ -31,7 +37,15 @@
                 </li>
             </ul>
             <div class="card-footer text-center">
-                <small>РЕГА ОТКРЫТА HARDCODED</small>
+                <small>
+                    {% if event.status == 'active' %}
+                    Регистрация открыта
+                    {% elif event.status == 'closed' %}
+                    Регистрация закрыта
+                    {% elif event.status == 'archived' %}
+                    Мероприятие завершено
+                    {% endif %}
+                </small>
             </div>
         </div>
     </div>

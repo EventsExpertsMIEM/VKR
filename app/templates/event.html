@@ -20,12 +20,33 @@
                         {{ report }}
                     {% endfor %}
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <h4>Даты проведения:</h4>
-                        <p>{{event.start_date}} - {{event.end_date}}</p>
+                        <h4>
+                            {% if event.start_date != event.end_date %}
+                            Даты проведения:
+                            {% else %}
+                            Дата проведения:
+                            {% endif %}
+                        </h4>
+                        <p>
+                            {% if event.start_date != event.end_date %}
+                            {{event.start_date}} - {{event.end_date}}
+                            {% else %}
+                            {{event.start_date}}
+                            {% endif %}
+                        </p>
                         <h4>Время начала:</h4>
                         <p>{{event.start_time}}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
+                        <h5 class="pb-5">
+                            {% if event.status == 'active' %}
+                            Регистрация открыта
+                            {% elif event.status == 'closed' %}
+                            Регистрация закрыта
+                            {% elif event.status == 'archived' %}
+                            Мероприятие завершено
+                            {% endif %}
+                        </h5>
                         <h4>Место проведения:</h4>
                         <p>{{event.location}}</p>
                     </div>
@@ -62,6 +83,7 @@
                             href="{{event.site_link}}"
                             class="btn btn-primary mb-2"
                         >Сайт мероприятия</a>
+                        {% if event.status == 'active' %}
                         {% if current_user.is_authenticated %}
                         <button
                             type="button"
@@ -75,6 +97,7 @@
                             href="/login?next=/event/{{ event.id }}"
                             role="button"
                         >Регистрация для участников</a>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>

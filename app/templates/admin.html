@@ -61,52 +61,53 @@
                         role="tabpanel"
                         aria-labelledby="nav-users-tab"
                     >
-                        <p>TABLE HARCODED</p>
-                        {{ users }}
-                        {{ events }}
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Имя пользователя</th>
+                                    <th scope="col">E-mail пользователя</th>
                                     <th scope="col">Роль</th>
                                     <th scope="col">Управление</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% set count = 1 %}
+                                {% for user in users %}
                                 <tr>
-                                    <td>1</td>
-                                    <td><a href="">admin</a></td>
+                                    <td>{{ count }}
+                                         {% set count = count + 1 %}
+                                    </td>
+                                    <td>{{ user.email }}</td>
                                     <td><select
                                             class="form-control"
-                                            id="userRole"
-                                        >
-                                            <option selected="selected">Администратор</option>
-                                            <option>Менеджер</option>
-                                            <option>Организатор</option>
-                                            <option>Участник</option>
-                                        </select></td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="">iivanov@mail.ru</a></td>
-                                    <td><select
-                                            class="form-control"
-                                            id="userRole"
+                                            id="user_role"
                                         >
                                             <option>Администратор</option>
-                                            <option>Менеджер</option>
-                                            <option selected="selected">Организатор</option>
+                                            <option>Модератор</option>
                                             <option>Участник</option>
                                         </select></td>
-                                    <td><button
+                                    <td>
+                                        {% if user.service_status == 'superadmin' %}
+                                        -
+                                        {% else %}
+                                        <div class="btn-group" role="group">
+                                            <button
                                             type="button"
                                             class="btn btn-outline-danger"
                                             data-toggle="modal"
-                                            data-target="#user_block_modal"
-                                        >Заблокировать</button></td>
+                                            data-target="#block_user_modal"
+                                            >Заблокировать</button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-danger"
+                                                data-toggle="modal"
+                                                data-target="#delete_user_modal"
+                                            >Удалить</button>
+                                        {% endif %}
+                                        </div>
+                                    </td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -130,9 +131,23 @@
                                 {% for event in events %}
                                 <tr>
                                     <td>{{event.name}}</td>
-                                    <td>{{event.start_date}} - {{event.end_date}}</td>
+                                    <td>
+                                        {% if event.start_date != event.end_date %}
+                                        {{event.start_date}} - {{event.end_date}}
+                                        {% else %}
+                                        {{event.start_date}}
+                                        {% endif %}
+                                    </td>
                                     <td>{{event.location}}</td>
-                                    <td>Регистрация открыта HARDCODED</td>
+                                    <td>
+                                        {% if event.status == 'active' %}
+                                        Регистрация открыта
+                                        {% elif event.status == 'closed' %}
+                                        Регистрация закрыта
+                                        {% elif event.status == 'archived' %}
+                                        Мероприятие завершено
+                                        {% endif %}
+                                    </td>
                                     <td><a href="">Управление мероприятием</a></td>
                                 </tr>
                                 {% endfor %}
@@ -213,6 +228,9 @@
 
 {% block extra_modals%}
 
+{% include 'fragments/admin/block_user.html' %}
+
+{% include 'fragments/admin/delete_user.html' %}
 
 {% endblock %}
 
