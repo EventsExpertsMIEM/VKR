@@ -15,6 +15,10 @@
                 <h1 class="text-center">{{event.name}}</h1>
                 <p>{{event.sm_description}}</p>
                 <div class="row d-flex align-items-center">
+
+                    {% for report in event.reports %}
+                        {{ report }}
+                    {% endfor %}
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <h4>Даты проведения:</h4>
                         <p>{{event.start_date}} - {{event.end_date}}</p>
