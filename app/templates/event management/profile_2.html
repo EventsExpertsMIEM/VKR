@@ -217,7 +217,7 @@
                         <th scope="row">1</th>
                         <td>user@test.ru</td>
                         <td>Иванов Иван Иванович</td>
-                        <td><a href="">Програмирование микроконтроллеров для роботов-помощников, встроенных в систему умного дома</a></td>
+                        <td><a href="" data-toggle="modal" data-target="#report_modal">Програмирование микроконтроллеров для роботов-помощников, встроенных в систему умного дома</a></td>
                         <td>На модерации</td>
                         <td>
                           <div class="btn-group" role="group">
@@ -625,6 +625,68 @@
       </div>
     </div>
   </div>
+
+  <!-- report modal -->
+  <div
+    id="report_modal"
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="report_modal_label"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="report_modal_label">
+              Управление докладом
+          </h5>
+          <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+          >
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-left d-flex"> 
+            <p class="pr-4 font-weight-bold">Имя докладчика:</p>
+            <p id="report_presenter">
+                Иванов Иван Иванович
+            </p>
+          </div>
+          <div class="text-left d-flex"> 
+            <p class="pr-4 font-weight-bold">Имя докладчика:</p>
+            <a href="" id="report_file">
+              Програмирование микроконтроллеров для роботов-помощников, встроенных в систему умного дома.docx
+            </a>
+          </div>
+          <hr class="pt-0 mt-0">
+          <div class="text-left d-flex"> 
+            <p class="pr-4 font-weight-bold">Описание докладчика:</p>
+            <p id="report_presenter_description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc libero lacus, tristique vel massa eget, tempus lobortis erat. Curabitur at mauris arcu. Nam erat elit, lobortis eu libero quis, malesuada dignissim eros.
+            </p>
+          </div>
+          <div class="text-left d-flex"> 
+            <p class="pr-4 font-weight-bold">Описание доклада:</p>
+            <p id="report_description">
+                Praesent at elit turpis. Praesent elementum ante tortor, et sagittis eros porta sit amet. Vivamus scelerisque sapien non libero sollicitudin rutrum sit amet quis augue. Integer eget odio augue. Mauris sit amet augue pretium, vestibulum metus et, pharetra orci. Vivamus ex mauris, dictum efficitur eros vitae, eleifend luctus lorem. Nunc rhoncus dui in ligula blandit, vitae pharetra est tristique.
+            </p>
+          </div>
+              
+          </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <div class="btn-group" role="group">
+              <button type="submit" class="btn btn-outline-secondary">Одобрить</button>
+              <button type="button" class="btn btn-outline-danger">Отклонить</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
