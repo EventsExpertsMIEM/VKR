@@ -12,9 +12,10 @@ import requests
 import os
 import nanoid
 
-
-# NEW
-
+def update_task_status(task):
+    if task.deadline is not None and task.deadline < datetime.utcnow().date():
+        task.status = 'failed'
+    return task
 
 def create_task(e_id, data):
     with get_session() as s:
@@ -71,6 +72,8 @@ def get_tasks(e_id):
                 ETask.status != 'deleted',
                 ETask.e_id == e_id
         ).all()
+
+        tasks = [update_task_status(task) for task in tasks]
 
         return [
             {

@@ -21,7 +21,7 @@ Participation_role = ENUM('creator', 'manager', 'presenter', 'viewer',
                           name='participation_role')
 Service_status = ENUM('superadmin', 'admin', 'moderator', 'user',
                       name='service_status')
-Task_status = ENUM('todo', 'inprocess', 'waiting', 'done', 'deleted',
+Task_status = ENUM('todo', 'inprocess', 'waiting', 'done', 'failed', 'deleted',
                    name='task_status')
 Report_status = ENUM('unseen', 'approved', 'declined',
                      name='report_status')
@@ -117,6 +117,6 @@ class ETask(Base):
     id = Column(Integer, primary_key=True)
     e_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     name = Column(String, nullable=False)
-    description = Column(String, nullable=False)
-    deadline = Column(DateTime, nullable=True)
+    description = Column(String, nullable=True)
+    deadline = Column(Date, nullable=True)
     status = Column(Task_status, default='todo', nullable=False)
