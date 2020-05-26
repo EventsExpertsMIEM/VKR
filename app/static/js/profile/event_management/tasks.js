@@ -1,4 +1,4 @@
-export {loadData, deleteTask};
+export {loadData, createTask, deleteTask};
 
 function setInfoModalData(data, count) {
 
@@ -26,6 +26,51 @@ function setEditModalData(data) {
                 data.description
     
     modal.querySelector('#editTaskModalDeadline').value = data.deadline
+
+}
+
+function createTask(event) {
+
+    event.preventDefault()
+
+
+    var data = {
+        name: document.getElementById('createTaskModalName').value,
+        description: document.getElementById('createTaskModalDescription').value,
+    }
+
+    var deadline = document.getElementById('createTaskModalDeadline').value
+    if (deadline != "") {
+        data['deadline'] = deadline
+    }
+    
+    fetch(
+        `/api/event/${eventID}/task`,
+        {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(
+        response => {
+            if (response.status != 201) {
+                return Promise.reject('Something went wrong')
+            }
+
+            return response.json()
+        }
+    ).then(
+        () => {
+            var modal = document.getElementById('createTaskModal')
+            $(modal).modal('hide')
+            event.target.reset()
+            loadData(eventID)
+        }
+    ).catch(
+        error => console.log(error)
+    )
 
 }
 
@@ -159,7 +204,7 @@ function renderData(data) {
     }
 }
 
-var eventID;
+var eventID; // TODO: Find a way to refactor this mess
 
 function loadData(eventId) {
 

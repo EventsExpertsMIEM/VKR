@@ -194,8 +194,8 @@ update_task = Schema(
         Optional('name'): Use(str),
         Optional('description'): Use(str),
         Optional('deadline'): Use(
-            lambda x: date.fromisoformat(x) if x is not None else None,
+            date.fromisoformat,
             error="Invalid time format"
-        )
+        
     }
 )
