@@ -196,6 +196,6 @@ update_task = Schema(
         Optional('deadline'): Use(
             date.fromisoformat,
             error="Invalid time format"
-        
+        )
     }
 )
