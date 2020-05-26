@@ -1,0 +1,35 @@
+<div
+class="tab-pane fade mt-3"
+id="org-tasks"
+role="tabpanel"
+aria-labelledby="nav-org-tasks"
+>
+<button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#createTaskModal"
+>
+    Создать задачу
+</button>
+<table id="management_tasks_table" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">Срок выполнения</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+</div>
+
+{% include 'fragments/profile/event_management/tasks/task_info_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/create_task_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/edit_task_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/delete_task_modal.html' %}

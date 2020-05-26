@@ -12,35 +12,30 @@ import requests
 import os
 import nanoid
 
-
-# NEW
-
+def update_task_status(task):
+    if task.deadline is not None and task.deadline < datetime.utcnow().date():
+        task.status = 'failed'
+    return task
 
 def create_task(e_id, data):
-    deadline = None
-    if 'deadline' in data.keys():
-        ddate = data['deadline'].split('-')
-        deadline = date(int(ddate[0]), int(ddate[1]), int(ddate[2]))
     with get_session() as s:
         event = s.query(Event).get(e_id)
-        if not event or event.status == 'deleted':
+        if not event or event.status not in ['active', 'closed']:
             abort(404, 'No event with this id')
 
-        task = ETask(e_id=e_id, name=data['name'],
-                      description=data['description'], deadline=deadline)
+        task = ETask(
+            e_id=e_id,
+            name=data['name'],
+            description=data['description'],
+            deadline=data['deadline']
+        )
         s.add(task)
 
 
-def delete_task(e_id, t_id):
+def delete_task(t_id):
     with get_session() as s:
-        event = s.query(Event).get(e_id)
-        if not event or event.status == 'deleted':
-            abort(404, 'No event with this id')
 
-        task = s.query(ETask).filter(
-                ETask.id == t_id,
-                ETask.e_id == e_id
-        ).one_or_none()
+        task = s.query(ETask).get(t_id)
 
         if not task or task.status == 'deleted':
             abort(404, 'No task with this id')
@@ -68,7 +63,6 @@ def move_task(e_id, t_id, status):
 
 
 def get_tasks(e_id):
-    result = []
     with get_session() as s:
         event = s.query(Event).get(e_id)
         if not event or event.status == 'deleted':
@@ -79,42 +73,27 @@ def get_tasks(e_id):
                 ETask.e_id == e_id
         ).all()
 
-        for task in tasks:
-            deadline = None
-            if task.deadline is not None:
-                deadline = task.deadline.isoformat()
+        tasks = [update_task_status(task) for task in tasks]
 
-            result.append({
+        return [
+            {
                 'id': task.id,
                 'name': task.name,
                 'description': task.description,
-                'deadline': deadline,
+                'deadline':
+                    task.deadline.isoformat() if task.deadline is not None
+                    else None,
                 'status': task.status
-            })
-    return result
+            } for task in tasks
+        ]
 
 
-def update_task(e_id, t_id, data):
+def update_task(t_id, data):
     with get_session() as s:
-        event = s.query(Event).get(e_id)
-        if not event or event.status == 'deleted':
-            abort(404, 'No event with this id')
-
-        task = s.query(ETask).filter(
-                ETask.id == t_id,
-                ETask.e_id == e_id
-        ).one_or_none()
+        task = s.query(ETask).get(t_id)
 
         if not task or task.status == 'deleted':
             abort(404, 'No task with this id')
 
         for arg in data.keys():
-            getattr(event, arg)
-            if arg in ['id', 'status', 'e_id']:
-                abort(400, "Can't change this field(s)")
-            if arg == 'deadline':
-                ddate = data['deadline'].split('-')
-                deadline = date(int(ddate[0]), int(ddate[1]), int(ddate[2]))
-                setattr(task, arg, deadline)
-            else:
-                setattr(task, arg, data[arg])
+            setattr(task, arg, data[arg])

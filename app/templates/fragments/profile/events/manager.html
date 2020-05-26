@@ -1,0 +1,30 @@
+<div
+    id="events-manager-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-manager-org-tab">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Место проведения</th>
+                <th scope="col">Статус мероприятия</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        {% for event in events['manager'] %}
+        <tr>
+            <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
+            <td>{{ event.start_date }}</td>
+            <td>{{ event.end_date }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.status }}</td>
+            <td>
+                <a href="" data-id="{{ event.id }}">Управление мероприятием </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
