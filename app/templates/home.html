@@ -8,11 +8,41 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="col-12 text-center mb-3">
+    <a class="btn btn-secondary" data-toggle="collapse" href="#search_collapse" role="button" aria-expanded="false" aria-controls="search_collapse">
+    Поиск мероприятий
+    </a>
+    <div class="collapse" id="search_collapse">
+      <div class="card card-body">
+        <div class="row">
+          <div class="col-5">
+            <input id="event_name_search" class="form-control" type="search" placeholder="Поиск по названиям мероприятий" aria-label="Search">
+          </div>
+          <div class="col-4">
+            <select class="custom-select">
+              <option value="" readonly="">Выберите научные области</option>
+              <option value="Организация">Организация</option>
+              <option value="Программирование">Программирование</option>
+              <option value="Медицина">Медицина</option>
+              <option value="Мероприятия">Мероприятия</option>
+              <option value="Физика">Физика</option>
+              <option value="Химия">Химия</option>
+              <option value="Электроника">Электроника</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <a href="#" class="badge badge-primary">Робототехника</a>
+            <a href="#" class="badge badge-primary">Программирование МК</a>
+            <a href="#" class="badge badge-primary">Искуственный интеллект</a>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 <div class="card-deck">
     {% for event in events %}
     <div class="col-lg-4">
-        <div class="card o-hidden border-0 shadow">
+        <div class="card o-hidden border-0 shadow event_card">
             <div class="card-header text-center bg-light pb-0">
                 <a class="btn btn-link" href="/event/{{event.id}}" role="button">{{event.name}}</a>
             </div>
@@ -54,4 +84,5 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="/static/js/event_search.js"></script>
 {% endblock %}
