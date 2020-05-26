@@ -1,14 +1,22 @@
+{% if events['manager'] != [] %}
 <div
     id="events-manager-tab"
     class="tab-pane fade mt-3"
     role="tabpanel"
-    aria-labelledby="nav-manager-org-tab">
+    aria-labelledby="nav-manager-org-tab"
+>
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">Название</th>
-                <th scope="col">Дата начала</th>
-                <th scope="col">Дата окончания</th>
+                <th scope="col">Даты проведения</th>
+                <td>
+                    {% if event.start_date != event.end_date %}
+                    {{event.start_date}} - {{event.end_date}}
+                    {% else %}
+                    {{event.start_date}}
+                    {% endif %}
+                </td>
                 <th scope="col">Место проведения</th>
                 <th scope="col">Статус мероприятия</th>
                 <th scope="col">Действия</th>
@@ -20,11 +28,23 @@
             <td>{{ event.start_date }}</td>
             <td>{{ event.end_date }}</td>
             <td>{{ event.location }}</td>
-            <td>{{ event.status }}</td>
             <td>
-                <a href="" data-id="{{ event.id }}">Управление мероприятием </a>
+                {% if event.status == 'active' %}
+                Регистрация открыта
+                {% elif event.status == 'closed' %}
+                Регистрация закрыта
+                {% elif event.status == 'archived' %}
+                Мероприятие завершено
+                {% endif %}
+            </td>
+            <td>
+                <a
+                    href=""
+                    data-id="{{ event.id }}"
+                >Управление мероприятием </a>
             </td>
         </tr>
         {% endfor %}
     </table>
 </div>
+{% endif %}
