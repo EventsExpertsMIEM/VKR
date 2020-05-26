@@ -62,7 +62,8 @@ function getReportsInfo(data, count) {
 
     var row = document.createElement('tr')
 
-    var countCell = getCell(count)
+    var countCell = document.createElement('th')
+    countCell.textContent = count
     countCell.scope = 'row'
 
     var linkCell = getCell('')
