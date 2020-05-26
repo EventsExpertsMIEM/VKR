@@ -181,7 +181,7 @@ report_info = Schema(
 task = Schema(
     {
         'name': Use(str),
-        'description': Use(str),
+        Optional('description', default=None): Use(str),
         Optional('deadline', default=None): Use(
             datetime.fromisoformat,
             error="Invlid time format"
@@ -194,7 +194,7 @@ update_task = Schema(
         Optional('name'): Use(str),
         Optional('description'): Use(str),
         Optional('deadline'): Use(
-            datetime.fromisoformat,
+            lambda x: date.fromisoformat(x) if x is not None else None,
             error="Invalid time format"
         )
     }
