@@ -22,102 +22,14 @@ aria-labelledby="nav-org-tasks"
             <th scope="col">Действия</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td><a
-                    href=""
-                    data-toggle="modal"
-                    data-target="#task1Modal"
-                >Бронирование номеров в гостинице
-                    Radisson</a></td>
-            <td>28.03.2020</td>
-            <td>Выполнено</td>
-            <td>
-                <div
-                    class="btn-group"
-                    role="group"
-                >
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-toggle="modal"
-                        data-target="#TaskDelModal"
-                    >Удалить</button>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Бронирование номеров в гостинице Hilton</td>
-            <td>28.03.2020</td>
-            <td>Не выполнено</td>
-            <td>
-                <div
-                    class="btn-group"
-                    role="group"
-                >
-                    <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-toggle="modal"
-                        data-target="#EditTaskModal"
-                    >Редактировать</button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-toggle="modal"
-                        data-target="#TaskDelModal"
-                    >Удалить</button>
-                </div>
-            </td>
-        </tr>
-        <tr style="background-color: lightcoral;">
-            <th scope="row">3</th>
-            <td>Заказ раздаточных материалов в типографии</td>
-            <td>21.03.2020</td>
-            <td>Просрочено</td>
-            <td>
-                <div
-                    class="btn-group"
-                    role="group"
-                >
-                    <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-toggle="modal"
-                        data-target="#EditTaskModal"
-                    >Редактировать</button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-toggle="modal"
-                        data-target="#TaskDelModal"
-                    >Удалить</button>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">4</th>
-            <td>Заказ выездного кейтеринга</td>
-            <td>28.03.2020</td>
-            <td>Выполнено</td>
-            <td>
-                <div
-                    class="btn-group"
-                    role="group"
-                >
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-toggle="modal"
-                        data-target="#TaskDelModal"
-                    >Удалить</button>
-                </div>
-            </td>
-        </tr>
-    </tbody>
+    <tbody></tbody>
 </table>
 </div>
 
+{% include 'fragments/profile/event_management/tasks/task_info_modal.html' %}
+
 {% include 'fragments/profile/event_management/tasks/create_task_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/edit_task_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/delete_task_modal.html' %}
