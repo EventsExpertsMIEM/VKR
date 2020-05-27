@@ -64,6 +64,15 @@ def delete_event_by_id(e_id):
     return make_ok(200, 'Successfully deleted')
 
 
+@bp.route('/<int:e_id>/manager', methods=['GET'])
+@login_required
+def get_manger_for_event(e_id):
+    if events_logic.check_participation(current_user.id, e_id) != 'creator':
+        return make_4xx(403, "No rights")
+    manager_email = events_logic.get_manager_for_event(e_id)
+    return make_ok(200, manager_email)
+
+
 @bp.route('/<int:e_id>/manager', methods=['POST'])
 @login_required
 def add_manager_to_event(e_id):

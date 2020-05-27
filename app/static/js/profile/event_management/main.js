@@ -4,7 +4,9 @@ import {
         loadData as loadTasks,
         createTask,
         editTask,
-        deleteTask 
+        deleteTask,
+        getManager,
+        addManager
 } from './tasks.js'
 
 import { loadEventInfo, editEventInfo } from './info.js'
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         loadReports()
                         loadTasks(eventId)
                         loadEventInfo(eventId)
+                        getManager(eventId)
                     }
                 ).catch(
                     error => console.log(error)
@@ -49,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('editTaskModalDeadline').min = today
 
-    document.getElementById('createTaskModalDeadline').min = today
+    document.getElementById('createTaskModalDeadline').min = today // TODO: for all other date inputs
 
     document.getElementById('createTaskModalForm').addEventListener(
         'submit',
@@ -68,5 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('editEventInfoForm').addEventListener(
         'submit',
         editEventInfo
+    )
+
+    document.getElementById('addManagerModalForm').addEventListener(
+        'submit',
+        addManager
     )
 })

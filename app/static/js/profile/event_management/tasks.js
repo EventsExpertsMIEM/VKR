@@ -1,4 +1,4 @@
-export {loadData, createTask, editTask, deleteTask};
+export {loadData, createTask, editTask, deleteTask, getManager, addManager};
 
 var eventID;
 
@@ -30,6 +30,64 @@ function setEditModalData(data) {
                 data.description
     
     modal.querySelector('#editTaskModalDeadline').value = data.deadline
+
+}
+
+function getManager(eventId) {
+    
+    fetch(`/api/event/${eventId}/manager`).then(
+        response => {
+            if (response.status != 200) {
+                return Promise.reject('Something went wrong')
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent =
+                `Текущий менеджер: ${body.description}`
+        }
+    ).catch(
+        errot => conosle.log(error)
+    )
+}
+
+function addManager(event) {
+
+    event.preventDefault()
+
+    var data = {
+        email: document.getElementById('addManagerModalEmail').value
+    }
+
+    fetch(
+        `/api/event/${eventID}/manager`,
+        {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return Promise.reject('Something went wrong')
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent =
+                `Текущий менеджер: ${data.email}`
+        }
+    ).catch(
+        error => console.log(error)
+    )
 
 }
 
