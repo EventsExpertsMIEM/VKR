@@ -1,119 +1,143 @@
 <div
-class="tab-pane fade mt-3"
-id="org-general"
-role="tabpanel"
-aria-labelledby="nav-org-general"
+    class="tab-pane fade mt-3"
+    id="org-general"
+    role="tabpanel"
+    aria-labelledby="nav-org-general"
 >
-<form>
-    <div class="form-group">
-        <input
-            type="text"
-            class="form-control"
-            id="eventTitle"
-            placeholder="V ежегодная конференция ботоводове"
-            required
-        >
-    </div>
-    <div class="form-group">
-        <label for="eventDate">Дата проведения мероприятия:</label>
-        <input
-            type="date"
-            class="form-control"
-            id="eventDate"
-            value="2018-07-22"
-            min="2019-01-01"
-            max="2030-12-31"
-        >
-    </div>
-    <div class="form-group">
-        <!-- подключить API от яндекса  -->
-        <input
-            type="text"
-            class="form-control"
-            id="eventAdress"
-            placeholder="Москва, Крокус Сити Холл"
-            required
-        >
-    </div>
-    <div class="form-group">
-        <input
-            type="text"
-            class="form-control"
-            id="eventURL"
-            placeholder="Сайт мероприятия"
-            required
-        >
-    </div>
-    <div class="form-group">
-        <input
-            type="email"
-            class="form-control"
-            id="eventManagerMail"
-            placeholder="Почта ответственного менеджера"
-            required
-        >
-    </div>
-    <div class="form-group">
-        <textarea
-            class="form-control"
-            id="eventDescShort"
-            rows="5"
-            placeholder="V ежегодная конференция для ботоводов-любителей и профессионалов пройдет в этом году при поддержке крупнейших российских IT компаний. Приглашаем вас принять участие и заслушать доклады разработчиков и руководителей."
-            required
-        ></textarea>
-    </div>
-    <div class="form-group">
-        <textarea
-            class="form-control"
-            id="eventDescFull"
-            rows="10"
-            placeholder="Полное описание мероприятия"
-        ></textarea>
-    </div>
-    <div class="form-group">
-        <textarea
-            class="form-control"
-            id="eventAddInfo"
-            rows="5"
-            placeholder="Дополнительная информация"
-        ></textarea>
-    </div>
-    <div class="row">
-        <div class="col-5 text-center">
-            <select class="custom-select">
-                <option
-                    value=""
-                    readonly=""
-                >Выберите научные области</option>
-                <option value="Организация">Организация</option>
-                <option value="Программирование">Программирование</option>
-                <option value="Медицина">Медицина</option>
-                <option value="Мероприятия">Мероприятия</option>
-                <option value="Физика">Физика</option>
-                <option value="Химия">Химия</option>
-                <option value="Электроника">Электроника</option>
-            </select>
+    <form id="editEventInfoForm">
+        <div class="form-group">
+            <label for="editEventName">Название мероприятия:</label>
+            <input
+                id="editEventName"
+                type="text"
+                class="form-control"
+                required
+            >
         </div>
-        <div class="col-7 text-center">
-            <a
-                href="#"
-                class="badge badge-primary"
-            >Робототехника</a>
-            <a
-                href="#"
-                class="badge badge-primary"
-            >Программирование МК</a>
-            <a
-                href="#"
-                class="badge badge-primary"
-            >Искуственный интеллект</a>
+        <div class="form-group">
+            <label for="editEventStartDate">Дата начала мероприятия:</label>
+            <input
+                id="editEventStartDate"
+                type="date"
+                class="form-control"
+                min="2019-01-01"
+                max="2030-12-31"
+                required
+            >
         </div>
-    </div>
-    <div class="form-group text-center">
-        <button
-            type="submit"
-            class="btn btn-primary"
-        >Сохранить</button>
-    </div>
-</form>
+        <div class="form-group">
+            <label for="editEventEndDate">Дата окончания мероприятия:</label>
+            <input
+                id="editEventEndDate"
+                type="date"
+                class="form-control"
+                min="2019-01-01"
+                max="2030-12-31"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="editEventStartTime">Время начала мероприятия:</label>
+            <input
+                type="time"
+                class="form-control"
+                id="editEventStartTime"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <!-- подключить API от яндекса  -->
+            <label for="editEventLocation">Место проведения:</label>
+            <input
+                type="text"
+                class="form-control"
+                id="editEventLocation"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="editEventLink">Сайт мероприятия:</label>
+            <input
+                id="editEventLink"
+                type="text"
+                class="form-control"
+                required
+            >
+        </div>
+        <!-- <div class="form-group">
+            <input
+                type="email"
+                class="form-control"
+                id="eventManagerMail"
+                placeholder="Почта ответственного менеджера"
+                required
+            >
+        </div> -->
+        <div class="form-group">
+            <label for="editEventDescShort">Краткое описание мероприятия:</label>
+            <textarea
+                class="form-control"
+                id="editEventDescShort"
+                rows="5"
+                required
+            ></textarea>
+        </div>
+        <div class="form-group">
+            <label for="editEventDescFull">Полное описание мероприятия:</label>
+            <textarea
+                class="form-control"
+                id="editEventDescFull"
+                rows="10"
+                maxlength="1500"
+            ></textarea>
+        </div>
+        <div class="form-group">
+            <label for="editEventAdditionalInfo">Дополнительная информация:</label>
+            <textarea
+                class="form-control"
+                id="editEventAdditionalInfo"
+                rows="5"
+                placeholder="Дополнительная информация"
+                maxlength="1000"
+            ></textarea>
+        </div>
+        <div class="row">
+            <div class="col-5 text-center">
+                <select class="custom-select">
+                    <option
+                        value=""
+                        readonly=""
+                    >Выберите научные области</option>
+                    <option value="Организация">Организация</option>
+                    <option value="Программирование">Программирование</option>
+                    <option value="Медицина">Медицина</option>
+                    <option value="Мероприятия">Мероприятия</option>
+                    <option value="Физика">Физика</option>
+                    <option value="Химия">Химия</option>
+                    <option value="Электроника">Электроника</option>
+                </select>
+            </div>
+            <div class="col-7 text-center">
+                <a
+                    href="#"
+                    class="badge badge-primary"
+                >Робототехника</a>
+                <a
+                    href="#"
+                    class="badge badge-primary"
+                >Программирование МК</a>
+                <a
+                    href="#"
+                    class="badge badge-primary"
+                >Искуственный интеллект</a>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <button
+                id="editEventButton"
+                type="submit"
+                class="btn btn-primary"
+            >Сохранить</button>
+        </div>
+    </form>
 </div>

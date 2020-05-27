@@ -41,7 +41,7 @@ def get_event_info(e_id):
         return {
             "id": e_id,
             "creator_email": result.User.email,
-            "phone": result.User.phone,
+            # "phone": result.User.phone, Чего блять? Ты опять выходишь на связь, мудило?
             "name": event.name,
             "sm_description": event.sm_description,
             "description": event.description,
@@ -105,6 +105,8 @@ def get_events(offset=None, size=None):
 
 def create_event(u_id, data):
     with get_session() as s:
+        if data['start_date'] > data['end_date']:
+            abort(400, 'Incorrect dates')
         event = Event(
             name=data['name'],
             sm_description=data['sm_description'],
@@ -192,6 +194,21 @@ def delete_manager(e_id):
             abort(409, 'Event has no manager')
         s.delete(manager)
 
+def get_manager_for_event(e_id):
+    with get_session() as s:
+        event = s.query(Event).get(e_id)
+        if not event or event.status == 'deleted':
+            abort(404, 'No event with this id')
+
+        manager = s.query(Participation).filter(
+                Participation.e_id == e_id,
+                Participation.participation_role == 'manager'
+        ).one_or_none()
+        if manager is not None:
+            user = s.query(User).get(manager.u_id)
+            return user.email
+        else:
+            abort(404, 'No manager for this event')
 
 def update_event(e_id, data):
     with get_session() as s:

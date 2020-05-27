@@ -6,7 +6,14 @@ function approveReport(event) {
     fetch(`/api/event/report/${reportId}/approve`, { method: 'POST' }).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -32,7 +39,14 @@ function declineReport(event) {
     fetch(`/api/event/report/${reportId}/decline`, { method: 'POST' }).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -150,7 +164,14 @@ function loadData() {
     fetch(`/api/event/${eventId}/management/reports/all`).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()

@@ -40,7 +40,7 @@ def get_user_info(u_id):
         }
 
 
-def get_user_events_by_role(u_id, role, offset, size):
+def get_user_events_by_role(u_id, role, offset=None, size=None):
     result = []
     with get_session() as s:
         user = s.query(User).get(u_id)
@@ -62,13 +62,15 @@ def get_user_events_by_role(u_id, role, offset, size):
                 Report.event_id == Event.id
             ).filter(
                     Participation.u_id == u_id,
-                    Participation.participation_role == role
+                    Participation.participation_role == role,
+                    Event.status != 'deleted'
             ).order_by(desc(Event.start_date))
         else:
             events = s.query(Participation, Event).filter(
                     Participation.e_id == Event.id,
                     Participation.u_id == u_id,
-                    Participation.participation_role == role
+                    Participation.participation_role == role,
+                    Event.status != 'deleted'
             ).order_by(desc(Event.start_date))
 
         if offset is not None and size is not None:

@@ -1,4 +1,14 @@
-export {loadData, createTask, deleteTask};
+export {
+    loadData,
+    createTask,
+    editTask,
+    deleteTask,
+    getManager,
+    addManager,
+    removeManager
+};
+
+var eventID;
 
 function setInfoModalData(data, count) {
 
@@ -19,6 +29,8 @@ function setEditModalData(data) {
 
     var modal = document.getElementById('editTaskModal')
 
+    modal.querySelector('form').dataset.taskId = data.id
+
     modal.querySelector('#editTaskModalName').value = data.name
     modal
         .querySelector('#editTaskModalDescription')
@@ -26,6 +38,128 @@ function setEditModalData(data) {
                 data.description
     
     modal.querySelector('#editTaskModalDeadline').value = data.deadline
+
+}
+
+function getManager(eventId) {
+    
+    fetch(`/api/event/${eventId}/manager`).then(
+        response => {
+            if (response.status != 200) {
+                return Promise.reject(
+                    {
+                        message: 'Something went wrong',
+                        body: response.json(),
+                        code: response.status
+                    }
+                )
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent =
+                `Текущий менеджер: ${body.description}`
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = ''
+        }
+    ).catch(
+        error => {
+            if (error.code == 404) {
+                removeManagerButton.style.display = 'none'
+            }
+            error.body.then(
+                msg => console.log(msg)
+            )
+        }
+    )
+}
+
+function addManager(event) {
+
+    event.preventDefault()
+
+    var data = {
+        email: document.getElementById('addManagerModalEmail').value
+    }
+
+    fetch(
+        `/api/event/${eventID}/manager`,
+        {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent =
+                `Текущий менеджер: ${data.email}`
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = ''
+        }
+    ).catch(
+        error => console.log(error)
+    )
+
+}
+
+function removeManager() {
+
+    fetch(
+        `/api/event/${eventID}/manager`,
+        {
+            method: 'DELETE'
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent = ''
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = 'none'
+            var modal = document.getElementById('removeManagerModal')
+            $(modal).modal('hide')
+        }
+    ).catch(
+        error => console.log(error)
+    )
 
 }
 
@@ -56,7 +190,14 @@ function createTask(event) {
     ).then(
         response => {
             if (response.status != 201) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -67,6 +208,59 @@ function createTask(event) {
             $(modal).modal('hide')
             event.target.reset()
             loadData(eventID)
+        }
+    ).catch(
+        error => console.log(error)
+    )
+
+}
+
+function editTask(event) {
+
+    event.preventDefault()
+
+    var eventId = eventID
+    var taskId = event.target.dataset.taskId
+
+    var data = {
+        name: document.getElementById('editTaskModalName').value,
+        description: document.getElementById('editTaskModalDescription').value,
+    }
+
+    var deadline = document.getElementById('editTaskModalDeadline').value
+    if (deadline != "") {
+        data['deadline'] = deadline
+    }
+
+    fetch(
+        `/api/event/${eventId}/task/${taskId}`,
+        {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
+            }
+
+            return response.json()
+        }
+    ).then(
+        () => {
+            var modal = document.getElementById('editTaskModal')
+            $(modal).modal('hide')
+            loadData(eventId)
         }
     ).catch(
         error => console.log(error)
@@ -87,7 +281,14 @@ function deleteTask(event) {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -97,7 +298,6 @@ function deleteTask(event) {
             var modal = document.getElementById('deleteTaskModal')
             $(modal).modal('hide')
             loadData(eventId)
-            
         }
     ).catch(
         error => console.log(error)
@@ -204,16 +404,21 @@ function renderData(data) {
     }
 }
 
-var eventID; // TODO: Find a way to refactor this mess
-
 function loadData(eventId) {
 
-    eventID = eventId // Horrible, horrible hack
+    eventID = eventId   // Nope
 
     fetch(`api/event/${eventId}/task/all`).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()

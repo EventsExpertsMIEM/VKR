@@ -1,9 +1,9 @@
 <div
     class="modal fade"
-    id="createTaskModal"
+    id="addManagerModal"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="createTaskModalLabel"
+    aria-labelledby="addManagerModalLabel"
     aria-hidden="true"
 >
     <div
@@ -11,12 +11,12 @@
         role="document"
     >
         <div class="modal-content">
-            <form id="createTaskModalForm">
+            <form id="addManagerModalForm">
                 <div class="modal-header">
                     <h5
                         class="modal-title"
-                        id="createTaskModalLabel"
-                    >Новая задача</h5>
+                        id="addManagerModalLabel"
+                    >Добавить менеджера</h5>
                     <button
                         type="button"
                         class="close"
@@ -27,31 +27,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <p id="addMangerModalCurrentManager"></p>
                     <div class="form-group">
                         <input
-                            type="text"
+                            type="email"
                             class="form-control"
-                            id="createTaskModalName"
-                            placeholder="Название"
+                            id="addManagerModalEmail"
+                            placeholder="email"
                             required
-                        >
-                    </div>
-                    <div class="form-group">
-                        <textarea
-                            class="form-control"
-                            id="createTaskModalDescription"
-                            rows="5"
-                            placeholder="Описание"
-                        ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskDeadline">Срок выполнения:</label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="createTaskModalDeadline"
-                            min="2019-01-01"
-                            max="2030-12-31"
                         >
                     </div>
                 </div>

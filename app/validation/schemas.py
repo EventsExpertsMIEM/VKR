@@ -183,7 +183,7 @@ task = Schema(
         'name': Use(str),
         Optional('description', default=None): Use(str),
         Optional('deadline', default=None): Use(
-            datetime.fromisoformat,
+            date.fromisoformat,
             error="Invlid time format"
         )
     }
