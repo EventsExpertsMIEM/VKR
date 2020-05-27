@@ -32,8 +32,8 @@ def create_event():
 
 @bp.route('/all', methods=['GET'])
 def events():
-    offset = request.args.get("offset", "")
-    size = request.args.get("size", "")
+    offset = request.args.get("offset", None)
+    size = request.args.get("size", None)
     return jsonify(events_logic.get_events(offset, size))
 
 

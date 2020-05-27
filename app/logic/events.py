@@ -41,7 +41,7 @@ def get_event_info(e_id):
         return {
             "id": e_id,
             "creator_email": result.User.email,
-            "phone": result.User.phone,
+            # "phone": result.User.phone, Чего блять? Ты опять выходишь на связь, мудило?
             "name": event.name,
             "sm_description": event.sm_description,
             "description": event.description,

@@ -1,5 +1,7 @@
 export {loadData, createTask, editTask, deleteTask};
 
+var eventID;
+
 function setInfoModalData(data, count) {
 
     var modal = document.getElementById('taskInfoModal')
@@ -249,11 +251,9 @@ function renderData(data) {
     }
 }
 
-var eventID; // TODO: Find a way to refactor this mess
-
 function loadData(eventId) {
 
-    eventID = eventId // Horrible, horrible hack... or is it?
+    eventID = eventId   // Nope
 
     fetch(`api/event/${eventId}/task/all`).then(
         response => {

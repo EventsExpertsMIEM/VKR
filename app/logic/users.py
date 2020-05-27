@@ -40,7 +40,7 @@ def get_user_info(u_id):
         }
 
 
-def get_user_events_by_role(u_id, role, offset, size):
+def get_user_events_by_role(u_id, role, offset=None, size=None):
     result = []
     with get_session() as s:
         user = s.query(User).get(u_id)

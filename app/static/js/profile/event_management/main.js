@@ -1,6 +1,13 @@
 import { addParticipantsData, showTab } from "./participants.js"
 import { loadData as loadReports } from "./reports.js"
-import { loadData as loadTasks, createTask, editTask, deleteTask } from './tasks.js'
+import {
+        loadData as loadTasks,
+        createTask,
+        editTask,
+        deleteTask 
+} from './tasks.js'
+
+import { loadEventInfo, editEventInfo } from './info.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     var manageEventLinks = document.getElementsByClassName('manage_event_link')
@@ -28,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         showTab(body.event.id, body.event.name)
                         loadReports()
                         loadTasks(eventId)
+                        loadEventInfo(eventId)
                     }
                 ).catch(
                     error => console.log(error)
@@ -57,5 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'click', deleteTask
     )
 
-
+    document.getElementById('editEventInfoForm').addEventListener(
+        'submit',
+        editEventInfo
+    )
 })
