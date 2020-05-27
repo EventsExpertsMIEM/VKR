@@ -6,80 +6,51 @@
 >
     <form id="editEventInfoForm">
         <div class="form-group">
-            <input
-                id="editEventName"
-                type="text"
-                class="form-control"
-                required
-            >
-        </div>
-        <div class="form-group">
-            <label for="eventDate">Даты проведения мероприятия:</label>
-            <input
-                id="editEventStartDate"
-                type="date"
-                class="form-control"
-                min="2019-01-01"
-                max="2030-12-31"
-                required
-            >
-            <input
-                id="editEventEndDate"
-                type="date"
-                class="form-control"
-                min="2019-01-01"
-                max="2030-12-31"
-                required
-            >
-        </div>
-        <div class="form-group">
-            <!-- подключить API от яндекса  -->
-            <input
-                type="text"
-                class="form-control"
-                id="editEventLocation"
-                required
-            >
-        </div>
-        <div class="form-group">
-            <input
-                id="editEventLink"
-                type="text"
-                class="form-control"
-                required
-            >
-        </div>
-        <!-- <div class="form-group">
-            <input
-                type="email"
-                class="form-control"
-                id="eventManagerMail"
-                placeholder="Почта ответственного менеджера"
-                required
-            >
-        </div> -->
-        <div class="form-group">
-            <textarea
-                class="form-control"
-                id="editEventDescShort"
-                rows="5"
-                required
-            ></textarea>
-        </div>
-        <div class="form-group">
-            <textarea
-                class="form-control"
-                id="editEventDescFull"
-                rows="10"
-            ></textarea>
-        </div>
-        <div class="form-group">
-            <textarea
-                class="form-control"
-                id="editEventAdditionalInfo"
-                rows="5"
-                placeholder="Дополнительная информация"
-            ></textarea>
+            <div class="form-group">
+                <label for="edit_event_name">Название мероприятия:</label>            
+                <input type="text" class="form-control" id="edit_event_name" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_event_start_date">Дата начала мероприятия:</label>
+                <input type="date" class="form-control" id="edit_event_start_date" required>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_end_date">Дата окончания мероприятия:</label>
+                <input type="date" class="form-control" id="edit_event_end_date" required>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_start_time">Время начала мероприятия:</label>
+                <input type="time" class="form-control" id="edit_event_start_time" required>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_location">Место проведения:</label>
+                <input type="text" class="form-control" id="edit_event_location" required>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_site_link">Сайт мероприятия:</label>
+                <input type="text" class="form-control" id="edit_event_site_link" required>
+            </div>
+            <!-- <div class="form-group">
+                <input
+                    type="email"
+                    class="form-control"
+                    id="eventManagerMail"
+                    placeholder="Почта ответственного менеджера"
+                    required
+                >
+            </div> -->
+            <div class="form-group">
+                <label for="edit_event_sm_description">Краткое описание мероприятия:</label>
+                <textarea class="form-control" id="edit_event_sm_description" rows="5" maxlength="500" required></textarea>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_description">Полное описание мероприятия:</label>
+                <textarea class="form-control" id="edit_event_description" rows="10" maxlength="1500" required></textarea>  
+            </div>
+            <div class="form-group">
+                <label for="edit_event_additional_info">Дополнительная информация:</label>
+                <textarea class="form-control" id="edit_event_additional_info" rows="10" maxlength="1000" required></textarea>  
+            </div>
         </div>
         <div class="row">
             <div class="col-5 text-center">

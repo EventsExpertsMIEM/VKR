@@ -25,14 +25,26 @@
                 <td>{{ event.location }}</td>
                 <td>{{ event.status }}</td>
                 <td>
-                    <a
-                        id="manage_event_{{ event.id }}"
-                        class="manage_event_link"
-                        data-event-id="{{ event.id }}"
-                        href="#management"
-                    >
-                        Управление мероприятием
-                    </a>
+                    <div class="btn-group" role="group">
+                        <a
+                            id="manage_event_{{ event.id }}"
+                            class="manage_event_link btn btn-outline-primary"
+                            role="button"
+                            data-event-id="{{ event.id }}"
+                            href="#management"
+                        >
+                            Управление мероприятием
+                        </a>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger delete-event-button"
+                            data-toggle="modal"
+                            data-target="#delete_event_modal"
+                            data-event-id="{{ event.id }}"
+                        >
+                            Удалить мероприятие
+                        </button>    
+                    </div>
                 </td>
             </tr>
             {% endfor %}
