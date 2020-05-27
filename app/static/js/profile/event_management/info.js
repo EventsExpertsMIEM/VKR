@@ -18,6 +18,7 @@ function setData(data) {
         .getElementById('editEventAdditionalInfo')
             .value = 
                 event.additional_info
+    document.getElementById('editEventStartTime').value = event.start_time
 
 }
 
@@ -52,7 +53,8 @@ function editEventInfo(event) {
         site_link: document.getElementById('editEventLink').value,
         sm_description: document.getElementById('editEventDescShort').value,
         description: document.getElementById('editEventDescFull').value,
-        additional_info: document.getElementById('editEventAdditionalInfo').value
+        additional_info: document.getElementById('editEventAdditionalInfo').value,
+        start_time: document.getElementById('editEventStartTime').value
     }
 
     fetch(

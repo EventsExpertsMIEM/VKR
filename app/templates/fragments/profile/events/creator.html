@@ -2,48 +2,56 @@
     id="events-org-tab"
     class="tab-pane fade mt-3"
     role="tabpanel"
-    aria-labelledby="nav-events-org-tab">
+    aria-labelledby="nav-events-org-tab"
+>
     {% if events['creator'] == [] %}
-        <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
+    <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
     {% else %}
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Название</th>
-                    <th scope="col">Дата начала</th>
-                    <th scope="col">Дата окончания</th>
-                    <th scope="col">Место проведения</th>
-                    <th scope="col">Статус мероприятия</th>
-                    <th scope="col">Действия</th>
-                </tr>
-            </thead>
-            {% for event in events['creator'] %}
-            <tr id="eventCreatorRow{{ event.id }}">
-                <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
-                <td>{{ event.start_date }}</td>
-                <td>{{ event.end_date }}</td>
-                <td>{{ event.location }}</td>
-                <td>{{ event.status }}</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <button
-                            class="btn btn-outline-primary manage-event-button"
-                            data-event-id="{{ event.id }}"
-                        >
-                            Управление мероприятием
-                        </button>
-                        <button
-                            data-event-id="{{ event.id }}"
-                            class="btn btn-outline-danger delete-event-button"
-                            data-toggle="modal"
-                            data-target="#deleteEventModal"
-                        >
-                            Удалить
-                        </button>
-                    </div>
-                </td>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Место проведения</th>
+                <th scope="col">Статус мероприятия</th>
+                <th scope="col">Действия</th>
             </tr>
-            {% endfor %}
-        </table>
+        </thead>
+        {% for event in events['creator'] %}
+        <tr id="eventCreatorRow{{ event.id }}">
+            <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
+            <td>{{ event.start_date }}</td>
+            <td>{{ event.end_date }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.status }}</td>
+            <td>
+                <div
+                    class="btn-group"
+                    role="group"
+                >
+                    <a
+                        id="manage_event_{{ event.id }}"
+                        class="manage_event_link btn btn-outline-primary manage-event-button"
+                        role="button"
+                        data-event-id="{{ event.id }}"
+                        href="#management"
+                    >
+                        Управление мероприятием
+                    </a>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger delete-event-button"
+                        data-toggle="modal"
+                        data-target="#deleteEventModal"
+                        data-event-id="{{ event.id }}"
+                    >
+                        Удалить мероприятие
+                    </button>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
     {% endif %}
 </div>
