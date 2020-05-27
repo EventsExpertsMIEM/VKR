@@ -38,6 +38,7 @@
                 {% endif %}
             </td>
             <td>
+                {% if event.status == 'active' %}
                 <button
                     type="button"
                     class="btn btn-outline-danger btn-sm leave-event-button"
@@ -47,6 +48,9 @@
                 >
                     Отказаться от участия
                 </button>
+                {% else %}
+                -
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
