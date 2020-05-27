@@ -6,7 +6,8 @@ import {
         editTask,
         deleteTask,
         getManager,
-        addManager
+        addManager,
+        removeManager
 } from './tasks.js'
 
 import { loadEventInfo, editEventInfo } from './info.js'
@@ -76,5 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('addManagerModalForm').addEventListener(
         'submit',
         addManager
+    )
+
+    document.getElementById('removeManagerModalButton').addEventListener(
+        'click',
+        removeManager
     )
 })

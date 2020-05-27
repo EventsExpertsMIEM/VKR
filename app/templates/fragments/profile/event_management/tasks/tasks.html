@@ -18,7 +18,16 @@ aria-labelledby="nav-org-tasks"
     data-toggle="modal"
     data-target="#addManagerModal"
 >
-    Добавить менеджера
+    Менеджер
+</button>
+<button
+    id="removeManagerButton"
+    type="button"
+    class="btn btn-danger"
+    data-toggle="modal"
+    data-target="#removeManagerModal"
+>
+    Удалить менеджера
 </button>
 <table id="management_tasks_table" class="table table-striped">
     <thead>
@@ -43,3 +52,5 @@ aria-labelledby="nav-org-tasks"
 {% include 'fragments/profile/event_management/tasks/delete_task_modal.html' %}
 
 {% include 'fragments/profile/event_management/tasks/add_manager_modal.html' %}
+
+{% include 'fragments/profile/event_management/tasks/remove_manager_modal.html' %}

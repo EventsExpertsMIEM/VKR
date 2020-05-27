@@ -1,4 +1,12 @@
-export {loadData, createTask, editTask, deleteTask, getManager, addManager};
+export {
+    loadData,
+    createTask,
+    editTask,
+    deleteTask,
+    getManager,
+    addManager,
+    removeManager
+};
 
 var eventID;
 
@@ -38,7 +46,13 @@ function getManager(eventId) {
     fetch(`/api/event/${eventId}/manager`).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return Promise.reject(
+                    {
+                        message: 'Something went wrong',
+                        body: response.json(),
+                        code: response.status
+                    }
+                )
             }
             return response.json()
         }
@@ -48,9 +62,19 @@ function getManager(eventId) {
                 document.getElementById('addMangerModalCurrentManager')
             currentManagerDisplay.textContent =
                 `Текущий менеджер: ${body.description}`
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = ''
         }
     ).catch(
-        errot => conosle.log(error)
+        error => {
+            if (error.code == 404) {
+                removeManagerButton.style.display = 'none'
+            }
+            error.body.then(
+                msg => console.log(msg)
+            )
+        }
     )
 }
 
@@ -84,6 +108,40 @@ function addManager(event) {
                 document.getElementById('addMangerModalCurrentManager')
             currentManagerDisplay.textContent =
                 `Текущий менеджер: ${data.email}`
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = ''
+        }
+    ).catch(
+        error => console.log(error)
+    )
+
+}
+
+function removeManager() {
+
+    fetch(
+        `/api/event/${eventID}/manager`,
+        {
+            method: 'DELETE'
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return Promise.reject('Something went wrong')
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            var currentManagerDisplay =
+                document.getElementById('addMangerModalCurrentManager')
+            currentManagerDisplay.textContent = ''
+            var removeManagerButton = 
+                document.getElementById('removeManagerButton')
+            removeManagerButton.style.display = 'none'
+            var modal = document.getElementById('removeManagerModal')
+            $(modal).modal('hide')
         }
     ).catch(
         error => console.log(error)
