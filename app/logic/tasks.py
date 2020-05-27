@@ -13,11 +13,24 @@ import os
 import nanoid
 
 def update_task_status(task):
+
     if task.deadline is not None and task.deadline < datetime.utcnow().date():
+        logging.getLogger(__name__).debug(
+            "Automaticly setting failed status to task {}"
+            "due to missed deadline".format(
+                task.id
+            )
+        )
         task.status = 'failed'
     return task
 
 def create_task(e_id, data):
+
+    # TODO: Bring this back in production
+    # if (data['deadline'] is not None and
+    #     data['deadline'] < datetime.utcnow().date()):
+    #     abort(400, 'Cannot set task deadline to past date')
+
     with get_session() as s:
         event = s.query(Event).get(e_id)
         if not event or event.status not in ['active', 'closed']:
@@ -71,7 +84,7 @@ def get_tasks(e_id):
         tasks = s.query(ETask).filter(
                 ETask.status != 'deleted',
                 ETask.e_id == e_id
-        ).all()
+        ).order_by(ETask.deadline.asc()).all()
 
         tasks = [update_task_status(task) for task in tasks]
 
@@ -89,6 +102,12 @@ def get_tasks(e_id):
 
 
 def update_task(t_id, data):
+
+    # TODO: Bring this back in production
+    # if (data['deadline'] is not None and
+    #     data['deadline'] < datetime.utcnow().date()):
+    #     abort(400, 'Cannot set task deadline to past date')
+
     with get_session() as s:
         task = s.query(ETask).get(t_id)
 

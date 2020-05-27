@@ -105,6 +105,8 @@ def get_events(offset=None, size=None):
 
 def create_event(u_id, data):
     with get_session() as s:
+        if data['start_date'] > data['end_date']:
+            abort(400, 'Incorrect dates')
         event = Event(
             name=data['name'],
             sm_description=data['sm_description'],

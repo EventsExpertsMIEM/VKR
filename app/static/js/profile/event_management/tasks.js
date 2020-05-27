@@ -1,4 +1,4 @@
-export {loadData, createTask, deleteTask};
+export {loadData, createTask, editTask, deleteTask};
 
 function setInfoModalData(data, count) {
 
@@ -18,6 +18,8 @@ function setInfoModalData(data, count) {
 function setEditModalData(data) {
 
     var modal = document.getElementById('editTaskModal')
+
+    modal.querySelector('form').dataset.taskId = data.id
 
     modal.querySelector('#editTaskModalName').value = data.name
     modal
@@ -74,6 +76,50 @@ function createTask(event) {
 
 }
 
+function editTask(event) {
+
+    event.preventDefault()
+
+    var eventId = eventID
+    var taskId = event.target.dataset.taskId
+
+    var data = {
+        name: document.getElementById('editTaskModalName').value,
+        description: document.getElementById('editTaskModalDescription').value,
+    }
+
+    var deadline = document.getElementById('editTaskModalDeadline').value
+    if (deadline != "") {
+        data['deadline'] = deadline
+    }
+
+    fetch(
+        `/api/event/${eventId}/task/${taskId}`,
+        {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return Promise.reject('Something went wrong')
+            }
+
+            return response.json()
+        }
+    ).then(
+        () => {
+            var modal = document.getElementById('editTaskModal')
+            $(modal).modal('hide')
+            loadData(eventId)
+        }
+    )
+
+}
+
 function deleteTask(event) {
 
     var eventId = event.target.dataset.eventId
@@ -97,7 +143,6 @@ function deleteTask(event) {
             var modal = document.getElementById('deleteTaskModal')
             $(modal).modal('hide')
             loadData(eventId)
-            
         }
     ).catch(
         error => console.log(error)
@@ -208,7 +253,7 @@ var eventID; // TODO: Find a way to refactor this mess
 
 function loadData(eventId) {
 
-    eventID = eventId // Horrible, horrible hack
+    eventID = eventId // Horrible, horrible hack... or is it?
 
     fetch(`api/event/${eventId}/task/all`).then(
         response => {

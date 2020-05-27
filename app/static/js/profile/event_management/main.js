@@ -1,6 +1,6 @@
 import { addParticipantsData, showTab } from "./participants.js"
 import { loadData as loadReports } from "./reports.js"
-import { loadData as loadTasks, createTask, deleteTask } from './tasks.js'
+import { loadData as loadTasks, createTask, editTask, deleteTask } from './tasks.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     var manageEventLinks = document.getElementsByClassName('manage_event_link')
@@ -43,12 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('createTaskModalDeadline').min = today
 
-    document.getElementById('deleteTaskModalButton').addEventListener(
-        'click', deleteTask
-    )
-
     document.getElementById('createTaskModalForm').addEventListener(
         'submit',
         createTask
     )
+
+    document.getElementById('editTaskModalForm').addEventListener(
+        'submit',
+        editTask
+    )
+
+    document.getElementById('deleteTaskModalButton').addEventListener(
+        'click', deleteTask
+    )
+
+
 })
