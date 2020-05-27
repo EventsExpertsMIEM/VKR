@@ -54,7 +54,7 @@ def put_event_by_id(e_id):
     return make_ok(200, 'Successfully updated')
 
 
-@bp.route('/<int:e_id>/delete', methods=['GET'])
+@bp.route('/<int:e_id>', methods=['DELETE'])
 @login_required
 def delete_event_by_id(e_id):
     if (current_user.service_status == 'user' and

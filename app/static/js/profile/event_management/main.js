@@ -13,10 +13,11 @@ import {
 import { loadEventInfo, editEventInfo } from './info.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-    var manageEventLinks = document.getElementsByClassName('manage_event_link')
+    var manageEventButtons =
+        document.getElementsByClassName('manage-event-button')
 
-    Array.from(manageEventLinks).forEach(
-        link => link.addEventListener(
+    Array.from(manageEventButtons).forEach(
+        button => button.addEventListener(
             'click',
             event => {
 

@@ -1,3 +1,5 @@
+import deleteEvent from './delete_event.js'
+
 document.addEventListener('DOMContentLoaded', () => {
 
     var elements = Array.from(document.getElementsByClassName('nav-link'))
@@ -24,6 +26,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.dataset.eventId = event.currentTarget.dataset.id
             }
         )
+    )
+
+    var deleteEventButtons =
+        document.getElementsByClassName('delete-event-button')
+
+    var deleteEventButton = document.getElementById('deletEventModalButton')
+
+    Array.from(deleteEventButtons).forEach(
+        button => button.addEventListener(
+            'click',
+            event => {
+                var eventId = event.target.dataset.eventId
+                deleteEventButton.dataset.eventId = eventId
+            }
+        )
+    )
+
+    deleteEventButton.addEventListener(
+        'click',
+        event => {
+            deleteEvent(event.target.dataset.eventId)
+        }
     )
 
     var uploadReportButtons = Array.from(
