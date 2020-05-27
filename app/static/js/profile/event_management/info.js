@@ -69,7 +69,14 @@ function editEventInfo(event) {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()

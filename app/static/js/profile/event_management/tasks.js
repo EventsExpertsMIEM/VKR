@@ -98,7 +98,14 @@ function addManager(event) {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
             return response.json()
         }
@@ -128,7 +135,14 @@ function removeManager() {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
             return response.json()
         }
@@ -176,7 +190,14 @@ function createTask(event) {
     ).then(
         response => {
             if (response.status != 201) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -223,7 +244,14 @@ function editTask(event) {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -234,6 +262,8 @@ function editTask(event) {
             $(modal).modal('hide')
             loadData(eventId)
         }
+    ).catch(
+        error => console.log(error)
     )
 
 }
@@ -251,7 +281,14 @@ function deleteTask(event) {
     ).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
@@ -374,7 +411,14 @@ function loadData(eventId) {
     fetch(`api/event/${eventId}/task/all`).then(
         response => {
             if (response.status != 200) {
-                return Promise.reject('Something went wrong')
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
             }
 
             return response.json()
