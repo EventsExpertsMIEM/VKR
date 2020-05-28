@@ -38,6 +38,7 @@
                 {% endif %}
             </td>
             <td>
+                {% if event.status == 'active' %}
                 <div
                     class="btn-group"
                     role="group"
@@ -61,6 +62,9 @@
                         Удалить мероприятие
                     </button>
                 </div>
+                {% else %}
+                -
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

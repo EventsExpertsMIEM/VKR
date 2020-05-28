@@ -15,10 +15,6 @@
                 <h1 class="text-center">{{event.name}}</h1>
                 <p>{{event.sm_description}}</p>
                 <div class="row d-flex align-items-center">
-
-                    {% for report in event.reports %}
-                        {{ report }}
-                    {% endfor %}
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <h4>
                             {% if event.start_date != event.end_date %}
@@ -100,6 +96,15 @@
                         {% endif %}
                         {% endif %}
                     </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                    <h4>Информация о спикерах и докладах:</h4>
+                    {% for report in event.reports %}
+                        {{ report.user.name }} {{ report.user.surname }}
+                        {{ report.original_filename }}
+                        {{ report.presenter_description }}
+                        {{ report.report_description }}
+                    {% endfor %}
                 </div>
                 <p>{{event.description}}</p>
                 <h4>Дополнительная информация:</h4>
