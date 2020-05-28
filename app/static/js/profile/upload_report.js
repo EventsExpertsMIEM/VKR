@@ -152,6 +152,7 @@ Status: unseen`
                     () => {
                         button.disabled = false
                         button.textContent = 'Сохранить'
+                        $('#upload_report_modal').modal('hide')
                     },
                     750
                 )

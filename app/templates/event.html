@@ -34,7 +34,7 @@
                         <p>{{event.start_time}}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <h5 class="pb-5">
+                        <h4 class="pb-4">
                             {% if event.status == 'active' %}
                             Регистрация открыта
                             {% elif event.status == 'closed' %}
@@ -42,7 +42,7 @@
                             {% elif event.status == 'archived' %}
                             Мероприятие завершено
                             {% endif %}
-                        </h5>
+                        </h4>
                         <h4>Место проведения:</h4>
                         <p>{{event.location}}</p>
                     </div>
@@ -97,15 +97,22 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="row d-flex align-items-center">
+                {% if event.reports != [] %}
                     <h4>Информация о спикерах и докладах:</h4>
-                    {% for report in event.reports %}
-                        {{ report.user.name }} {{ report.user.surname }}
-                        {{ report.original_filename }}
-                        {{ report.presenter_description }}
-                        {{ report.report_description }}
-                    {% endfor %}
-                </div>
+                    <div class="row px-3">
+                        {% for report in event.reports %}
+                        <div class="card col-4 px-0 py-0">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ report.user.name }} {{ report.user.surname }}</h5>
+                            <hr class="mt-0 mb-2 text-center">
+                            <h6 class="card-subtitle mb-2 text-muted">{{ report.original_filename }}</h6>
+                            <p class="card-text">{{ report.presenter_description }}</p>
+                            <p class="card-text">{{ report.report_description }}</p>
+                          </div>
+                        </div>                   
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <p>{{event.description}}</p>
                 <h4>Дополнительная информация:</h4>
                 <p>{{event.additional_info}}</p>
