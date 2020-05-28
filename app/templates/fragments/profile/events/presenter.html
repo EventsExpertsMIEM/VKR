@@ -40,8 +40,8 @@
                     Мероприятие завершено
                     {% endif %}
                 </td>
-                <td>{{ event.report.filename }}</td>
-                <td>
+                <td id="event{{ event.id }}ReportFileName">{{ event.report.filename }}</td>
+                <td id="event{{ event.id }}ReportStatus">
                     {% if event.report.report_status == 'unseen' %}
                     На модерации
                     {% elif event.report.report_status == 'declined' %}
@@ -54,17 +54,17 @@
                     {% if event.status == 'active' %}
                     <div class="btn-group" role="group">
                         <button
-                            id="event_report_button_{{ event.id }}"
+                            id="event{{ event.id }}UploadReportButton"
                             type="button"
                             class="btn btn-outline-primary upload-report-button"
                             data-toggle="modal"
-                            data-target="#upload_report_modal"
-                            data-id="{{ event.id }}"
+                            data-target="#uploadReportModal"
+                            data-event-id="{{ event.id }}"
                             data-report-id="{{ event.report.id }}"
-                            data-report-status="{{ event.report.report_status }}"
+                            data-report-status="{{ event.report.status }}"
                             data-report-filename="{{ event.report.filename }}"
-                            data-presenter-description="{{ event.report.presenter_description }}"
-                            data-report-description="{{ event.report.report_description }}"
+                            data-presenter-description="{{ event.report.presenter_description if event.report.presenter_description != None else '' }}"
+                            data-report-description="{{ event.report.report_description if event.report.report_description != None else '' }}"
                         >
                             Загрузить файл доклада
                         </button>
@@ -94,9 +94,6 @@
         </tr>
 
         {% endfor %}
-
-        {% include 'fragments/profile/events/upload_report_modal.html' %}
-        {% include 'fragments/profile/events/delete_report_modal.html' %}
 
     </table>
     {% endif %}
