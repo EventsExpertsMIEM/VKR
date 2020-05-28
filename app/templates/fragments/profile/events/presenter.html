@@ -61,6 +61,7 @@
                             data-target="#uploadReportModal"
                             data-event-id="{{ event.id }}"
                             data-report-id="{{ event.report.id }}"
+                            data-report-name="{{ event.report.name if event.report.name != None else '' }}"
                             data-report-status="{{ event.report.status }}"
                             data-report-filename="{{ event.report.filename }}"
                             data-presenter-description="{{ event.report.presenter_description if event.report.presenter_description != None else '' }}"

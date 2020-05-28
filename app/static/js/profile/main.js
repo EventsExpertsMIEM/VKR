@@ -1,5 +1,10 @@
 import deleteEvent from './delete_event.js'
-import { uploadReport, updateReportInfo, updateReportInfoModal } from './upload_report.js'
+import {
+    uploadReport,
+    updateReportTableInfo,
+    updateReportInfoModal,
+    updateReportInfo
+} from './upload_report.js'
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -57,18 +62,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var fileInput = document.getElementById('uploadReportModalFileInput')
 
+    var updateInfoButton = 
+        document
+            .getElementById('uploadReportUpdateInfoButton')
+
     Array.from(uploadReportButtons).forEach(
         button => {
             button.addEventListener(
                 'click',
                 event => {
-                    fileInput.dataset.eventId = event.target.dataset.eventId
+                    var eventId = event.target.dataset.eventId
+                    fileInput.dataset.eventId = eventId
+                    updateInfoButton
+                        .dataset
+                            .reportId = event.target.dataset.reportId
+                    updateInfoButton.dataset.eventId = eventId
+
                     updateReportInfoModal(event)
                 }
             )
-            button.addEventListener('change', updateReportInfo)
+            button.addEventListener('change', updateReportTableInfo)
         }
     )
+
+    updateInfoButton.addEventListener('click', updateReportInfo)
 
 //     uploadReportButtons.forEach(
 //         button => button.addEventListener('click', 

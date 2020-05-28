@@ -88,15 +88,7 @@ def get_user_events_by_role(u_id, role, offset=None, size=None):
             for participant, event, report in events:
                 report_dict = None
                 if report is not None:
-                    report_dict = {
-                        'id': report.id,
-                        'filename': report.original_filename,
-                        'uploaded_at': report.uploaded_at,
-                        'last_updated': report.last_updated,
-                        'presenter_description': report.presenter_description,
-                        'report_description': report.report_description,
-                        'report_status': report.report_status
-                    }
+                    report_dict = result_as_dict(report)
                 result.append({
                     'id': event.id,
                     'name': event.name,

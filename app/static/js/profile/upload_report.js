@@ -1,4 +1,9 @@
-export { uploadReport, updateReportInfo, updateReportInfoModal }
+export {
+    uploadReport,
+    updateReportTableInfo,
+    updateReportInfoModal,
+    updateReportInfo
+}
 
 function uploadReport(event) {
 
@@ -58,6 +63,9 @@ function uploadReport(event) {
                     .reportFilename = formData.get('file').name
             var manualEvent = new Event('change')
             uploadReportButton.dispatchEvent(manualEvent)
+            var updateReportInfoButton = 
+                document.getElementById('uploadReportUpdateInfoButton')
+            updateReportInfoButton.dataset.reportId = json_body.description
         }
     ).catch(
         error => console.log(error)
@@ -65,6 +73,53 @@ function uploadReport(event) {
 }
 
 function updateReportInfo(event) {
+
+    var reportId = event.target.dataset.reportId
+    var eventId = event.target.dataset.eventId
+
+    var data =  {
+        name:
+            document
+                .getElementById('uploadReportModalName')
+                    .value,
+        report_description:
+            document
+                .getElementById('uploadReportModalReportDescription')
+                    .value,
+        presenter_description:
+            document
+                .getElementById('uploadReportPresenterDescription')
+                    .value
+    }
+
+    fetch(
+        `/api/event/report/${reportId}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+    ).then(
+        response => {
+            event.target.textContent = 'Информация сохранена'
+            var uploadReportButton =
+                document.getElementById(`event${eventId}UploadReportButton`)
+            uploadReportButton.dataset.reportName = data.name
+            uploadReportButton.dataset.reportDescription = data.report_description
+            uploadReportButton.dataset.presenterDescription = data.presenter_description
+            setTimeout(
+                () => event.target.textContent = 'Сохранить',
+                750
+            )
+        }
+    ).catch(
+        error => console.log(error)
+    )
+}
+
+function updateReportTableInfo(event) {
 
     const statuses  = {
         unseen: 'На модерации',
@@ -89,6 +144,12 @@ function updateReportInfoModal(event) {
     var modal = document.getElementById('uploadReportModal')
     var data = event.target.dataset
 
+    var nameDisplay = modal.querySelector('#uploadReportModalName')
+    var reportDescriptionDisplay = 
+        modal.querySelector('#uploadReportModalReportDescription')
+    var presenterDescriptionDisplay =
+        modal.querySelector('#uploadReportPresenterDescription')
+
     if (data.reportId === '') {
         modal.querySelector('#uploadReportModalFileInput').style.display = ''
         Array.from(modal.querySelectorAll('.upload-report-info')).forEach(
@@ -96,6 +157,9 @@ function updateReportInfoModal(event) {
                 el.style.display = 'none'
             }
         )
+        nameDisplay.value = ''
+        reportDescriptionDisplay.value = ''
+        presenterDescriptionDisplay.value = ''
         return 
     }
 
@@ -108,13 +172,9 @@ function updateReportInfoModal(event) {
         el => el.style.display = ''
     )
 
-    // modal.querySelector('#uploadReportModalName').textContent = data.reportName
-    modal
-        .querySelector('#uploadReportModalReportDescription')
-            .textContent = data.reportDescription
-    modal
-        .querySelector('#uploadReportPresenterDescription')
-            .textContent = data.presenterDescription
+    nameDisplay.value = data.reportName
+    reportDescriptionDisplay.value = data.reportDescription
+    presenterDescriptionDisplay.value = data.presenterDescription
 
 }
 

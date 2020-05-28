@@ -194,7 +194,7 @@ update_task = Schema(
     {
         Optional('name'): Use(str),
         Optional('description'): Use(str),
-        Optional('deadline'): Use(
+        Optional('deadline'): Use( # TODO: Remove deadline? Default? Test
             date.fromisoformat,
             error="Invalid time format"
         )
