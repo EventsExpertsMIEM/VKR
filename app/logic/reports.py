@@ -76,10 +76,7 @@ def get_report_info_by_id(r_id):
         report = s.query(Report).get(r_id)
         if report is None:
             abort(404, 'No report found')
-        return {
-            c.name:
-                str(getattr(report, c.name)) for c in report.__table__.columns
-        }
+        return result_as_dict(report)
 
 
 def get_report_info_for_event(u_id, e_id):
@@ -90,10 +87,7 @@ def get_report_info_for_event(u_id, e_id):
         ).one_or_none()
         if report is None:
             abort(404, 'No report found')
-        return {
-            c.name:
-                str(getattr(report, c.name)) for c in report.__table__.columns
-        }
+        return result_as_dict(report)
 
 
 def update_report_info_by_id(r_id, data):
@@ -189,6 +183,7 @@ def get_all_reports_for_event(e_id, u_id):
         return [
             {
                 'id': r.id,
+                'name': r.name,
                 'filename': r.original_filename,
                 'status': r.report_status,
                 'report_description': r.report_description,

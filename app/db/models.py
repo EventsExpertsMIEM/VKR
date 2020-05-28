@@ -91,6 +91,7 @@ class Report(Base):
     __tablename__ = 'reports'
 
     id = Column(String, primary_key=True)
+    name = Column(String, nullable=True)
     original_filename = Column(String, nullable=False)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)

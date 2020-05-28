@@ -172,6 +172,7 @@ user_update = Schema(
 
 report_info = Schema(
     {
+        Optional('name'): Use(str),
         Optional('presenter_description'): Use(str),
         Optional('report_description'): Use(str)
     },
