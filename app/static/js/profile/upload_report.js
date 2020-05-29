@@ -1,6 +1,7 @@
 export {
     uploadReport,
     updateReportTableInfo,
+    deleteReport,
     updateReportInfoModal,
     updateReportInfo
 }
@@ -66,6 +67,9 @@ function uploadReport(event) {
             var updateReportInfoButton = 
                 document.getElementById('uploadReportUpdateInfoButton')
             updateReportInfoButton.dataset.reportId = json_body.description
+            var deleteReportButton =
+                document.getElementById(`event${eventId}DeleteReportButton`)
+            deleteReportButton.dataset.eventId = eventId
         }
     ).catch(
         error => console.log(error)
@@ -117,6 +121,54 @@ function updateReportInfo(event) {
     ).catch(
         error => console.log(error)
     )
+}
+
+function deleteReport(event) {
+
+    var eventId = event.target.dataset.eventId
+
+    fetch(
+        `/api/event/${eventId}/report`,
+        {
+            method: 'DELETE'
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_body => Promise.reject(
+                        {
+                            code: response.status,
+                            message: json_body.error
+                        }
+                    )
+                )
+            }
+            return response.json()
+        }
+    ).then(
+        json_body => {
+            var button = document.getElementById('deleteReportModalButton')
+            button.textContent = json_body.description
+            setTimeout(
+                () => {
+                    button.textContent = 'Удалить'
+                    var modal = document.getElementById('delete_report_modal')
+                    $(modal).modal('hide')
+                    var eventUploadReportButton = document.getElementById(`event${eventId}UploadReportButton`)
+                    eventUploadReportButton.dataset.reportId = ''
+                    eventUploadReportButton.dataset.reportName = ''
+                    eventUploadReportButton.dataset.reportStatus = ''
+                    eventUploadReportButton.dataset.reportFilename = ''
+                    eventUploadReportButton.dataset.presenterDescription = ''
+                    eventUploadReportButton.dataset.reportDescription = ''
+                    var manualEvent = new Event('change')
+                    eventUploadReportButton.dispatchEvent(manualEvent)
+                }
+            )
+        }
+    )
+
 }
 
 function updateReportTableInfo(event) {

@@ -22,7 +22,8 @@
         </thead>
         {% for event in events['presenter'] %}
 
-
+        <tbody>
+            <tr>
                 <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
                 <td>
                     {% if event.start_date != event.end_date %}
@@ -40,7 +41,7 @@
                     Мероприятие завершено
                     {% endif %}
                 </td>
-                <td id="event{{ event.id }}ReportFileName">{{ event.report.filename }}</td>
+                <td id="event{{ event.id }}ReportFileName">{{ event.report.original_filename }}</td>
                 <td id="event{{ event.id }}ReportStatus">
                     {% if event.report.report_status == 'unseen' %}
                     На модерации
@@ -52,7 +53,10 @@
                 </td>
                 <td>
                     {% if event.status == 'active' %}
-                    <div class="btn-group" role="group">
+                    <div
+                        class="btn-group"
+                        role="group"
+                    >
                         <button
                             id="event{{ event.id }}UploadReportButton"
                             type="button"
@@ -70,11 +74,12 @@
                             Загрузить файл доклада
                         </button>
                         <button
+                            id="event{{ event.id }}DeleteReportButton"
                             type="button"
                             class="btn btn-outline-danger delete-report-button"
                             data-toggle="modal"
                             data-target="#delete_report_modal"
-                            data-report-id="{{ event.report.id }}"
+                            data-event-id="{{ event.id }}"
                         >
                             Удалить доклад
                         </button>
@@ -92,7 +97,8 @@
                     -
                     {% endif %}
                 </td>
-        </tr>
+            </tr>
+        </tbody>
 
         {% endfor %}
 
