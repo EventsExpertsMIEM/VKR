@@ -309,14 +309,18 @@ def get_participants_for_event(e_id, u_id):
         'participants': []
     }
     with get_session() as s:
-        event, creator = s.query(Event, Participation).filter(
-            Event.id == e_id,
+        event = s.query(Event).get(e_id)
+        participants = s.query(Participation).filter(
             Participation.e_id == e_id,
-            Participation.participation_role == 'creator'
-        ).one_or_none()
-        if not event or event.status == 'deleted':
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if event is None or event.status == 'deleted':
             abort(404, 'No event with this id')
-        if creator.u_id != u_id:
+        if u_id not in [p.u_id for p in participants]:
             abort(403, 'Forbidden')
         users = s.query(User, Participation).filter(
                 User.id == Participation.u_id,

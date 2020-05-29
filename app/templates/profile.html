@@ -87,6 +87,17 @@
                 class="nav-link pl-4"
                 id="nav-events-management-tab"
                 data-toggle="tab"
+                href="#events-manager-tab"
+                role="tab"
+                aria-controls="events-management-tab"
+                data-anchor="management"
+            >
+                Клиентские мероприятия
+            </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-management-tab"
+                data-toggle="tab"
                 href="#events-management-tab"
                 role="tab"
                 aria-controls="events-management-tab"
@@ -133,6 +144,8 @@
                     {% include 'fragments/profile/events/manager.html' %}
 
                     {% include 'fragments/profile/event_management/event_management.html' %}
+
+                    {% include 'fragments/profile/manager/manager_tab.html' %}
 
                 </div>
             </div>

@@ -2,7 +2,7 @@
     id="events-org-tab"
     class="tab-pane fade mt-3"
     role="tabpanel"
-    aria-labelledby="nav-events-org-tab"
+    aria-labelledby="nav-events-management-tab"
 >
     {% if events['creator'] == [] %}
     <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         {% for event in events['creator'] %}
-        <tr id="eventCreatorRow{{ event.id }}">
+        <tr id="eventManagerRow{{ event.id }}">
             <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
             <td>
                 {% if event.start_date != event.end_date %}
