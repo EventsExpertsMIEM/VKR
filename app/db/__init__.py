@@ -78,7 +78,7 @@ def add_test_data():
                 'department': 'Computer Engineering',
                 'program': 'ISCT',
                 'mode': 'bachelor',
-                'status': 'bachelor',
+                'status': 'bachelor (finished)',
                 'graduation_year': 2020
             }
         )
@@ -91,7 +91,7 @@ def add_test_data():
                 'department': 'Economics',
                 'program': 'International Relations',
                 'mode': 'bachelor',
-                'status': 'bachelor',
+                'status': 'bachelor (finished)',
                 'graduation_year': 2020
             }
         )
