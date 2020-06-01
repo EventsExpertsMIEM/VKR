@@ -2,8 +2,7 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from ..logic import users as users_logic
-from ..logic import education as education_logic
+from ..logic import users as users_logic, education as education_logic
 
 import logging
 
@@ -17,7 +16,6 @@ def profile():
     return render_template(
         '/profile.html',
         current_user=current_user,
-        education=education,
         events = {
             'viewer': users_logic.get_user_events_by_role(
                 current_user.id, 'viewer',
@@ -35,5 +33,6 @@ def profile():
                 current_user.id, 'creator',
                 # 0, 10
             ),
-        }
+        },
+        education=education_logic.get_user_education(current_user.id)
     )

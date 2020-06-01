@@ -18,7 +18,7 @@ def create_edu():
     return make_ok(201, str(id))
 
 
-@bp.route('/<int:edu_id>/delete', methods=['GET'])
+@bp.route('/<int:edu_id>', methods=['DELETE']) # ZAEBAL...
 @login_required
 def delete_edu_by_id(edu_id):
     education_logic.delete_user_education(current_user.id, edu_id)

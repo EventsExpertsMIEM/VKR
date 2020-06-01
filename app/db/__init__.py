@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
 
-
 _engine = create_engine(cfg.DB_CONNECTION_STRING)
 _Session = sessionmaker(bind=_engine, expire_on_commit=False)
 
@@ -56,6 +55,7 @@ def create_tables(password):
 def add_test_data():
     from ..logic import accounts as accounts_logic
     from ..logic import events as events_logic
+    from ..logic import education as education_logic
     from datetime import datetime, timedelta
 
     logging.getLogger(__name__).info('Filling database with test data')
@@ -66,6 +66,34 @@ def add_test_data():
             password='123',
             name='User{}'.format(i),
             surname='Surname{}'.format(i),
+        )
+
+    for i in range(1,4):
+        education_logic.add_user_education(
+            i,
+            {
+                'country': 'Russia',
+                'city': 'Moscow',
+                'university': 'HSE',
+                'department': 'Computer Engineering',
+                'program': 'ISCT',
+                'mode': 'bachelor',
+                'status': 'bachelor',
+                'graduation_year': 2020
+            }
+        )
+        education_logic.add_user_education(
+            i,
+            {
+                'country': 'Great Brittain',
+                'city': 'London',
+                'university': 'HSE',
+                'department': 'Economics',
+                'program': 'International Relations',
+                'mode': 'bachelor',
+                'status': 'bachelor',
+                'graduation_year': 2020
+            }
         )
 
     for i in range(1,13):
