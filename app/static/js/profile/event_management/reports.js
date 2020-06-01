@@ -1,4 +1,4 @@
-export {approveReport, declineReport, getReportsInfo, addReportsData, loadData}
+export { renderReports }
 
 function approveReport(event) {
     var reportId = event.target.dataset.reportId;
@@ -154,14 +154,9 @@ function addReportsData(data) {
 
 }
 
-function loadData() {
+async function loadData(eventId) {
 
-    var eventId =
-        document
-            .getElementById('events-management-tab')
-                .dataset.eventId
-
-    fetch(`/api/event/${eventId}/management/reports/all`).then(
+    return fetch(`/api/event/${eventId}/management/reports/all`).then(
         response => {
             if (response.status != 200) {
                 return response.json().then(
@@ -177,13 +172,15 @@ function loadData() {
             return response.json()
         }
     ).then(
-        body => {
-
-            addReportsData(body)
-
-        }
+        body => body
     ).catch(
         error => console.log(error)
     )
+
+}
+
+async function renderReports(eventId) {
+
+    addReportsData(await loadData(eventId))
 
 }

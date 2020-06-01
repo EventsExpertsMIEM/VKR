@@ -1,0 +1,96 @@
+<div
+    class="tab-pane fade mt-3"
+    id="clients-tasks"
+    role="tabpanel"
+    aria-labelledby="nav-clients-tasks"
+>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Срок выполнения</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td><a
+                        href=""
+                        data-toggle="modal"
+                        data-target="#task1Modal"
+                    >Бронирование номеров в гостинице Radisson</a></td>
+                <td>28.03.2020</td>
+                <td>
+                    <select class="form-control">
+                        <option>Выполнено</option>
+                        <option>В работе</option>
+                        <option>Не выполнено</option>
+                    </select>
+                </td>
+                <td>
+                    <div
+                        class="btn-group"
+                        role="group"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-outline-secondary"
+                        >Сохранить</button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-toggle="modal"
+                            data-target="#TaskDelModal"
+                        >Удалить</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Бронирование номеров в гостинице Hilton</td>
+                <td>28.03.2020</td>
+                <td>
+                    <select class="form-control">
+                        <option>Не выполнено</option>
+                        <option>В работе</option>
+                        <option>Выполнено</option>
+                    </select>
+                </td>
+                <td>
+                    <div
+                        class="btn-group"
+                        role="group"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-outline-secondary"
+                        >Сохранить</button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-toggle="modal"
+                            data-target="#TaskDelModal"
+                        >Удалить</button>
+                    </div>
+                </td>
+            </tr>
+            <tr style="background-color: lightcoral;">
+                <th scope="row">3</th>
+                <td>Заказ раздаточных материалов в типографии</td>
+                <td>21.03.2020</td>
+                <td>Просрочено</td>
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        data-toggle="modal"
+                        data-target="#TaskDelModal"
+                    >Удалить</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,3 +1,5 @@
+import { showTab } from '../event_management/participants.js'
+
 document.addEventListener('DOMContentLoaded', () => {
 
     Array.from(
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 ).then(
                     body => {
+                        showTab(eventId)
                         console.log(body)
                     }
                 ).catch(

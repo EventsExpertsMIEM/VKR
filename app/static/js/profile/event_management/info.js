@@ -7,6 +7,8 @@ function setData(data) {
 
     var event = data.event
 
+    console.log(event)
+
     document.getElementById('editEventName').value = event.name
     document.getElementById('editEventStartDate').value = event.start_date
     document.getElementById('editEventEndDate').value = event.end_date
@@ -18,7 +20,12 @@ function setData(data) {
         .getElementById('editEventAdditionalInfo')
             .value = 
                 event.additional_info
-    document.getElementById('editEventStartTime').value = event.start_time
+    document.getElementById('editEventStartTime').value =
+        event
+            .start_time
+                .split(':')
+                    .slice(0,2)
+                        .join(':')
 
 }
 

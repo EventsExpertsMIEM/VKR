@@ -5,7 +5,8 @@ export {
     deleteTask,
     getManager,
     addManager,
-    removeManager
+    removeManager,
+    renderTaskForCreator
 };
 
 var eventID;
@@ -207,7 +208,7 @@ function createTask(event) {
             var modal = document.getElementById('createTaskModal')
             $(modal).modal('hide')
             event.target.reset()
-            loadData(eventID)
+            renderTaskForCreator(eventID)
         }
     ).catch(
         error => console.log(error)
@@ -260,7 +261,7 @@ function editTask(event) {
         () => {
             var modal = document.getElementById('editTaskModal')
             $(modal).modal('hide')
-            loadData(eventId)
+            renderTaskForCreator(eventId)
         }
     ).catch(
         error => console.log(error)
@@ -297,7 +298,7 @@ function deleteTask(event) {
         () => {
             var modal = document.getElementById('deleteTaskModal')
             $(modal).modal('hide')
-            loadData(eventId)
+            renderTaskForCreator(eventId)
         }
     ).catch(
         error => console.log(error)
@@ -404,11 +405,11 @@ function renderData(data) {
     }
 }
 
-function loadData(eventId) {
+async function loadData(eventId) {
 
     eventID = eventId   // Nope
 
-    fetch(`api/event/${eventId}/task/all`).then(
+    return fetch(`api/event/${eventId}/task/all`).then(
         response => {
             if (response.status != 200) {
                 return response.json().then(
@@ -424,8 +425,13 @@ function loadData(eventId) {
             return response.json()
         }
     ).then(
-        body => renderData(body)
+        body => body
     ).catch(
         error => console.log(error)
     )
+}
+
+async function renderTaskForCreator(eventId) {
+    renderData(await loadData(eventId))
+    getManager(eventId)
 }

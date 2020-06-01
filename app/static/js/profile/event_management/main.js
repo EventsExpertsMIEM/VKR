@@ -1,16 +1,72 @@
-import { addParticipantsData, showTab } from "./participants.js"
-import { loadData as loadReports } from "./reports.js"
+import { renderParticipants } from "./participants.js"
+import { renderReports } from "./reports.js"
 import {
         loadData as loadTasks,
         createTask,
         editTask,
         deleteTask,
-        getManager,
         addManager,
-        removeManager
+        removeManager,
+        renderTaskForCreator
 } from './tasks.js'
 
 import { loadEventInfo, editEventInfo } from './info.js'
+
+function showCreatorTab(eventId) {
+
+    var managementNav =
+        document.getElementById('nav-events-management-tab')
+
+    var managementTab =
+        document.getElementById('events-management-tab')
+    managementTab.dataset.eventId = eventId
+
+    var managerNavs = document.getElementsByClassName('manager-only-nav')
+    Array.from(managerNavs).forEach(
+        nav => nav.style.display = 'none'
+    )
+
+    var creatorNavs = document.getElementsByClassName('creator-only-nav')
+    Array.from(creatorNavs).forEach(
+        nav => nav.style.display = ''
+    )
+
+    renderParticipants(eventId)
+
+    document.getElementById('nav-org-participants').click()
+    managementNav.click()
+
+    renderReports(eventId)
+    renderTaskForCreator(eventId)
+    loadEventInfo(eventId)
+}
+
+function showManagerTab(eventId) {
+
+    var managementNav =
+        document.getElementById('nav-events-management-tab')
+
+    var managementTab =
+        document.getElementById('events-management-tab')
+    managementTab.dataset.eventId = eventId
+
+    var managerNavs = document.getElementsByClassName('manager-only-nav')
+    Array.from(managerNavs).forEach(
+        nav => nav.style.display = ''
+    )
+
+    var creatorNavs = document.getElementsByClassName('creator-only-nav')
+    Array.from(creatorNavs).forEach(
+        nav => nav.style.display = 'none'
+    )
+
+    renderParticipants(eventId)
+
+    document.getElementById('nav-org-participants').click()
+    managementNav.click()
+
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     var manageEventButtons =
@@ -23,35 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 var eventId = event.target.dataset.eventId
 
-                fetch(`/api/event/${eventId}/participants`).then(
-                    response => {
-                        if (response.status != 200) {
-                            return response.json().then(
-                                json_data => Promise.reject(
-                                    {
-                                        message: json_data.error,                                        code: response.status
-                                    }
-                                )
-                            )
-                        }
+                showCreatorTab(eventId)
 
-                        return response.json()
-                    }
-                ).then(
-                    body => {
+            }
+        )
+    )
 
-                        addParticipantsData(body.participants)
-
-                        showTab(body.event.id, body.event.name)
-                        loadReports()
-                        loadTasks(eventId)
-                        loadEventInfo(eventId)
-                        getManager(eventId)
-                    }
-                ).catch(
-                    error => console.log(error)
-                )
-
+    var managerManageEventsButtons =
+        document.getElementsByClassName('manage-event-manager-button')
+    
+    Array.from(managerManageEventsButtons).forEach(
+        button => button.addEventListener(
+            'click',
+            event => {
+                var eventId = event.target.dataset.eventId
+                showManagerTab(eventId)
             }
         )
     )

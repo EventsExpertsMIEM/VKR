@@ -85,7 +85,7 @@
             </a>
             <a
                 class="nav-link pl-4"
-                id="nav-events-management-tab"
+                id="nav-events-manager-tab"
                 data-toggle="tab"
                 href="#events-manager-tab"
                 role="tab"
@@ -143,9 +143,7 @@
 
                     {% include 'fragments/profile/events/manager.html' %}
 
-                    {% include 'fragments/profile/event_management/event_management.html' %}
-
-                    {% include 'fragments/profile/manager/manager_tab.html' %}
+                    {% include 'fragments/profile/events/event_management/event_management.html' %}
 
                 </div>
             </div>
@@ -172,13 +170,13 @@
 
 {% include 'fragments/profile/security/self_delete_modal.html' %}
 
-{% include 'fragments/profile/events/leave_event_modal.html' %}
+{% include 'fragments/profile/events/modals/leave_event_modal.html' %}
 
-{% include 'fragments/profile/events/delete_event_modal.html' %}
+{% include 'fragments/profile/events/modals/delete_event_modal.html' %}
 
-{% include 'fragments/profile/events/upload_report_modal.html' %}
+{% include 'fragments/profile/events/modals/upload_report_modal.html' %}
 
-{% include 'fragments/profile/events/delete_report_modal.html' %}
+{% include 'fragments/profile/events/modals/delete_report_modal.html' %}
 
 {% endblock %}
 

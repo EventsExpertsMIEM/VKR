@@ -1,4 +1,4 @@
-export { getParticipantsInfo, addParticipantsData, showTab}
+export { renderParticipants }
 
 function getParticipantsInfo(data, count) {
 
@@ -46,17 +46,30 @@ function addParticipantsData(data) {
 
 }
 
+async function getParticipants (eventId) {
 
-function showTab(eventId, eventName) {
+    return fetch(`/api/event/${eventId}/participants`).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_data => Promise.reject(
+                        {
+                            message: json_data.error,
+                            code: response.status
+                        }
+                    )
+                )
+            }
 
-    var managementNav =
-        document.getElementById('nav-events-management-tab')
-    managementNav.style.display = ''
-    managementNav.textContent = eventName
+            return response.json()
+        }
+    ).then(
+        body => body.participants
+    ).catch(
+        error => console.log(error)
+    )
+}
 
-    var managementTab =
-        document.getElementById('events-management-tab')
-    managementTab.dataset.eventId = eventId
-
-    managementNav.click()
+async function renderParticipants(eventId) {
+    addParticipantsData(await getParticipants(eventId))
 }

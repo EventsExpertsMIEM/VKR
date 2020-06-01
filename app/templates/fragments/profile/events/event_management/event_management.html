@@ -25,7 +25,7 @@
                 aria-controls="org-reports"
             >Управление докладами</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item creator-only-nav">
             <a
                 class="nav-link"
                 id="nav-org-tasks"
@@ -35,7 +35,17 @@
                 aria-controls="org-tasks"
             >Управление задачами</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item manager-only-nav">
+            <a
+                class="nav-link"
+                id="nav-clients-tasks"
+                data-toggle="tab"
+                href="#clients-tasks"
+                role="tab"
+                aria-controls="clients-tasks"
+            >Управление задачами</a>
+        </li>
+        <li class="nav-item creator-only-nav">
             <a
                 class="nav-link"
                 id="nav-org-general"
@@ -51,13 +61,15 @@
         id="nav-tabContent"
     >
 
-        {% include 'fragments/profile/event_management/participants.html' %}
+        {% include 'fragments/profile/events/event_management/participants.html' %}
 
-        {% include 'fragments/profile/event_management/reports.html' %}
+        {% include 'fragments/profile/events/event_management/reports.html' %}
 
-        {% include 'fragments/profile/event_management/tasks/tasks.html' %}
+        {% include 'fragments/profile/events/event_management/tasks_creator/tasks.html' %}
+        
+        {% include 'fragments/profile/events/event_management/tasks_manager/tasks.html' %}
 
-        {% include 'fragments/profile/event_management/general.html' %}
+        {% include 'fragments/profile/events/event_management/general.html' %}
 
     </div>
 </div>
