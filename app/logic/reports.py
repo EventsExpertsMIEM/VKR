@@ -3,6 +3,7 @@ from ..config import cfg
 from ..db import *
 
 from flask import abort
+from sqlalchemy import or_
 import logging
 
 
@@ -170,12 +171,16 @@ def get_reports_for_event(e_id):
 
 def get_all_reports_for_event(e_id, u_id):
     with get_session() as s:
-        creator = s.query(Participation).filter(
+        participants = s.query(Participation).filter(
             Participation.e_id == e_id,
-            Participation.u_id == u_id
-        ).one_or_none()
-        if creator.participation_role != 'creator':
-            abort(403, 'No rights')
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
         result = s.query(Report, User).filter(
             Report.user_id == User.id,
             Report.event_id == e_id
@@ -202,13 +207,16 @@ def approve_report(r_id, u_id):
         if not report:
             abort(404, "Report not found")
         
-        creator = s.query(Participation).filter(
+        participants = s.query(Participation).filter(
             Participation.e_id == report.event_id,
-            Participation.participation_role == 'creator'
-        ).one_or_none()
-
-        if creator.u_id != u_id:
-            abort(403, 'No rights')
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
 
         report.report_status = 'approved'
 
@@ -225,13 +233,16 @@ def decline_report(r_id, u_id):
         if not report:
             abort(404, "Report not found")
         
-        creator = s.query(Participation).filter(
+        participants = s.query(Participation).filter(
             Participation.e_id == report.event_id,
-            Participation.participation_role == 'creator'
-        ).one_or_none()
-
-        if creator.u_id != u_id:
-            abort(403, 'No rights')
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
 
         report.report_status = 'declined'
 

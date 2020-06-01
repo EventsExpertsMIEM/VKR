@@ -7,7 +7,9 @@ import {
         deleteTask,
         addManager,
         removeManager,
-        renderTaskForCreator
+        renderTasksForCreator,
+        renderTasksForManager,
+
 } from './tasks.js'
 
 import { loadEventInfo, editEventInfo } from './info.js'
@@ -37,7 +39,7 @@ function showCreatorTab(eventId) {
     managementNav.click()
 
     renderReports(eventId)
-    renderTaskForCreator(eventId)
+    renderTasksForCreator(eventId)
     loadEventInfo(eventId)
 }
 
@@ -65,6 +67,8 @@ function showManagerTab(eventId) {
     document.getElementById('nav-org-participants').click()
     managementNav.click()
 
+    renderReports(eventId)
+    renderTasksForManager(eventId)
 }
 
 

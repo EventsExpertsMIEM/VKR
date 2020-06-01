@@ -310,6 +310,8 @@ def get_participants_for_event(e_id, u_id):
     }
     with get_session() as s:
         event = s.query(Event).get(e_id)
+        if event is None or event.status == 'deleted':
+            abort(404, 'No event with this id')
         participants = s.query(Participation).filter(
             Participation.e_id == e_id,
             Participation.u_id == u_id,
@@ -318,8 +320,6 @@ def get_participants_for_event(e_id, u_id):
                 Participation.participation_role == 'manager'
             )
         ).all()
-        if event is None or event.status == 'deleted':
-            abort(404, 'No event with this id')
         if u_id not in [p.u_id for p in participants]:
             abort(403, 'Forbidden')
         users = s.query(User, Participation).filter(

@@ -6,7 +6,8 @@ export {
     getManager,
     addManager,
     removeManager,
-    renderTaskForCreator
+    renderTasksForCreator,
+    renderTasksForManager
 };
 
 var eventID;
@@ -208,7 +209,7 @@ function createTask(event) {
             var modal = document.getElementById('createTaskModal')
             $(modal).modal('hide')
             event.target.reset()
-            renderTaskForCreator(eventID)
+            renderTasksForCreator(eventID)
         }
     ).catch(
         error => console.log(error)
@@ -261,7 +262,7 @@ function editTask(event) {
         () => {
             var modal = document.getElementById('editTaskModal')
             $(modal).modal('hide')
-            renderTaskForCreator(eventId)
+            renderTasksForCreator(eventId)
         }
     ).catch(
         error => console.log(error)
@@ -298,7 +299,7 @@ function deleteTask(event) {
         () => {
             var modal = document.getElementById('deleteTaskModal')
             $(modal).modal('hide')
-            renderTaskForCreator(eventId)
+            renderTasksForCreator(eventId)
         }
     ).catch(
         error => console.log(error)
@@ -306,7 +307,43 @@ function deleteTask(event) {
 
 }
 
-function renderTask(data, count) {
+function updateTaskStatus(event) {
+
+    var eventId = event.target.dataset.eventId
+    var taskId = event.target.dataset.taskId
+    var status = event.target.value
+
+    fetch(
+        `/api/event/${eventId}/task/${taskId}/move/${status}`,
+        {
+            method: 'PUT'
+        }
+    ).then(
+        response => {
+            if (response.status != 200) {
+                return response.json().then(
+                    json_body => Promise.reject(
+                        {
+                            code: response.status,
+                            message: json_body.error
+                        }
+                    )
+                )
+            }
+            return response.json()
+        }
+    ).then(
+        body => {
+            console.log(body)
+        }
+    ).catch(
+        error => console.log(error)
+    )
+
+
+}
+
+function renderTaskForCreator(data, count) {
 
     var getCell = text => {
         var cell = document.createElement('td')
@@ -391,7 +428,89 @@ function renderTask(data, count) {
     return row
 }
 
-function renderData(data) {
+function renderTaskForManager(data, count) {
+
+    var getCell = text => {
+        var cell = document.createElement('td')
+        cell.textContent = text
+        return cell
+    }
+
+    var row = document.createElement('tr')
+
+    if (data.status == 'failed') {
+        row.style.backgroundColor = 'lightcoral';
+    }
+
+    var countCell = document.createElement('th')
+    countCell.textContent = count
+    countCell.scope = 'row'
+
+    var nameCell = getCell('')
+
+    var link = document.createElement('a')
+    link.href="#taskInfoModal"
+    link.dataset.toggle="modal"
+    link.dataset.target="#taskInfoModal"
+    link.textContent = data.name
+
+    link.addEventListener('click', () => {
+        setInfoModalData(data, count)
+    })
+
+    nameCell.appendChild(link)
+
+    var statusCell
+    
+    if(data.status != 'failed') {
+        statusCell = getCell('')
+
+        var statusSelect = document.createElement('select')
+
+        statusSelect.classList.add('form-control')
+        
+        var statuses = new Map(
+            [
+                ['todo', 'Не выполнено'],
+                ['inprocess', 'В работе'],
+                ['done', 'Выполнено']
+            ]
+        )
+
+        for(let [k,v] of statuses) {
+            var option = document.createElement('option')
+            option.value = k
+            option.textContent = v
+            statusSelect.appendChild(option)
+        }
+
+        statusSelect.value = data.status
+        statusSelect.dataset.eventId = eventID
+        statusSelect.dataset.taskId = data.id
+        statusSelect.addEventListener('change', updateTaskStatus)
+
+        statusCell.appendChild(statusSelect)
+    } else {
+        statusCell = getCell('Просрочено')
+    }
+
+    var deadline = data.deadline ? data.deadline : 'Нет'
+
+    var cells = [
+        countCell,
+        nameCell,
+        getCell(deadline),
+        statusCell
+    ]
+
+    for(let i of cells) {
+        row.appendChild(i)
+    }
+
+    return row
+}
+
+function renderDataForCreator(data) {
 
     var taskTableBody = 
         document
@@ -401,7 +520,20 @@ function renderData(data) {
     taskTableBody.innerHTML = ''
 
     for (let i in data) {
-        taskTableBody.appendChild(renderTask(data[i], Number(i) + 1))
+        taskTableBody.appendChild(renderTaskForCreator(data[i], Number(i) + 1))
+    }
+}
+
+function renderDataForManager(data) {
+    var taskTableBody = 
+        document
+            .getElementById('taskManagerTable')
+                .getElementsByTagName('tbody')[0]
+
+    taskTableBody.innerHTML = ''
+
+    for (let i in data) {
+        taskTableBody.appendChild(renderTaskForManager(data[i], Number(i) + 1))
     }
 }
 
@@ -431,7 +563,11 @@ async function loadData(eventId) {
     )
 }
 
-async function renderTaskForCreator(eventId) {
-    renderData(await loadData(eventId))
+async function renderTasksForCreator(eventId) {
+    renderDataForCreator(await loadData(eventId))
     getManager(eventId)
+}
+
+async function renderTasksForManager(eventId) {
+    renderDataForManager(await loadData(eventId))
 }
