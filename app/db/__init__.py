@@ -101,3 +101,12 @@ def add_test_data():
         events_logic.join_event((i + 2) % 4 + 1, i, {
             'role': 'presenter'
         })
+
+    for event_num in range(13, 16):
+        events_logic.add_manager(event_num, 'test1@test')
+        events_logic.join_event(1, event_num, {
+            'role': 'viewer'
+        })
+        events_logic.join_event(4, event_num, {
+            'role': 'presenter'
+        })

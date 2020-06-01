@@ -2,7 +2,7 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from ..logic import events as events_logic
+from ..logic import events as events_logic, reports as reports_logic
 
 import logging
 
@@ -32,8 +32,9 @@ def create_event():
 @bp.route('/event/<int:e_id>')
 def event(e_id):
     event = events_logic.get_event_info(e_id)
+    event['reports'] = reports_logic.get_reports_for_event(e_id)
     return render_template(
         '/event.html',
         event=event,
-        current_user=current_user,
+        current_user=current_user
     )

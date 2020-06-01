@@ -1,0 +1,73 @@
+<div
+    id="events-org-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-events-management-tab"
+>
+    {% if events['creator'] == [] %}
+    <p class="ml-3">Вы пока не организовали ни одного мероприятия</p>
+    {% else %}
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Даты проведения</th>
+                <th scope="col">Место проведения</th>
+                <th scope="col">Статус мероприятия</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        {% for event in events['creator'] %}
+        <tr id="eventManagerRow{{ event.id }}">
+            <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+            <td>
+                {% if event.start_date != event.end_date %}
+                    {{event.start_date}} - {{event.end_date}}
+                {% else %}
+                    {{event.start_date}}
+                {% endif %}
+            </td>
+            <td>{{ event.location }}</td>
+            <td>
+                {% if event.status == 'active' %}
+                Регистрация открыта
+                {% elif event.status == 'closed' %}
+                Регистрация закрыта
+                {% elif event.status == 'archived' %}
+                Мероприятие завершено
+                {% endif %}
+            </td>
+            <td>
+                {% if event.status == 'active' %}
+                <div
+                    class="btn-group"
+                    role="group"
+                >
+                    <a
+                        id="manage_event_{{ event.id }}"
+                        class="manage_event_link btn btn-outline-primary manage-event-button"
+                        role="button"
+                        data-event-id="{{ event.id }}"
+                        href="#management"
+                    >
+                        Управление мероприятием
+                    </a>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger delete-event-button"
+                        data-toggle="modal"
+                        data-target="#deleteEventModal"
+                        data-event-id="{{ event.id }}"
+                    >
+                        Удалить мероприятие
+                    </button>
+                </div>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>

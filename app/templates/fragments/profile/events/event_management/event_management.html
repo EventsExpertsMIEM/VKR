@@ -1,0 +1,80 @@
+<div
+    class="tab-pane fade mt-3"
+    id="events-management-tab"
+    role="tabpanel"
+    aria-labelledby="nav-events-management-tab"
+>
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a
+                class="nav-link active"
+                id="nav-org-participants"
+                data-toggle="tab"
+                href="#org-participants"
+                role="tab"
+                aria-controls="org-participants"
+            >Список участников</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="nav-org-reports"
+                data-toggle="tab"
+                href="#org-reports"
+                role="tab"
+                aria-controls="org-reports"
+            >Управление докладами</a>
+        </li>
+        <li class="nav-item creator-only-nav">
+            <a
+                class="nav-link"
+                id="nav-org-tasks"
+                data-toggle="tab"
+                href="#org-tasks"
+                role="tab"
+                aria-controls="org-tasks"
+            >Управление задачами</a>
+        </li>
+        <li class="nav-item manager-only-nav">
+            <a
+                class="nav-link"
+                id="nav-clients-tasks"
+                data-toggle="tab"
+                href="#clients-tasks"
+                role="tab"
+                aria-controls="clients-tasks"
+            >Управление задачами</a>
+        </li>
+        <li class="nav-item creator-only-nav">
+            <a
+                class="nav-link"
+                id="nav-org-general"
+                data-toggle="tab"
+                href="#org-general"
+                role="tab"
+                aria-controls="org-general"
+            >Редактирование общей информации</a>
+        </li>
+    </ul>
+    <div
+        class="tab-content"
+        id="nav-tabContent"
+    >
+
+        {% include 'fragments/profile/events/event_management/participants.html' %}
+
+        {% include 'fragments/profile/events/event_management/reports.html' %}
+
+        {% include 'fragments/profile/events/event_management/tasks_creator/tasks.html' %}
+        
+        {% include 'fragments/profile/events/event_management/tasks_manager/tasks.html' %}
+
+        {% include 'fragments/profile/events/event_management/general.html' %}
+
+    </div>
+</div>
+
+
+{% block extra_js %}
+<script type="module" src="static/js/profile/event_management/main.js"></script>
+{% endblock %}

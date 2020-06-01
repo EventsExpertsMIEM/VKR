@@ -8,42 +8,118 @@
 {% endblock %}
 
 {% block content %}
-
-<h1 class="text-center">{{event.name}}</h1>
-<p>{{event.sm_description}}</p>
-<div class="row d-flex align-items-center">
-	<div class="col-lg-3 col-md-6 col-sm-6">
-		<h4>Даты проведения:</h4>
-	  	<p>{{event.start_date}} - {{event.end_date}}</p>
-	  	<h4>Время начала:</h4>
-	  	<p>{{event.start_time}}</p>
-	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6">
-	  <h4>Место проведения:</h4>
-	  <p>{{event.location}}</p>
-	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6">
-	  <center>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	    <a href="#" class="badge badge-primary">HARDCODED</a>
-	  </center>
-	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center">
-	    <a href="{{event.site_link}}" class="btn btn-primary mb-2">Сайт мероприятия</a>
-	    {% if current_user.is_authenticated %}
-	    <button type="button" class="btn btn-outline-primary mb-2" data-toggle="modal" data-target="#join_event_modal">Регистрация для участников</button>
-	    {% else %}
-	    <a class="btn btn-outline-primary mb-2" href="/login?next=/event/{{ event.id }}" role="button">Регистрация для участников</a>
-	    {% endif %}
-	</div>
+<div class="row justify-content-center my-auto">
+    <div class="col-lg-10">
+        <div class="card o-hidden border-0 shadow-sm custom_border">
+            <div class="card-body p-3">
+                <h1 class="text-center">{{event.name}}</h1>
+                <p>{{event.sm_description}}</p>
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <h4>
+                            {% if event.start_date != event.end_date %}
+                            Даты проведения:
+                            {% else %}
+                            Дата проведения:
+                            {% endif %}
+                        </h4>
+                        <p>
+                            {% if event.start_date != event.end_date %}
+                            {{event.start_date}} - {{event.end_date}}
+                            {% else %}
+                            {{event.start_date}}
+                            {% endif %}
+                        </p>
+                        <h4>Время начала:</h4>
+                        <p>{{event.start_time}}</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <h4 class="pb-4">
+                            {% if event.status == 'active' %}
+                            Регистрация открыта
+                            {% elif event.status == 'closed' %}
+                            Регистрация закрыта
+                            {% elif event.status == 'archived' %}
+                            Мероприятие завершено
+                            {% endif %}
+                        </h4>
+                        <h4>Место проведения:</h4>
+                        <p>{{event.location}}</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <center>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                            <a
+                                href="#"
+                                class="badge badge-primary"
+                            >HARDCODED</a>
+                        </center>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center">
+                        <a
+                            href="{{event.site_link}}"
+                            class="btn btn-primary mb-2"
+                        >Сайт мероприятия</a>
+                        {% if event.status == 'active' %}
+                        {% if current_user.is_authenticated %}
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary mb-2"
+                            data-toggle="modal"
+                            data-target="#join_event_modal"
+                        >Регистрация для участников</button>
+                        {% else %}
+                        <a
+                            class="btn btn-outline-primary mb-2"
+                            href="/login?next=/event/{{ event.id }}"
+                            role="button"
+                        >Регистрация для участников</a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if event.reports != [] %}
+                    <h4>Информация о спикерах и докладах:</h4>
+                    <div class="row px-3">
+                        {% for report in event.reports %}
+                        <div class="card col-4 px-0 py-0">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ report.user.name }} {{ report.user.surname }}</h5>
+                            <hr class="mt-0 mb-2 text-center">
+                            <h6 class="card-subtitle mb-2 text-muted">{{ report.original_filename }}</h6>
+                            <p class="card-text">{{ report.presenter_description }}</p>
+                            <p class="card-text">{{ report.report_description }}</p>
+                          </div>
+                        </div>                   
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p>{{event.description}}</p>
+                <h4>Дополнительная информация:</h4>
+                <p>{{event.additional_info}}</p>
+            </div>
+        </div>
+    </div>
 </div>
-<p>{{event.description}}</p>
-<h4>Дополнительная информация:</h4>
-<p>{{event.additional_info}}</p>
 {% endblock %}
 
 {% block extra_modals%}

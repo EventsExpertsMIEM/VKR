@@ -40,7 +40,7 @@ def get_user_info(u_id):
         }
 
 
-def get_user_events_by_role(u_id, role, offset, size):
+def get_user_events_by_role(u_id, role, offset=None, size=None):
     result = []
     with get_session() as s:
         user = s.query(User).get(u_id)
@@ -62,13 +62,15 @@ def get_user_events_by_role(u_id, role, offset, size):
                 Report.event_id == Event.id
             ).filter(
                     Participation.u_id == u_id,
-                    Participation.participation_role == role
+                    Participation.participation_role == role,
+                    Event.status != 'deleted'
             ).order_by(desc(Event.start_date))
         else:
             events = s.query(Participation, Event).filter(
                     Participation.e_id == Event.id,
                     Participation.u_id == u_id,
-                    Participation.participation_role == role
+                    Participation.participation_role == role,
+                    Event.status != 'deleted'
             ).order_by(desc(Event.start_date))
 
         if offset is not None and size is not None:
@@ -86,15 +88,7 @@ def get_user_events_by_role(u_id, role, offset, size):
             for participant, event, report in events:
                 report_dict = None
                 if report is not None:
-                    report_dict = {
-                        'id': report.id,
-                        'filename': report.original_filename,
-                        'uploaded_at': report.uploaded_at,
-                        'last_updated': report.last_updated,
-                        'presenter_description': report.presenter_description,
-                        'report_description': report.report_description,
-                        'report_status': report.report_status
-                    }
+                    report_dict = result_as_dict(report)
                 result.append({
                     'id': event.id,
                     'name': event.name,
@@ -132,27 +126,40 @@ def update_profile(u_id, data):
 
 # админка
 
-def get_users(offset, size):
-    result = []
+def get_users(offset=None, size=None):
+
+    try:
+        if offset is not None:
+            offset=int(offset)
+        if size is not None:
+            size=int(size)
+    except:
+        abort(400, 'Offset and size must be integers')
+
+    logging.getLogger(__name__).debug("Offset: {}\tSize: {}".format(offset, size))
+
     with get_session() as s:
-        users = s.query(User).all()
-        if offset and size:
-            offset = int(offset)
-            size = int(size)
+        users = s.query(User)
+        if offset is not None and size is not None:
             if offset < 0 or size < 1:
                 abort(422, 'Offset or size has wrong values')
             users = users.slice(offset, offset+size)
-        elif not offset and not size:
+        elif offset is not None:
+            users = users.offset(offset)
+        elif size is not None:
+            users = users.limit(size)
+        elif offset is None and size is None:
             users = users.all()
         else:
             abort(400, 'Wrong query string arg')
-        for user in users:
-            result.append({
+
+        return [
+            {
                 'id': user.id,
                 'email': user.email,
                 'name': user.name,
                 'surname': user.surname,
                 'service_status': user.service_status,
                 'status': user.status
-            })
-    return result
+            } for user in users
+        ]

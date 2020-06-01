@@ -1,0 +1,107 @@
+<div
+    id="events-lect-tab"
+    class="tab-pane fade mt-3"
+    role="tabpanel"
+    aria-labelledby="nav-events-lect-tab"
+>
+    {% if events['presenter'] == [] %}
+    <p class="ml-3">
+        Вы пока не участвуете ни в одном мероприятии в качестве докладчика
+    </p>
+    {% else %}
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Даты проведения</th>
+                <th scope="col">Статус мероприятия</th>
+                <th scope="col">Название файла доклада</th>
+                <th scope="col">Статус доклада</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        {% for event in events['presenter'] %}
+
+        <tbody>
+            <tr>
+                <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
+                <td>
+                    {% if event.start_date != event.end_date %}
+                    {{event.start_date}} - {{event.end_date}}
+                    {% else %}
+                    {{event.start_date}}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if event.status == 'active' %}
+                    Регистрация открыта
+                    {% elif event.status == 'closed' %}
+                    Регистрация закрыта
+                    {% elif event.status == 'archived' %}
+                    Мероприятие завершено
+                    {% endif %}
+                </td>
+                <td id="event{{ event.id }}ReportFileName">{{ event.report.original_filename }}</td>
+                <td id="event{{ event.id }}ReportStatus">
+                    {% if event.report.report_status == 'unseen' %}
+                    На модерации
+                    {% elif event.report.report_status == 'declined' %}
+                    Отклонен
+                    {% elif event.report.report_status == 'approved' %}
+                    Принят
+                    {% endif %}
+                </td>
+                <td>
+                    {% if event.status == 'active' %}
+                    <div
+                        class="btn-group"
+                        role="group"
+                    >
+                        <button
+                            id="event{{ event.id }}UploadReportButton"
+                            type="button"
+                            class="btn btn-outline-primary upload-report-button"
+                            data-toggle="modal"
+                            data-target="#uploadReportModal"
+                            data-event-id="{{ event.id }}"
+                            data-report-id="{{ event.report.id }}"
+                            data-report-name="{{ event.report.name if event.report.name != None else '' }}"
+                            data-report-status="{{ event.report.status }}"
+                            data-report-filename="{{ event.report.filename }}"
+                            data-presenter-description="{{ event.report.presenter_description if event.report.presenter_description != None else '' }}"
+                            data-report-description="{{ event.report.report_description if event.report.report_description != None else '' }}"
+                        >
+                            Загрузить файл доклада
+                        </button>
+                        <button
+                            id="event{{ event.id }}DeleteReportButton"
+                            type="button"
+                            class="btn btn-outline-danger delete-report-button"
+                            data-toggle="modal"
+                            data-target="#delete_report_modal"
+                            data-event-id="{{ event.id }}"
+                        >
+                            Удалить доклад
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger leave-event-button"
+                            data-toggle="modal"
+                            data-target="#leave_event_modal"
+                            data-id="{{ event.id }}"
+                        >
+                            Отказаться от участия
+                        </button>
+                    </div>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+
+        {% endfor %}
+
+    </table>
+    {% endif %}
+</div>

@@ -21,19 +21,19 @@ def profile():
         events = {
             'viewer': users_logic.get_user_events_by_role(
                 current_user.id, 'viewer',
-                0, 10
+                # 0, 10 
             ),
             'presenter': users_logic.get_user_events_by_role(
                 current_user.id, 'presenter',
-                0, 10
+                # 0, 10
             ),
             'manager': users_logic.get_user_events_by_role(
                 current_user.id, 'manager',
-                0, 10
+                # 0, 10
             ),
             'creator': users_logic.get_user_events_by_role(
                 current_user.id, 'creator',
-                0, 10
+                # 0, 10
             ),
         }
     )

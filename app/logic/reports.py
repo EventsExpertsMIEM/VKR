@@ -3,6 +3,7 @@ from ..config import cfg
 from ..db import *
 
 from flask import abort
+from sqlalchemy import or_
 import logging
 
 
@@ -76,10 +77,7 @@ def get_report_info_by_id(r_id):
         report = s.query(Report).get(r_id)
         if report is None:
             abort(404, 'No report found')
-        return {
-            c.name:
-                str(getattr(report, c.name)) for c in report.__table__.columns
-        }
+        return result_as_dict(report)
 
 
 def get_report_info_for_event(u_id, e_id):
@@ -90,10 +88,7 @@ def get_report_info_for_event(u_id, e_id):
         ).one_or_none()
         if report is None:
             abort(404, 'No report found')
-        return {
-            c.name:
-                str(getattr(report, c.name)) for c in report.__table__.columns
-        }
+        return result_as_dict(report)
 
 
 def update_report_info_by_id(r_id, data):
@@ -148,15 +143,81 @@ def remove_current_user_report(u_id, e_id):
         )
 
 
+def get_reports_for_event(e_id):
+    with get_session() as s:
+        query = s.query(Report, User).filter(
+            Report.event_id == e_id,
+            Report.user_id == User.id,
+            Report.report_status == 'approved'
+        ).all()
+
+
+        result = []
+        for report, user in query:
+            dict_report = result_as_dict(report)
+            dict_report['user'] = {
+                "email": user.email,
+                "id": user.id,
+                "name": user.name,
+                "surname": user.surname,
+            }
+            result.append(dict_report)
+
+        return result
+
+
 #################################### ADMIN ####################################
 
 
-def approve_report(r_id):
+def get_all_reports_for_event(e_id, u_id):
+    with get_session() as s:
+        participants = s.query(Participation).filter(
+            Participation.e_id == e_id,
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
+        result = s.query(Report, User).filter(
+            Report.user_id == User.id,
+            Report.event_id == e_id
+        ).all()
+        return [
+            {
+                'id': r.id,
+                'name': r.name,
+                'filename': r.original_filename,
+                'status': r.report_status,
+                'report_description': r.report_description,
+                'presenter_description': r.presenter_description,
+                'author': {
+                    'email': u.email,
+                    'name': u.name,
+                    'surname': u.surname
+                }
+            } for r,u in result
+        ]
+
+def approve_report(r_id, u_id):
     with get_session() as s:
         report = s.query(Report).get(r_id)
         if not report:
             abort(404, "Report not found")
         
+        participants = s.query(Participation).filter(
+            Participation.e_id == report.event_id,
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
+
         report.report_status = 'approved'
 
         logging.getLogger(__name__).info(
@@ -166,15 +227,24 @@ def approve_report(r_id):
         )
 
 
-def decline_report(r_id):
+def decline_report(r_id, u_id):
     with get_session() as s:
-        participation = s.query(Participation).filter(
-            Participation.report_id == r_id,
-        ).one_or_none()
-        if not participation:
+        report = s.query(Report).get(r_id)
+        if not report:
             abort(404, "Report not found")
         
-        participation.report_status = 'declined'
+        participants = s.query(Participation).filter(
+            Participation.e_id == report.event_id,
+            Participation.u_id == u_id,
+            or_(
+                Participation.participation_role == 'creator',
+                Participation.participation_role == 'manager'
+            )
+        ).all()
+        if u_id not in [p.u_id for p in participants]:
+            abort(403, 'Forbidden')
+
+        report.report_status = 'declined'
 
         logging.getLogger(__name__).info(
             'Report [id {r_id}] declined'.format(
