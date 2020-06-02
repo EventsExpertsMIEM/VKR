@@ -13,3 +13,7 @@
 .py-8 {
   padding-top: 5rem !important;
 }
+
+.no-underline:hover {
+	text-decoration: none;
+}
