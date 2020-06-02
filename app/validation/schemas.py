@@ -214,3 +214,9 @@ update_task = Schema(
     }
 )
 
+tag = Schema(
+    {
+        'name': Use(str)
+    },
+    ignore_extra_keys=True
+)

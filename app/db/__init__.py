@@ -56,6 +56,7 @@ def add_test_data():
     from ..logic import accounts as accounts_logic
     from ..logic import events as events_logic
     from ..logic import education as education_logic
+    from ..logic import tags as tags_logic
     from datetime import datetime, timedelta
 
     logging.getLogger(__name__).info('Filling database with test data')
@@ -138,3 +139,10 @@ def add_test_data():
         events_logic.join_event(4, event_num, {
             'role': 'presenter'
         })
+
+    for i in range(1, 5):
+        tags_logic.add_tag(
+            {
+                'name': 'Test{}'.format(i)
+            }
+        )
