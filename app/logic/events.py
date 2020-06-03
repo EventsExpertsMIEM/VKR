@@ -109,6 +109,11 @@ def create_event(u_id, data):
     with get_session() as s:
         if data['start_date'] > data['end_date']:
             abort(400, 'Incorrect dates')
+        tags = []
+        try:
+            tags = [ s.query(Tag).filter(Tag.name == x).one() for x in data['tags']]
+        except:
+            abort(400, 'Invalid tags')
         event = Event(
             name=data['name'],
             sm_description=data['sm_description'],
@@ -120,12 +125,6 @@ def create_event(u_id, data):
             site_link=data['site_link'],
             additional_info=data['additional_info']
         )
-
-        tags = []
-        try:
-            tags = [ s.query(Tag).filter(Tag.name == x).one() for x in data['tags']]
-        except:
-            abort(400, 'Invalid tags')
 
         event.tags = tags
 

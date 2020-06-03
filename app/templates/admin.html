@@ -160,9 +160,6 @@
                         role="tabpanel"
                         aria-labelledby="nav-tags-tab"
                     >
-                        {% for t in  tags %}
-                        <p>{{ t }}</p>
-                        {%endfor%}
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -172,9 +169,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for t in  tags %}
                                 <tr>
                                     <th scope="row">1</th>
-                                    <td>Робототехника</td>
+                                    <td>{{ t.name }}</td>
                                     <td>
                                         <div
                                             class="btn-group"
@@ -185,39 +183,19 @@
                                                 class="btn btn-outline-secondary"
                                                 data-toggle="modal"
                                                 data-target="#EditTagModal"
+                                                data-tag-id="{{ t.id }}"
                                             >Редактировать</button>
                                             <button
                                                 type="button"
                                                 class="btn btn-outline-danger"
                                                 data-toggle="modal"
                                                 data-target="#TagDelModal"
+                                                data-tag-id="{{ t.id }}"
                                             >Удалить</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Микроконтроллеры</td>
-                                    <td>
-                                        <div
-                                            class="btn-group"
-                                            role="group"
-                                        >
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-secondary"
-                                                data-toggle="modal"
-                                                data-target="#EditTagModal"
-                                            >Редактировать</button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-danger"
-                                                data-toggle="modal"
-                                                data-target="#TagDelModal"
-                                            >Удалить</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {%endfor%}
                             </tbody>
                         </table>
                     </div>
