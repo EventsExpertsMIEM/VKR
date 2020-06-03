@@ -4,7 +4,7 @@ from ..db import get_session, Tag, result_as_dict
 
 def get_all_tags():
     with get_session() as s:
-        return [result_as_dict(t) for t in s.query(Tag).all()]
+        return [ result_as_dict(t) for t in s.query(Tag).all() ]
 
 def add_tag(data):
     name = data['name']

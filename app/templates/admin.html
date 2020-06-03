@@ -160,7 +160,9 @@
                         role="tabpanel"
                         aria-labelledby="nav-tags-tab"
                     >
-                        <p>TABLE HARCODED</p>
+                        {% for t in  tags %}
+                        <p>{{ t }}</p>
+                        {%endfor%}
                         <table class="table table-striped">
                             <thead>
                                 <tr>

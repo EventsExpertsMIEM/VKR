@@ -3,7 +3,7 @@ from flask import (Blueprint, request, redirect, url_for,
 from flask_login import (login_required, login_user, logout_user, current_user)
 
 from ..logic import (accounts as accounts_logic, events as events_logic,
-                        users as users_logic)
+                    users as users_logic, tags as tags_logic)
 
 import logging
 
@@ -65,11 +65,9 @@ def admin_panale():
     if current_user.service_status == 'user':
         return abort(403, "No rights")
 
-    events = events_logic.get_events()
-    users = users_logic.get_users()
-
     return render_template(
         '/admin.html',
-        events=events,
-        users=users
+        events=events_logic.get_events(),
+        users=users_logic.get_users(),
+        tags=tags_logic.get_all_tags(),
     )
