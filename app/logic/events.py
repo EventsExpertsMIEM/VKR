@@ -51,7 +51,8 @@ def get_event_info(e_id):
             "location": event.location,
             "site_link": event.site_link,
             "additional_info": event.additional_info,
-            "status": event.status
+            "status": event.status,
+            'tags': [ t.name for t in event.tags.all() ]
         }
 
 
@@ -98,7 +99,8 @@ def get_events(offset=None, size=None):
                 'start_time': event.start_time.isoformat(),
                 'location': event.location,
                 'site_link': event.site_link,
-                "status": event.status
+                "status": event.status,
+                'tags': [ t.name for t in event.tags.all() ]
             } for event in [update_event_status(event) for event in events]
         ]
 
@@ -118,6 +120,15 @@ def create_event(u_id, data):
             site_link=data['site_link'],
             additional_info=data['additional_info']
         )
+
+        tags = []
+        try:
+            tags = [ s.query(Tag).filter(Tag.name == x).one() for x in data['tags']]
+        except:
+            abort(400, 'Invalid tags')
+
+        event.tags = tags
+
         s.add(event)
         s.flush()
         s.refresh(event)
@@ -216,7 +227,18 @@ def update_event(e_id, data):
         if not event or event.status == 'deleted':
             abort(404, 'No event with this id')
 
+        tags = []
+        try:
+            tags = [
+                s.query(Tag).filter(Tag.name == x).one() for x in data['tags']
+            ]
+        except:
+            abort(400, 'Invalid tags')
+
+        event.tags = tags
         for arg in data.keys():
+            if arg == 'tags':
+                continue
             setattr(event, arg, data[arg])
 
 
