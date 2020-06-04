@@ -67,25 +67,53 @@
                                     <th scope="col">#</th>
                                     <th scope="col">E-mail пользователя</th>
                                     <th scope="col">Роль</th>
+                                    <th scope="col">Статус</th>
                                     <th scope="col">Управление</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% set count = 1 %}
                                 {% for user in users %}
                                 <tr>
-                                    <td>{{ count }}
-                                         {% set count = count + 1 %}
-                                    </td>
+                                    <td>{{ loop.index }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td><select
-                                            class="form-control"
+                                    <td>
+                                        {% if user.service_status == 'superadmin' %}
+                                            Суперадминистратор
+                                        {% else %}
+                                        <select
+                                            class="form-control user-status-select"
                                             id="user_role"
+                                            name="user_status"
+                                            data-user-id="{{ user.id }}"
                                         >
-                                            <option>Администратор</option>
-                                            <option>Модератор</option>
-                                            <option>Участник</option>
-                                        </select></td>
+                                            <option
+                                                value="admin"
+                                                {% if user.service_status == 'admin' %}
+                                                    selected
+                                                {% endif %}
+                                            >
+                                                Администратор
+                                            </option>
+                                            <option
+                                                value="moderator"
+                                                {% if user.service_status == 'moderator' %}
+                                                    selected
+                                                {% endif %}
+                                            >
+                                                Модератор
+                                            </option>
+                                            <option
+                                                value="user"
+                                                {% if user.service_status == 'user' %}
+                                                    selected
+                                                {% endif %}
+                                            >
+                                                Участник
+                                            </option>
+                                        </select>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ user.status }}</td>
                                     <td>
                                         {% if user.service_status == 'superadmin' %}
                                         -
@@ -93,15 +121,17 @@
                                         <div class="btn-group" role="group">
                                             <button
                                             type="button"
-                                            class="btn btn-outline-danger"
+                                            class="btn btn-outline-danger block-user-button"
                                             data-toggle="modal"
                                             data-target="#block_user_modal"
+                                            data-user-id="{{ user.id }}"
                                             >Заблокировать</button>
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-danger"
+                                                class="btn btn-outline-danger delete-user-button"
                                                 data-toggle="modal"
                                                 data-target="#delete_user_modal"
+                                                data-user-id="{{ user.id }}"
                                             >Удалить</button>
                                         {% endif %}
                                         </div>
@@ -215,5 +245,5 @@
 {% endblock %}
 
 {% block extra_js %}
-
+<script type="module" src="/static/js/admin/main.js"></script>
 {% endblock %}

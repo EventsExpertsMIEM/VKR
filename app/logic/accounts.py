@@ -180,6 +180,17 @@ def ban_user(u_id):
         user.status = 'banned'
         user.disable_date = datetime.utcnow()
 
+def delete_user(u_id):
+    with get_session() as s:
+        user = s.query(User).filter(
+                User.id == u_id,
+                User.status == 'active',
+                User.service_status != 'superadmin'
+        ).one_or_none()
+        if not user:
+            abort(404, 'No user with this id')
+        user.status = 'deleted'
+
 
 def change_privileges(u_id, role):
     with get_session() as s:
