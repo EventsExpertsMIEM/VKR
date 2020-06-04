@@ -1,4 +1,5 @@
 import { changeUserRole, banUser, deleteUser } from './user.js'
+import { createTag, deleteTag, editTag } from './tag.js'
 
 function setupHandlers() {
 
@@ -24,9 +25,7 @@ function setupHandlers() {
 
     document.getElementById('blockUserModalButton').addEventListener(
         'click',
-        event => {
-            banUser(event.target.dataset.userId)
-        }
+        event => banUser(event.target.dataset.userId)
     )
 
     Array.from(document.getElementsByClassName('delete-user-button')).forEach(
@@ -41,9 +40,54 @@ function setupHandlers() {
 
     document.getElementById('deleteUserModalButton').addEventListener(
         'click',
+        event => deleteUser(event.target.dataset.userId)
+    )
+
+    document.getElementById('createTagForm').addEventListener(
+        'submit',
         event => {
-            deleteUser(event.target.dataset.userId)
+            event.preventDefault()
+            var input = document.getElementById('tagName')
+            createTag(input.value)
         }
+    )
+
+    var editTagForm = document.getElementById('editTagModalForm')
+    var newTagNameinput = document.getElementById('editTagModalName')
+
+    Array.from(document.getElementsByClassName('edit-tag-button')).forEach(
+        button => button.addEventListener(
+            'click',
+            event => {
+                newTagNameinput.value = event.target.dataset.tagName
+                editTagForm.dataset.tagId = event.target.dataset.tagId
+            }
+        )
+    )
+
+    editTagForm.addEventListener(
+        'submit',
+        event => {
+            event.preventDefault()
+            editTag(event.target.dataset.tagId, newTagNameinput.value)
+        }
+    )
+
+    var deleteTagButton = document.getElementById('deleteTagModalButton')
+    
+    Array.from(document.getElementsByClassName('delete-tag-button')).forEach(
+        button => button.addEventListener(
+            'click',
+            event => {
+                deleteTagButton.dataset.tagId =
+                    event.target.dataset.tagId
+            }
+        )
+    )
+
+    deleteTagButton.addEventListener(
+        'click',
+        event => deleteTag(event.target.dataset.tagId)
     )
 }
 

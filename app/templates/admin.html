@@ -78,7 +78,7 @@
                                     <td>{{ user.email }}</td>
                                     <td>
                                         {% if user.service_status == 'superadmin' %}
-                                            Суперадминистратор
+                                        Суперадминистратор
                                         {% else %}
                                         <select
                                             class="form-control user-status-select"
@@ -89,7 +89,7 @@
                                             <option
                                                 value="admin"
                                                 {% if user.service_status == 'admin' %}
-                                                    selected
+                                                selected
                                                 {% endif %}
                                             >
                                                 Администратор
@@ -97,7 +97,7 @@
                                             <option
                                                 value="moderator"
                                                 {% if user.service_status == 'moderator' %}
-                                                    selected
+                                                selected
                                                 {% endif %}
                                             >
                                                 Модератор
@@ -105,7 +105,7 @@
                                             <option
                                                 value="user"
                                                 {% if user.service_status == 'user' %}
-                                                    selected
+                                                selected
                                                 {% endif %}
                                             >
                                                 Участник
@@ -118,13 +118,16 @@
                                         {% if user.service_status == 'superadmin' %}
                                         -
                                         {% else %}
-                                        <div class="btn-group" role="group">
+                                        <div
+                                            class="btn-group"
+                                            role="group"
+                                        >
                                             <button
-                                            type="button"
-                                            class="btn btn-outline-danger block-user-button"
-                                            data-toggle="modal"
-                                            data-target="#block_user_modal"
-                                            data-user-id="{{ user.id }}"
+                                                type="button"
+                                                class="btn btn-outline-danger block-user-button"
+                                                data-toggle="modal"
+                                                data-target="#block_user_modal"
+                                                data-user-id="{{ user.id }}"
                                             >Заблокировать</button>
                                             <button
                                                 type="button"
@@ -133,7 +136,7 @@
                                                 data-target="#delete_user_modal"
                                                 data-user-id="{{ user.id }}"
                                             >Удалить</button>
-                                        {% endif %}
+                                            {% endif %}
                                         </div>
                                     </td>
                                 </tr>
@@ -190,6 +193,14 @@
                         role="tabpanel"
                         aria-labelledby="nav-tags-tab"
                     >
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#CreateTagModal"
+                        >
+                            Создать новый тег
+                        </button>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -201,7 +212,7 @@
                             <tbody>
                                 {% for t in  tags %}
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th scope="row">{{ loop.index }}</th>
                                     <td>{{ t.name }}</td>
                                     <td>
                                         <div
@@ -210,14 +221,15 @@
                                         >
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-secondary"
+                                                class="btn btn-outline-secondary edit-tag-button"
                                                 data-toggle="modal"
                                                 data-target="#EditTagModal"
                                                 data-tag-id="{{ t.id }}"
+                                                data-tag-name="{{ t.name }}"
                                             >Редактировать</button>
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-danger"
+                                                class="btn btn-outline-danger delete-tag-button"
                                                 data-toggle="modal"
                                                 data-target="#TagDelModal"
                                                 data-tag-id="{{ t.id }}"
@@ -242,8 +254,18 @@
 
 {% include 'fragments/admin/delete_user.html' %}
 
+{% include 'fragments/admin/create_tag.html' %}
+
+{% include 'fragments/admin/edit_tag.html' %}
+
+{% include 'fragments/admin/delete_tag.html' %}
+
+
 {% endblock %}
 
 {% block extra_js %}
-<script type="module" src="/static/js/admin/main.js"></script>
+<script
+    type="module"
+    src="/static/js/admin/main.js"
+></script>
 {% endblock %}
