@@ -14,9 +14,7 @@
                 <h6 class="card-subtitle mb-2 text-muted">{{ edu.department }}</h6>
                 <p class="card-subtitle mb-1 text-muted">специальность: {{ edu.program }}</p>
                 <p class="card-text my-0">
-                    {% if edu.mode == 'bachelor' %}
-                    бакалавр
-                    {% endif %}
+                    {{ edu.mode }}
                 </p>
                 <p class="card-text my-0">
                     {{ edu.graduation_year }}, {{ edu.country }}, {{ edu.city }}
