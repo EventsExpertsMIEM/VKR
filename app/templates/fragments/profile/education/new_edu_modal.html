@@ -17,17 +17,21 @@
             <input type="text" class="form-control" id="edu_city" required>
           </div>
          <div class="form-group">
-            <label for="edu_inst">Название высшего учебного заведения:</label>                 
-            <input type="text" class="form-control" id="edu_inst" required>
+            <label for="edu_university">Название высшего учебного заведения:</label>                 
+            <input type="text" class="form-control" id="edu_university" required>
           </div>
           <div class="form-group">
-            <label for="edu_spec">Специальность:</label>                  
-            <input type="text" class="form-control" id="edu_spec" required>
+            <label for="edu_department">Факультет/департамент:</label>                 
+            <input type="text" class="form-control" id="edu_department" required>
           </div>
           <div class="form-group">
-            <label for="edu_level_choice">Степень:</label>
-            <input list="edu_level" id="edu_level_choice" name="edu_level_choice" class="form-control" />
-            <datalist id="edu_level">
+            <label for="edu_program">Специальность:</label>                  
+            <input type="text" class="form-control" id="edu_program" required>
+          </div>
+          <div class="form-group">
+            <label for="edu_mode_choice">Степень:</label>
+            <input list="edu_mode" id="edu_mode_choice" name="edu_mode_choice" class="form-control" required />
+            <datalist id="edu_mode">
               <option value="Бакалавр"></option>
               <option value="Специалист"></option>
               <option value="Магистр"></option>
@@ -36,11 +40,19 @@
             </datalist>
           </div>
           <div class="form-group">
+            <label for="edu_status">Статус:</label>                  
+            <input list="edu_status" id="edu_status_choice" name="edu_status_choice" class="form-control" required>
+            <datalist id="edu_status">
+              <option value="Оконченное"></option>
+              <option value="Неоконченное"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
             <label for="edu_gr_year">Год выпуска:</label>                  
-            <input type="number" class="form-control" id="eduYear" required>
+            <input type="number" class="form-control" id="edu_gr_year" required>
           </div>
           <div class="form-group text-center">
-              <button type="submit" class="btn btn-secondary">Сохранить</button> 
+              <button type="button" id="new_edu_btn" class="btn btn-secondary">Сохранить</button> 
           </div>
         </div>
       </div>
