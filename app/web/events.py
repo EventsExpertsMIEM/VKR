@@ -18,6 +18,17 @@ def home():
         '/home.html',
         current_user=current_user,
         events=events,
+        tags=tags_logic.get_all_tags()
+    )
+
+@bp.route('/search')
+def search():
+    name = request.args.get('name')
+    tags = request.args.get('tags')
+    events = events_logic.search(name, tags)
+    return render_template(
+        'fragments/events/events.html',
+        events=events,
     )
 
 
