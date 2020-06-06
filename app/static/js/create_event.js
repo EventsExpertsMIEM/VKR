@@ -55,9 +55,13 @@ button.addEventListener(
             site_link: document.getElementById("create_event_site_link").value,
             sm_description: document.getElementById("create_event_sm_description").value,
             description: document.getElementById("create_event_description").value,
-            additional_info: document.getElementById("create_event_additional_info").value,
-            tags: event.target.dataset.tags.split(' ')
+            additional_info: document.getElementById("create_event_additional_info").value
         }
+
+        if (event.target.dataset.tags != undefined) {
+            data.tags = event.target.dataset.tags.split(' ')
+        }
+
         fetch("/api/event",
             {
                 method: "POST",
