@@ -2,7 +2,8 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from ..logic import events as events_logic, reports as reports_logic
+from ..logic import (events as events_logic, reports as reports_logic,
+                        tags as tags_logic)
 
 import logging
 
@@ -26,6 +27,7 @@ def create_event():
     return render_template(
         '/create_event.html',
         current_user=current_user,
+        tags=tags_logic.get_all_tags()
     )
 
 

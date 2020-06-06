@@ -10,9 +10,42 @@ document.addEventListener(
 
 var button = document.getElementById('btnsubmit_create_event')
 
+document.getElementById('tags_select').addEventListener(
+    'change',
+    event => {
+    
+        var tagDisplay = name => {
+            var badge = document.createElement('a')
+            badge.textContent = name
+            badge.href = '#'
+            badge.classList.add('badge')
+            badge.classList.add('badge-primary')
+            return badge
+        }
+
+        var select = event.target
+
+        var value = select.value
+        var display = document.getElementById('tags_display')
+
+        display.appendChild(tagDisplay(value))
+        display.appendChild(document.createTextNode (' '));
+
+
+        button.dataset.tags =
+            button.dataset.tags ? button.dataset.tags + ` ${value}` : value
+
+        var option = select.querySelector(`option[value=${value}]`)
+        select.removeChild(option)
+
+        if (select.options.length == 1) select.style.display = 'none'
+    }
+)
+
 button.addEventListener(
     'click',
-    () => {
+    event => {
+
         var data = {
             name: document.getElementById("create_event_name").value,
             start_date: document.getElementById("create_event_start_date").value,
@@ -22,7 +55,8 @@ button.addEventListener(
             site_link: document.getElementById("create_event_site_link").value,
             sm_description: document.getElementById("create_event_sm_description").value,
             description: document.getElementById("create_event_description").value,
-            additional_info: document.getElementById("create_event_additional_info").value
+            additional_info: document.getElementById("create_event_additional_info").value,
+            tags: event.target.dataset.tags.split(' ')
         }
         fetch("/api/event",
             {
