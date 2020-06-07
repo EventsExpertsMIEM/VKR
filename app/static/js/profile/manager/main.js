@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             return response.json().then(
                                 json_data => Promise.reject(
                                     {
-                                        message: json_data.error,                                        code: response.status
+                                        message: json_data.error,
+                                        code: response.status
                                     }
                                 )
                             )

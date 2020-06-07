@@ -1,4 +1,4 @@
-import { tagsSelection, tagBadge } from '../../tags.js'
+import { tagsSelection, tagBadge, removeTag } from '../../tags.js'
 export {loadEventInfo, editEventInfo}
 
 var eventID
@@ -28,16 +28,25 @@ function setData(data) {
 
     var tagsSelect = document.getElementById('tagsSelect')
     var tagsDisplay = document.getElementById('tagsDisplay')
-    var button = document.getElementById('editEventInfoForm')
+    var form = document.getElementById('editEventInfoForm')
 
     tagsSelect.addEventListener(
         'change',
-        event => tagsSelection(event.target, tagsDisplay, button)
+        event => tagsSelection(tagsSelect, tagsDisplay, form)
     )
 
+    form.dataset.tags = event.tags.join(' ')
     for(var tag of event.tags) {
-        tagsDisplay.appendChild(tagBadge(tag))
+        var badge = tagBadge(tag)
+        badge.addEventListener(
+            'click',
+            event => {
+                removeTag(event.target.dataset.tag, tagsSelect, tagsDisplay, form)
+            }
+        )
+        tagsDisplay.appendChild(badge)
         tagsDisplay.appendChild(document.createTextNode (' '));
+        tagsSelect.querySelector(`option[value="${tag}"`).style.display = 'none'
     }
 }
 

@@ -1,4 +1,4 @@
-export { tagsSelection, tagBadge }
+export { tagsSelection, tagBadge, removeTag }
 
 function tagBadge (name) {
     var badge = document.createElement('a')
@@ -6,6 +6,7 @@ function tagBadge (name) {
     badge.href = '#'
     badge.classList.add('badge')
     badge.classList.add('badge-primary')
+    badge.dataset.tag = name
     return badge
 }
 
