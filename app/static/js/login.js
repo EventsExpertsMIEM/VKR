@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(
                     () => {
                         button.disabled = false
-                        button.textContent = 'Отправить'
+                        button.textContent = 'Войти'
                         const urlParams = 
                             new URLSearchParams(window.location.search);
                         const location = urlParams.get('next');

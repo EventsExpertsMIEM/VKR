@@ -15,7 +15,7 @@
                 <th scope="col">Название</th>
                 <th scope="col">Даты проведения</th>
                 <th scope="col">Статус мероприятия</th>
-                <th scope="col">Название файла доклада</th>
+                <th scope="col">Название доклада</th>
                 <th scope="col">Статус доклада</th>
                 <th scope="col">Действия</th>
             </tr>
@@ -41,7 +41,7 @@
                     Мероприятие завершено
                     {% endif %}
                 </td>
-                <td id="event{{ event.id }}ReportFileName">{{ event.report.original_filename }}</td>
+                <td id="event{{ event.id }}ReportName">{{ event.report.name }}</td>
                 <td id="event{{ event.id }}ReportStatus">
                     {% if event.report.report_status == 'unseen' %}
                     На модерации
@@ -71,8 +71,9 @@
                             data-presenter-description="{{ event.report.presenter_description if event.report.presenter_description != None else '' }}"
                             data-report-description="{{ event.report.report_description if event.report.report_description != None else '' }}"
                         >
-                            Загрузить файл доклада
+                            Загрузить/редактировать доклад
                         </button>
+                        {% if event.report.report_status == 'unseen' or event.report.report_status == 'declined' or event.report.report_status == 'approved' %}
                         <button
                             id="event{{ event.id }}DeleteReportButton"
                             type="button"
@@ -83,6 +84,7 @@
                         >
                             Удалить доклад
                         </button>
+                        {% endif %}
                         <button
                             type="button"
                             class="btn btn-outline-danger leave-event-button"

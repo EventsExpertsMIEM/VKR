@@ -31,20 +31,16 @@
                 <p>Вы уверены, что хотите удалить мероприятие?</p>
             </div>
             <div class="modal-footer">
-                <button id="deletEventModalButton">
+                <button 
+                    class="btn btn-danger"
+                    id="deletEventModalButton">
                     Да
                 </button>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                >Отмена</button>
             </div>
         </div>
     </div>
 </div>
 
 {% block extra_js %}
-<script src="/static/js/profile/leave_event.js"></script>
+
 {% endblock %}
