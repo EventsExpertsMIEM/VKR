@@ -2,7 +2,8 @@ from flask import (Blueprint, request, redirect, url_for,
                    render_template, jsonify, abort)
 from flask_login import (login_required, login_user, logout_user, current_user)
 
-from ..logic import users as users_logic, education as education_logic
+from ..logic import (users as users_logic, education as education_logic,
+                        tags as tags_logic)
 
 import logging
 
@@ -34,5 +35,6 @@ def profile():
                 # 0, 10
             ),
         },
-        education=education_logic.get_user_education(current_user.id)
+        education=education_logic.get_user_education(current_user.id),
+        tags=tags_logic.get_all_tags()
     )

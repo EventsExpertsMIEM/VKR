@@ -83,6 +83,7 @@
             >
                 Организую
             </a>
+            {% if events['manager'] != [] %}
             <a
                 class="nav-link pl-4"
                 id="nav-events-manager-tab"
@@ -94,6 +95,7 @@
             >
                 Клиентские мероприятия
             </a>
+            {% endif %}
             <a
                 class="nav-link pl-4"
                 id="nav-events-management-tab"
