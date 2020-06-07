@@ -108,6 +108,15 @@ def ban_user_by_id(u_id):
     accounts_logic.ban_user(u_id)
     return make_ok(200, 'Successfully baned this user')
 
+@bp.route('/user/<int:u_id>', methods=['DELETE'])
+@login_required
+def delete_user_by_id(u_id):
+    if (current_user.service_status != 'admin' and
+            current_user.service_status != 'superadmin'):
+        return make_4xx(403, "No rights")
+    accounts_logic.delete_user(u_id)
+    return make_ok(200, 'Successfully removed user')
+
 
 @bp.route('/user/<int:u_id>/role/admin', methods=['GET'])
 @login_required

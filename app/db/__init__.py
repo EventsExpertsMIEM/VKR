@@ -56,9 +56,17 @@ def add_test_data():
     from ..logic import accounts as accounts_logic
     from ..logic import events as events_logic
     from ..logic import education as education_logic
+    from ..logic import tags as tags_logic
     from datetime import datetime, timedelta
 
     logging.getLogger(__name__).info('Filling database with test data')
+
+    for i in range(1, 20):
+        tags_logic.add_tag(
+            {
+                'name': 'Test{}'.format(i)
+            }
+        )
 
     for i in range(1,4):
         accounts_logic.register_user(
@@ -106,7 +114,8 @@ def add_test_data():
             'additional_info': 'Additional info {}'.format(i),
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
-            'start_time': datetime.now().time()
+            'start_time': datetime.now().time(),
+            'tags': [ 'Test{}'.format(i) ]
         })
 
     for i in range(13, 16):
@@ -119,7 +128,8 @@ def add_test_data():
             'additional_info': 'Additional info {}'.format(i),
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
-            'start_time': datetime.now().time()
+            'start_time': datetime.now().time(),
+            'tags': [ 'Test{}'.format(i) ]
         })
 
     for i in range(1,13):

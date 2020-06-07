@@ -1,7 +1,8 @@
 from sqlalchemy import (Column, Integer, String, ForeignKey, DateTime,
-                        Date, Time, Boolean, UniqueConstraint, inspect)
+                        Date, Time, Boolean, UniqueConstraint, Table, inspect)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ENUM, UUID, TEXT
+from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 
 from datetime import datetime
@@ -11,6 +12,13 @@ from ..config import cfg
 
 
 Base = declarative_base()
+
+r_events_tags = Table(
+    'r_events_tags',
+    Base.metadata,
+    Column('event_id', Integer, ForeignKey('events.id'), primary_key=True),
+    Column('tag_id', Integer, ForeignKey('tags.id'), primary_key=True)
+)
 
 
 Status = ENUM('unconfirmed', 'active', 'deleted', 'banned',
@@ -86,6 +94,8 @@ class Event(Base):
     additional_info = Column(TEXT, nullable=False)
     guests_info = Column(TEXT, nullable=True)
 
+    tags = relationship('Tag', secondary=r_events_tags, lazy='dynamic')
+
 class Report(Base):
 
     __tablename__ = 'reports'
@@ -137,3 +147,11 @@ class Education(Base):
     graduation_year = Column(Integer, nullable=True)
     is_main = Column(Boolean, default=False, nullable=True)
     u_id = Column(Integer, ForeignKey('users.id'), nullable=True)
+
+class Tag(Base):
+    __tablename__ = 'tags'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+
+    events = relationship('Event', secondary=r_events_tags, lazy='dynamic')

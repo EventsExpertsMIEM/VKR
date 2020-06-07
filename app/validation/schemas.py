@@ -84,6 +84,7 @@ event_create = Schema(
             time.fromisoformat,
             error="start_time - invalid format"
         ),
+        Optional('tags', default=[]): [Use(str)]
     },
     ignore_extra_keys=True
 )
@@ -111,6 +112,7 @@ event_update = Schema(
         Optional('location'): Use(str),
         Optional('site_link'): Use(str),
         Optional('additional_info'): Use(str),
+        Optional('tags', default=[]): [Use(str)],
         unknownKey(str, error='Unknown key detected'): object
     }
 )
@@ -214,3 +216,9 @@ update_task = Schema(
     }
 )
 
+tag = Schema(
+    {
+        'name': Use(str)
+    },
+    ignore_extra_keys=True
+)

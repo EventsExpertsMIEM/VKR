@@ -10,7 +10,8 @@ from .api import (accounts as accounts_api,
                   users as users_api,
                   reports as reports_api,
                   education as education_api,
-                  tasks as tasks_api)
+                  tasks as tasks_api,
+                  tags as tags_api)
 
 from .errors import add_error_handlers, on_json_loading_failed
 from .logic.file_storage import FileManager
@@ -50,6 +51,7 @@ app.register_blueprint(users_api.bp, url_prefix='/api/user')
 app.register_blueprint(tasks_api.bp, url_prefix='/api/event')
 app.register_blueprint(education_api.bp, url_prefix='/api/edu')
 app.register_blueprint(reports_api.bp, url_prefix='/api/event')
+app.register_blueprint(tags_api.bp, url_prefix='/api/tag')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed

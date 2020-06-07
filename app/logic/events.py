@@ -51,7 +51,8 @@ def get_event_info(e_id):
             "location": event.location,
             "site_link": event.site_link,
             "additional_info": event.additional_info,
-            "status": event.status
+            "status": event.status,
+            'tags': [ t.name for t in event.tags.all() ]
         }
 
 
@@ -98,15 +99,60 @@ def get_events(offset=None, size=None):
                 'start_time': event.start_time.isoformat(),
                 'location': event.location,
                 'site_link': event.site_link,
-                "status": event.status
+                "status": event.status,
+                'tags': [ t.name for t in event.tags.all() ]
             } for event in [update_event_status(event) for event in events]
         ]
 
+def search(name, tags):
+    if tags is not None:
+        tags = tags.split(' ')
+    with get_session() as s:
+        query = s.query(Event)
+
+        logging.getLogger(__name__).debug(
+            '\n\tName: {}\n\tTags: {}'.format(name, tags)
+        )
+        
+        if name is not None:
+            query = query.filter(
+                Event.name.ilike( # big butts and i cannot lie
+                    '%{}%'.format(name.lower()) # you other brothers can't deny
+                )
+            )
+
+        if tags is not None:
+            query = query.filter(Event.tags.any(Tag.name.in_(tags)))
+
+        events = query.order_by(Event.start_date).all()
+        
+        if len(events) == 0:
+            abort(404, 'Nothing found')
+
+        return [
+            {
+                'id': event.id,
+                'name': event.name,
+                'sm_description': event.sm_description,
+                'start_date': event.start_date.isoformat(),
+                'end_date': event.end_date.isoformat(),
+                'start_time': event.start_time.isoformat(),
+                'location': event.location,
+                'site_link': event.site_link,
+                "status": event.status,
+                'tags': [ t.name for t in event.tags.all() ]
+            } for event in [update_event_status(event) for event in events]
+        ]
 
 def create_event(u_id, data):
     with get_session() as s:
         if data['start_date'] > data['end_date']:
             abort(400, 'Incorrect dates')
+        tags = []
+        try:
+            tags = [ s.query(Tag).filter(Tag.name == x).one() for x in data['tags']]
+        except:
+            abort(400, 'Invalid tags')
         event = Event(
             name=data['name'],
             sm_description=data['sm_description'],
@@ -118,6 +164,9 @@ def create_event(u_id, data):
             site_link=data['site_link'],
             additional_info=data['additional_info']
         )
+
+        event.tags = tags
+
         s.add(event)
         s.flush()
         s.refresh(event)
@@ -216,7 +265,18 @@ def update_event(e_id, data):
         if not event or event.status == 'deleted':
             abort(404, 'No event with this id')
 
+        tags = []
+        try:
+            tags = [
+                s.query(Tag).filter(Tag.name == x).one() for x in data['tags']
+            ]
+        except:
+            abort(400, 'Invalid tags')
+
+        event.tags = tags
         for arg in data.keys():
+            if arg == 'tags':
+                continue
             setattr(event, arg, data[arg])
 
 

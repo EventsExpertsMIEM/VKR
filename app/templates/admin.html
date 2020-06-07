@@ -67,43 +67,76 @@
                                     <th scope="col">#</th>
                                     <th scope="col">E-mail пользователя</th>
                                     <th scope="col">Роль</th>
+                                    <th scope="col">Статус</th>
                                     <th scope="col">Управление</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% set count = 1 %}
                                 {% for user in users %}
                                 <tr>
-                                    <td>{{ count }}
-                                         {% set count = count + 1 %}
-                                    </td>
+                                    <td>{{ loop.index }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td><select
-                                            class="form-control"
+                                    <td>
+                                        {% if user.service_status == 'superadmin' %}
+                                        Суперадминистратор
+                                        {% else %}
+                                        <select
+                                            class="form-control user-status-select"
                                             id="user_role"
+                                            name="user_status"
+                                            data-user-id="{{ user.id }}"
                                         >
-                                            <option>Администратор</option>
-                                            <option>Модератор</option>
-                                            <option>Участник</option>
-                                        </select></td>
+                                            <option
+                                                value="admin"
+                                                {% if user.service_status == 'admin' %}
+                                                selected
+                                                {% endif %}
+                                            >
+                                                Администратор
+                                            </option>
+                                            <option
+                                                value="moderator"
+                                                {% if user.service_status == 'moderator' %}
+                                                selected
+                                                {% endif %}
+                                            >
+                                                Модератор
+                                            </option>
+                                            <option
+                                                value="user"
+                                                {% if user.service_status == 'user' %}
+                                                selected
+                                                {% endif %}
+                                            >
+                                                Участник
+                                            </option>
+                                        </select>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ user.status }}</td>
                                     <td>
                                         {% if user.service_status == 'superadmin' %}
                                         -
                                         {% else %}
-                                        <div class="btn-group" role="group">
+                                        <div
+                                            class="btn-group"
+                                            role="group"
+                                        >
                                             <button
-                                            type="button"
-                                            class="btn btn-outline-danger"
-                                            data-toggle="modal"
-                                            data-target="#block_user_modal"
+                                                type="button"
+                                                class="btn btn-outline-danger block-user-button"
+                                                data-toggle="modal"
+                                                data-target="#block_user_modal"
+                                                data-user-id="{{ user.id }}"
                                             >Заблокировать</button>
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-danger"
+                                                class="btn btn-outline-danger delete-user-button"
                                                 data-toggle="modal"
                                                 data-target="#delete_user_modal"
+                                                data-user-id="{{ user.id }}"
                                             >Удалить</button>
-                                        {% endif %}
+                                            {% endif %}
                                         </div>
                                     </td>
                                 </tr>
@@ -160,7 +193,14 @@
                         role="tabpanel"
                         aria-labelledby="nav-tags-tab"
                     >
-                        <p>TABLE HARCODED</p>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#CreateTagModal"
+                        >
+                            Создать новый тег
+                        </button>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -170,9 +210,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for t in  tags %}
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Робототехника</td>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ t.name }}</td>
                                     <td>
                                         <div
                                             class="btn-group"
@@ -180,42 +221,23 @@
                                         >
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-secondary"
+                                                class="btn btn-outline-secondary edit-tag-button"
                                                 data-toggle="modal"
                                                 data-target="#EditTagModal"
+                                                data-tag-id="{{ t.id }}"
+                                                data-tag-name="{{ t.name }}"
                                             >Редактировать</button>
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-danger"
+                                                class="btn btn-outline-danger delete-tag-button"
                                                 data-toggle="modal"
                                                 data-target="#TagDelModal"
+                                                data-tag-id="{{ t.id }}"
                                             >Удалить</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Микроконтроллеры</td>
-                                    <td>
-                                        <div
-                                            class="btn-group"
-                                            role="group"
-                                        >
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-secondary"
-                                                data-toggle="modal"
-                                                data-target="#EditTagModal"
-                                            >Редактировать</button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-danger"
-                                                data-toggle="modal"
-                                                data-target="#TagDelModal"
-                                            >Удалить</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {%endfor%}
                             </tbody>
                         </table>
                     </div>
@@ -232,8 +254,18 @@
 
 {% include 'fragments/admin/delete_user.html' %}
 
+{% include 'fragments/admin/create_tag.html' %}
+
+{% include 'fragments/admin/edit_tag.html' %}
+
+{% include 'fragments/admin/delete_tag.html' %}
+
+
 {% endblock %}
 
 {% block extra_js %}
-
+<script
+    type="module"
+    src="/static/js/admin/main.js"
+></script>
 {% endblock %}

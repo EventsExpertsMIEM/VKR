@@ -16,7 +16,7 @@ import nanoid
 
 def get_user_info(u_id):
     with get_session() as s:
-        user = s.query(User).get(u_id)
+        user = s.query(User).get(u_id).filter(User.status != 'deleted')
         if not user:
             abort(404, 'No user with this id')
 
@@ -139,7 +139,7 @@ def get_users(offset=None, size=None):
     logging.getLogger(__name__).debug("Offset: {}\tSize: {}".format(offset, size))
 
     with get_session() as s:
-        users = s.query(User)
+        users = s.query(User).filter(User.status != 'deleted')
         if offset is not None and size is not None:
             if offset < 0 or size < 1:
                 abort(422, 'Offset or size has wrong values')
