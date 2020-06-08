@@ -1,5 +1,5 @@
 
-from flask import Blueprint, url_for, request, redirect
+from flask import Blueprint, url_for, request, redirect, jsonify
 from flask_login import login_user
 
 import requests
@@ -18,6 +18,7 @@ def vk_register():
     redirect_uri = url_for('oauth.vk_register_callback', _external=True)
     return vcunt.authorize_redirect(redirect_uri)
 
+
 @bp.route('/vk/register/callback')
 def vk_register_callback():
     token = app.oauth.vk.authorize_access_token()
@@ -35,16 +36,68 @@ def vk_register_callback():
     )
     return redirect(url_for('oauth.vk_login'))
 
+
 @bp.route('/vk/login')
 def vk_login():
     vcunt = app.oauth.vk
     redirect_uri = url_for('oauth.vk_login_callback', _external=True)
     return vcunt.authorize_redirect(redirect_uri)
 
+
 @bp.route('/vk/login/callback')
 def vk_login_callback():
     token = app.oauth.vk.authorize_access_token()
     logging.info("Login: got oauth token: {}".format(token))
     user = accounts_logic.oauth_pre_login(token['user_id'])
+    login_user(user)
+    return redirect(url_for('events_web.home'))
+
+
+@bp.route('google/register')
+def google_register():
+    google = app.oauth.google
+    redirect_uri = url_for('oauth.google_register_callback', _external=True)
+    logging.debug(redirect_uri)
+    return google.authorize_redirect(redirect_uri)
+
+
+@bp.route('google/register/callback')
+def google_register_callback():
+    token = app.oauth.google.authorize_access_token()
+    logging.getLogger(__name__).debug("Register: got oauth token: {}".format(token))
+    resp = requests.get(
+         'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
+        headers = {
+            'Authorization': 'Bearer {}'.format(token['access_token'])
+        }
+    ).json()
+    logging.getLogger(__name__).debug("Google user info: {}".format(resp))
+    accounts_logic.register_oauth_user(
+        resp['email'],
+        resp['given_name'],
+        resp['family_name'],
+        resp['id'],
+        'google'
+    )
+    return redirect(url_for('oauth.google_login'))
+
+@bp.route('google/login')
+def google_login():
+    google = app.oauth.google
+    redirect_uri = url_for('oauth.google_login_callback', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@bp.route('google/login/callback')
+def google_login_callback():
+    token = app.oauth.google.authorize_access_token()
+    resp = requests.get(
+         'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
+        headers = {
+            'Authorization': 'Bearer {}'.format(token['access_token'])
+        }
+    ).json()
+    logging.getLogger(__name__).debug("Login: got oauth token: {}".format(token))
+    user = accounts_logic.oauth_pre_login(resp['id'])
     login_user(user)
     return redirect(url_for('events_web.home'))

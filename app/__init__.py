@@ -88,6 +88,22 @@ oauth.register(
     },
 )
 
+oauth.register(
+    name='google',
+    client_id='417947745249-rf88vah86hipt6cc7rfh6ehm3rfjhbi4.apps.googleusercontent.com',
+    client_secret=cfg.GOOGLE_CLIENT_SECRET,
+    access_token_url='https://www.googleapis.com/oauth2/v4/token',
+    access_token_params=None,
+    authorize_url='https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent',
+    authorize_params=None,
+    api_base_url='https://accounts.google.com/o/oauth2/v2/auth',
+    client_kwargs={
+        'scope':
+            'https://www.googleapis.com/auth/userinfo.profile '
+            'https://www.googleapis.com/auth/userinfo.email'
+    },
+)
+
 def run(purge_files=False):
     if purge_files:
         logging.debug('Purging files')
