@@ -1,5 +1,9 @@
-from .logic.accounts import user_loader
+from gevent import monkey
 from .config import cfg
+
+monkey.patch_all(ssl=cfg.SSL_ENABLED)
+
+from .logic.accounts import user_loader
 
 from .web import (accounts as accounts_web,
                   events as events_web,
@@ -21,15 +25,12 @@ from flask import Flask, Request
 from flask_login import LoginManager
 from flask_mail import Mail
 from gevent.pywsgi import WSGIServer
-from gevent import monkey
 
 from authlib.integrations.flask_client import OAuth
 
 import logging
 import logging.config
 import sys
-
-monkey.patch_all(ssl=cfg.SSL_ENABLED)
 
 app = Flask(__name__)
 app.config.update(
