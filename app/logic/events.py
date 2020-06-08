@@ -104,6 +104,45 @@ def get_events(offset=None, size=None):
             } for event in [update_event_status(event) for event in events]
         ]
 
+def search(name, tags):
+    if tags is not None:
+        tags = tags.split(' ')
+    with get_session() as s:
+        query = s.query(Event)
+
+        logging.getLogger(__name__).debug(
+            '\n\tName: {}\n\tTags: {}'.format(name, tags)
+        )
+        
+        if name is not None:
+            query = query.filter(
+                Event.name.ilike( # big butts and i cannot lie
+                    '%{}%'.format(name.lower()) # you other brothers can't deny
+                )
+            )
+
+        if tags is not None:
+            query = query.filter(Event.tags.any(Tag.name.in_(tags)))
+
+        events = query.order_by(Event.start_date).all()
+        
+        if len(events) == 0:
+            abort(404, 'Nothing found')
+
+        return [
+            {
+                'id': event.id,
+                'name': event.name,
+                'sm_description': event.sm_description,
+                'start_date': event.start_date.isoformat(),
+                'end_date': event.end_date.isoformat(),
+                'start_time': event.start_time.isoformat(),
+                'location': event.location,
+                'site_link': event.site_link,
+                "status": event.status,
+                'tags': [ t.name for t in event.tags.all() ]
+            } for event in [update_event_status(event) for event in events]
+        ]
 
 def create_event(u_id, data):
     with get_session() as s:

@@ -1,4 +1,4 @@
-
+import { tagsSelection, tagBadge, removeTag } from '../../tags.js'
 export {loadEventInfo, editEventInfo}
 
 var eventID
@@ -6,8 +6,6 @@ var eventID
 function setData(data) {
 
     var event = data.event
-
-    console.log(event)
 
     document.getElementById('editEventName').value = event.name
     document.getElementById('editEventStartDate').value = event.start_date
@@ -27,6 +25,29 @@ function setData(data) {
                     .slice(0,2)
                         .join(':')
 
+
+    var tagsSelect = document.getElementById('tagsSelect')
+    var tagsDisplay = document.getElementById('tagsDisplay')
+    var form = document.getElementById('editEventInfoForm')
+
+    tagsSelect.addEventListener(
+        'change',
+        event => tagsSelection(tagsSelect, tagsDisplay, form)
+    )
+
+    form.dataset.tags = event.tags.join(' ')
+    for(var tag of event.tags) {
+        var badge = tagBadge(tag)
+        badge.addEventListener(
+            'click',
+            event => {
+                removeTag(event.target.dataset.tag, tagsSelect, tagsDisplay, form)
+            }
+        )
+        tagsDisplay.appendChild(badge)
+        tagsDisplay.appendChild(document.createTextNode (' '));
+        tagsSelect.querySelector(`option[value="${tag}"`).style.display = 'none'
+    }
 }
 
 function loadEventInfo(eventId) {
@@ -52,6 +73,8 @@ function editEventInfo(event) {
 
     event.preventDefault()
 
+    console.log(event)
+
     var data = {
         name: document.getElementById('editEventName').value,
         start_date: document.getElementById('editEventStartDate').value,
@@ -62,6 +85,10 @@ function editEventInfo(event) {
         description: document.getElementById('editEventDescFull').value,
         additional_info: document.getElementById('editEventAdditionalInfo').value,
         start_time: document.getElementById('editEventStartTime').value
+    }
+
+    if (event.target.dataset.tags != undefined) {
+        data.tags = event.target.dataset.tags.split(' ')
     }
 
     fetch(

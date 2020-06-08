@@ -9,83 +9,63 @@
 
 {% block content %}
 <div class="col-12 text-center mb-3">
-    <a class="btn btn-secondary mb-2" data-toggle="collapse" href="#search_collapse" role="button" aria-expanded="false" aria-controls="search_collapse">
-    Поиск мероприятий
+    <a
+        class="btn btn-secondary mb-2"
+        data-toggle="collapse"
+        href="#search_collapse"
+        role="button"
+        aria-expanded="false"
+        aria-controls="search_collapse"
+    >
+        Поиск мероприятий
     </a>
-    <div class="collapse" id="search_collapse">
-      <div class="card card-body shadow border-0">
-        <div class="row">
-          <div class="col-5">
-            <input id="event_name_search" class="form-control" type="search" placeholder="Поиск по названиям мероприятий" aria-label="Search">
-          </div>
-          <div class="col-1 text-center">
-            <button class="btn btn-outline-primary" type="submit">Искать</button>
-          </div>
-          <div class="col-3">
-            <select class="custom-select">
-              <option value="" readonly="">Выберите научные области</option>
-              <option value="Организация">Организация</option>
-              <option value="Программирование">Программирование</option>
-              <option value="Медицина">Медицина</option>
-              <option value="Мероприятия">Мероприятия</option>
-              <option value="Физика">Физика</option>
-              <option value="Химия">Химия</option>
-              <option value="Электроника">Электроника</option>
-            </select>
-          </div>
-          <div class="col-3">
-            <a href="#" class="badge badge-primary">Робототехника</a>
-            <a href="#" class="badge badge-primary">Программирование МК</a>
-            <a href="#" class="badge badge-primary">Искуственный интеллект</a>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
-<div class="card-deck">
-    {% for event in events %}
-    <div class="col-lg-4">
-        <div class="card o-hidden border-0 shadow">
-            <div class="card-header text-center bg-light pb-0">
-                <a class="btn btn-link" href="/event/{{event.id}}" role="button">{{event.name}}</a>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <p class="card-text">{{event.sm_description}}</p>
-                </li>
-                <li class="list-group-item text-center">
-                    <small class="text-muted">
-                        {% if event.start_date != event.end_date %}
-                        {{event.start_date}} - {{event.end_date}}
-                        {% else %}
-                        {{event.start_date}}
-                        {% endif %}
-                    </small>
-                </li>
-                <li class="list-group-item text-center">
-                    <small class="text-muted">{{event.location}}</small>
-                </li>
-                <li class="list-group-item text-center">
-                    <a class="btn btn-link" href="{{event.site_link}}" role="button">Сайт мероприятия</a>
-                </li>
-            </ul>
-            <div class="card-footer text-center">
-                <small>
-                    {% if event.status == 'active' %}
-                    Регистрация открыта
-                    {% elif event.status == 'closed' %}
-                    Регистрация закрыта
-                    {% elif event.status == 'archived' %}
-                    Мероприятие завершено
-                    {% endif %}
-                </small>
+    <div
+        class="collapse"
+        id="search_collapse"
+    >
+        <div class="card card-body shadow border-0">
+            <div class="row">
+                <div class="col-5">
+                    <input
+                        id="event_name_search"
+                        class="form-control"
+                        type="search"
+                        placeholder="Поиск по названиям мероприятий"
+                        aria-label="Search"
+                    >
+                </div>
+                <div class="col-1 text-center">
+                    <button
+                        id="searchButton"
+                        class="btn btn-outline-primary"
+                        type="submit"
+                    >Искать</button>
+                </div>
+                <div class="col-3">
+                    <select id="tagsSelect" class="custom-select">
+                        <option
+                            value=""
+                            readonly=""
+                        >Выберите научные области</option>
+                        {% for t in tags %}
+                        <option value="{{ t.name }}">{{ t.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="tagsDisplay" class="col-3"></div>
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
+
+<div id="eventsContainer" class="card-deck">
+
+{% include 'fragments/events/events.html' %}
+
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
-<script src="/static/js/event_search.js"></script>
+<script type="module" src="/static/js/search.js"></script>
 {% endblock %}

@@ -46,6 +46,27 @@ def pre_login(email, password):
             abort(422, 'Invalid password')
         return user
 
+def oauth_pre_login(oauth_id):
+    with get_session() as s:
+        oauth_info = s.query(OauthInfo).filter(
+            OauthInfo.oauth_id == str(oauth_id)
+        ).one_or_none()
+
+        if not oauth_info:
+            abort(404, 'No user found')
+        
+        user = s.query(User).filter(
+            User.id == oauth_info.user_id
+        ).one_or_none()
+
+        if user.status == 'banned':
+            abort(409, 'Trying to login banned user')
+        if user.status == 'deleted':
+            abort(404, 'Invalid user')
+        if user.status == 'unconfirmed':
+            abort(409, 'Trying to login unconfirmed user')
+
+        return user
 
 def register_user(email, name, surname, password, service_status='user'):
     with get_session() as s:
@@ -91,6 +112,67 @@ def register_user(email, name, surname, password, service_status='user'):
             mails.send_confirm_email(email, confirmation_link)
         logging.info('Registering new user [{}]'.format(email))
 
+def register_oauth_user(email, name, surname, oauth_id, oauth_type):
+    with get_session() as s: # TODO: Validation, error checks, cleanup
+        user = s.query(User).filter(
+            User.email == email
+        ).one_or_none()
+
+        if (email == "" or name == "" or surname == ""
+                or oauth_id == "" or oauth_type == ""):
+            abort(422, "Wrong data")
+
+        # checking unique link
+        confirmation_link = ''
+        while True:
+            confirmation_link = nanoid.generate(size=50)
+            exists = s.query(User).filter(
+                    User.confirmation_link == confirmation_link
+            ).one_or_none()
+            if not exists:
+                break
+
+        service_status = 'user'
+
+        if user:
+            if user.status == 'deleted':
+                user.name = name
+                user.surname = surname
+                user.status = cfg.DEFAULT_USER_STATUS
+                user.confirmation_link = confirmation_link
+                user.service_status = service_status
+                user.registration_date = datetime.utcnow()
+                user.disable_date = None
+                user.account_type = 'oauth'
+            elif user.status == 'banned':
+                abort(409, 'User with this email was banned')
+            else:
+                abort(409, 'Trying to register existing user')
+        else:
+            user = User(email=email, name=name,
+                        surname=surname, service_status=service_status,
+                        confirmation_link=confirmation_link,
+                        account_type='oauth')
+            s.add(user)
+    add_oauth_info(email, oauth_id, oauth_type)
+    if cfg.DEFAULT_USER_STATUS == 'unconfirmed':
+        mails.send_confirm_email(email, confirmation_link)
+    logging.info('Registering new user [{}]'.format(email))
+
+def add_oauth_info(email, oath_id, oauth_type):
+    logging.debug('ADD_OAUTH_INFO: Email: {}\nID: {}\nType: {}'
+        .format(email, oath_id, oauth_type)
+    )
+    with get_session() as s:
+        user = s.query(User).filter(
+            User.email == email
+        ).one_or_none()
+        if not user:
+            abort(404, 'Something\'s wrong')
+        oauth_info = OauthInfo(user_id=user.id, oauth_type=oauth_type, 
+            oauth_id=oath_id
+        )
+        s.add(oauth_info)
 
 def confirm_user(confirmation_link):
     with get_session() as s:

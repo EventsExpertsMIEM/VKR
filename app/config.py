@@ -87,3 +87,6 @@ reports.ALLOWED_MIME_TYPES = (
                                 'application/pdf'
                             )
 reports.MAX_SIZE = cfg.MAX_FILE_SIZE
+
+cfg.GOOGLE_CLIENT_SECRET = os.getenv('OAUTH_GOOGLE_SECRET')
+cfg.VK_CLIENT_SECRET = os.getenv('OAUTH_VK_SECRET')

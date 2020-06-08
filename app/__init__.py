@@ -3,8 +3,9 @@ from .config import cfg
 
 from .web import (accounts as accounts_web,
                   events as events_web,
-                  users as users_web
-                  )
+                  users as users_web,
+                  oauth as ouath_web)
+
 from .api import (accounts as accounts_api,
                   events as events_api,
                   users as users_api,
@@ -21,6 +22,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from gevent.pywsgi import WSGIServer
 from gevent import monkey
+
+from authlib.integrations.flask_client import OAuth
 
 import logging
 import logging.config
@@ -52,6 +55,7 @@ app.register_blueprint(tasks_api.bp, url_prefix='/api/event')
 app.register_blueprint(education_api.bp, url_prefix='/api/edu')
 app.register_blueprint(reports_api.bp, url_prefix='/api/event')
 app.register_blueprint(tags_api.bp, url_prefix='/api/tag')
+app.register_blueprint(ouath_web.bp, url_prefix='/oauth')
 
 add_error_handlers(app)
 Request.on_json_loading_failed = on_json_loading_failed
@@ -66,6 +70,22 @@ reports_file_manager = FileManager()
 reports_file_manager.set_file_set('REPORTS')
 reports_file_manager.init_app(app)
 # avatars_file_manager = FileManager(app, 'AVATARS')
+oauth = OAuth(app)
+
+oauth.register(
+    name='vk',
+    client_id='7457845',
+    client_secret=cfg.VK_CLIENT_SECRET,
+    access_token_url='https://oauth.vk.com/access_token',
+    access_token_params=None,
+    authorize_url='https://oauth.vk.com/authorize',
+    authorize_params=None,
+    api_base_url='https://oauth.vk.com/',
+    client_kwargs={
+        'token_endpoint_auth_method': 'client_secret_post',
+        'scope': '4194304' # 4194304 == email
+    },
+)
 
 def run(purge_files=False):
     if purge_files:

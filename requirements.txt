@@ -11,3 +11,5 @@ psycopg2-binary
 requests
 SQLAlchemy
 schema==0.7.2
+urllib3
+Authlib

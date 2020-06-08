@@ -1,0 +1,56 @@
+<div
+    class="tab-pane fade mt-3 text-center"
+    id="education-tab"
+    role="tabpanel"
+    aria-labelledby="nav-education-tab"
+>
+    <div class="row px-3">
+        {% for edu in education %}
+        <div class="card col-4 px-0 py-0">
+            <div class="card-header">
+                <h5 class="card-title my-0">{{ edu.university }}</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">{{ edu.department }}</h6>
+                <p class="card-subtitle mb-1 text-muted">специальность: {{ edu.program }}</p>
+                <p class="card-text my-0">
+                    {{ edu.mode }}
+                </p>
+                <p class="card-text my-0">
+                    {{ edu.graduation_year }}, {{ edu.country }}, {{ edu.city }}
+                </p>
+                <p class="text-right small text-muted mx-0 my-0">
+                    <a href=""
+                        class="no-underline" 
+                        data-toggle="modal"
+                        data-target="#delete_education_modal"
+                        data-id="{{ education.id }}">
+                        <i class="far fa-trash-alt mr-2 text-muted"></i>
+                    </a>
+                    <a href=""
+                        class="no-underline"
+                        data-toggle="modal"
+                        data-target="#edit_education_modal">
+                        <i class="far fa-edit text-muted"></i>
+                    </a>
+                </p>
+            </div>
+        </div>                   
+        {% endfor %}
+    </div>
+    <a
+        href=""
+        data-toggle="modal"
+        data-target="#new_edu_modal"
+    >
+        <h5>Добавить диплом об образовании</h5>
+    </a>
+</div>
+
+{% block extra_js %}
+
+<script src="/static/js/profile/education/new_edu.js"></script>
+
+<script src="/static/js/profile/education/delete_edu.js"></script>
+
+{% endblock %}

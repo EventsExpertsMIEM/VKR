@@ -46,6 +46,18 @@
             >
                 Научные области
             </a>
+            <a
+                class="nav-link pl-4"
+                id="nav-events-management-tab"
+                data-toggle="tab"
+                href="#events-management-tab"
+                role="tab"
+                aria-controls="events-management-tab"
+                data-anchor="management"
+                style="display: none;"
+            >
+                Управление мероприятием
+            </a>
         </nav>
     </div>
     <div class="col-lg-8">
@@ -241,6 +253,9 @@
                             </tbody>
                         </table>
                     </div>
+
+                    {% include 'fragments/admin/event_management_tab.html' %}
+
                 </div>
             </div>
         </div>
@@ -259,7 +274,6 @@
 {% include 'fragments/admin/edit_tag.html' %}
 
 {% include 'fragments/admin/delete_tag.html' %}
-
 
 {% endblock %}
 

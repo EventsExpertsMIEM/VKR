@@ -52,3 +52,6 @@ export MAIL_DEFAULT_SENDER=""
 export FILE_UPLOADS_PARENT_FOLDER=""
 # Максимальный допустимый размер файла в Мб
 export MAX_FILE_SIZE=100
+
+export OAUTH_GOOGLE_SECRET=""
+export OAUTH_VK_SECRET=""

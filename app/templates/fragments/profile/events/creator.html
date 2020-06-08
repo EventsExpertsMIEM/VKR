@@ -18,7 +18,7 @@
             </tr>
         </thead>
         {% for event in events['creator'] %}
-        <tr id="eventManagerRow{{ event.id }}">
+        <tr id="eventCreatorRow{{ event.id }}">
             <td><a href="/event/{{event.id}}">{{ event.name }}</a></td>
             <td>
                 {% if event.start_date != event.end_date %}

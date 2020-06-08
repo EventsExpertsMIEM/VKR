@@ -61,7 +61,7 @@ def add_test_data():
 
     logging.getLogger(__name__).info('Filling database with test data')
 
-    for i in range(1, 5):
+    for i in range(1, 20):
         tags_logic.add_tag(
             {
                 'name': 'Test{}'.format(i)
@@ -86,7 +86,7 @@ def add_test_data():
                 'department': 'Computer Engineering',
                 'program': 'ISCT',
                 'mode': 'bachelor',
-                'status': 'bachelor',
+                'status': 'bachelor (finished)',
                 'graduation_year': 2020
             }
         )
@@ -99,7 +99,7 @@ def add_test_data():
                 'department': 'Economics',
                 'program': 'International Relations',
                 'mode': 'bachelor',
-                'status': 'bachelor',
+                'status': 'bachelor (finished)',
                 'graduation_year': 2020
             }
         )
@@ -115,7 +115,7 @@ def add_test_data():
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
             'start_time': datetime.now().time(),
-            'tags': ['Test1', 'Test2']
+            'tags': [ 'Test{}'.format(i) ]
         })
 
     for i in range(13, 16):
@@ -129,7 +129,7 @@ def add_test_data():
             'start_date': datetime.today(),
             'end_date': datetime.today() + timedelta(days=10),
             'start_time': datetime.now().time(),
-            'tags': ['Test2', 'Test3', 'Test4']
+            'tags': [ 'Test{}'.format(i) ]
         })
 
     for i in range(1,13):
