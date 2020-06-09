@@ -32,8 +32,10 @@ function setData(data) {
                     .slice(0,2)
                         .join(':')
 
-    tagsSelect.removEventListener('change', _tagsSelectionListener)
+    tagsSelect.removeEventListener('change', _tagsSelectionListener)
 
+    var form = document.getElementById('editEventInfoForm')
+    
     tagsSelect.addEventListener(
         'change',
         _tagsSelectionListener
