@@ -14,12 +14,13 @@ import nanoid
 import json
 
 def update_event_status(event):
-    now = datetime.utcnow().date()
-    if event.start_date > now:
+    now = datetime.utcnow()
+    start_time = datetime.combine(event.start_date, event.start_time)
+    if start_time > now:
         event.status = 'active'
-    elif event.start_date < now and event.end_date > now:
+    elif start_time <= now and event.end_date >= now.date():
         event.status = 'closed'
-    elif event.end_date < now:
+    elif event.end_date < now.date():
         event.status = 'archived'
     return event
 
