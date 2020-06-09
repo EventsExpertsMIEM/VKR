@@ -3,6 +3,13 @@ export {loadEventInfo, editEventInfo}
 
 var eventID
 
+var _tagsSelectionListener(event) => {
+    var tagsSelect = document.getElementById('tagsSelect')
+    var tagsDisplay = document.getElementById('tagsDisplay')
+    var form = document.getElementById('editEventInfoForm')
+    tagsSelection(tagsSelect, tagsDisplay, form)
+}
+
 function setData(data) {
 
     var event = data.event
@@ -25,14 +32,11 @@ function setData(data) {
                     .slice(0,2)
                         .join(':')
 
-
-    var tagsSelect = document.getElementById('tagsSelect')
-    var tagsDisplay = document.getElementById('tagsDisplay')
-    var form = document.getElementById('editEventInfoForm')
+    tagsSelect.removEventListener('change', _tagsSelectionListener)
 
     tagsSelect.addEventListener(
         'change',
-        event => tagsSelection(tagsSelect, tagsDisplay, form)
+        _tagsSelectionListener
     )
 
     form.dataset.tags = JSON.stringify(event.tags)
