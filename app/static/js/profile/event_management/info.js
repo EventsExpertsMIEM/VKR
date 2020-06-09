@@ -35,7 +35,7 @@ function setData(data) {
         event => tagsSelection(tagsSelect, tagsDisplay, form)
     )
 
-    form.dataset.tags = event.tags.join(' ')
+    form.dataset.tags = JSON.stringify(event.tags)
     for(var tag of event.tags) {
         var badge = tagBadge(tag)
         badge.addEventListener(
@@ -88,7 +88,7 @@ function editEventInfo(event) {
     }
 
     if (event.target.dataset.tags != undefined) {
-        data.tags = event.target.dataset.tags.split(' ')
+        data.tags = JSON.parse(event.target.dataset.tags)
     }
 
     fetch(
