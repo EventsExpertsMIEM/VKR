@@ -3,7 +3,7 @@ export {loadEventInfo, editEventInfo}
 
 var eventID
 
-var _tagsSelectionListener(event) => {
+var _tagsSelectionListener = (event) => {
     var tagsSelect = document.getElementById('tagsSelect')
     var tagsDisplay = document.getElementById('tagsDisplay')
     var form = document.getElementById('editEventInfoForm')
