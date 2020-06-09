@@ -32,7 +32,7 @@ function setData(data) {
                     .slice(0,2)
                         .join(':')
 
-    tagsSelect.removEventListener('change', _tagsSelectionListener)
+    tagsSelect.removeEventListener('change', _tagsSelectionListener)
 
     tagsSelect.addEventListener(
         'change',
