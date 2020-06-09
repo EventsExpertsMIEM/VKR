@@ -34,6 +34,8 @@ function setData(data) {
 
     tagsSelect.removeEventListener('change', _tagsSelectionListener)
 
+    var form = document.getElementById('editEventInfoForm')
+    
     tagsSelect.addEventListener(
         'change',
         _tagsSelectionListener
