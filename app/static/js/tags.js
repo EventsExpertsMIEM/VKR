@@ -58,7 +58,7 @@ function tagsSelection(select, display, target) {
     target.dataset.tags =
         target.dataset.tags ? target.dataset.tags + ` ${value}` : value
 
-    var option = select.querySelector(`option[value=${value}]`)
+    var option = select.querySelector(`option[value="${value}"]`)
     option.style.display = 'none'
     select.value = ''
 
