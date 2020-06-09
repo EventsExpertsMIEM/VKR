@@ -66,6 +66,23 @@ function declineReport(event) {
 
 }
 
+var statuses = {
+    unseen: 'На модерации',
+    approved: 'Одобрен',
+    declined: 'Отклонен'
+}
+
+function showReportInfo(data) {
+
+    document.getElementById('reportInfoModalName').textContent = data['name']
+    document.getElementById('reportInfoModalLabel').textContent = data['name']    
+    document.getElementById('reportInfoModalDescription').textContent = data['report_description']
+    document.getElementById('reportInfoModalSpeaker').textContent = data['presenter_description']
+    document.getElementById('reportInfoModalStatus').textContent = statuses[data['status']]
+    document.getElementById('reportInfoModalLink').href=`/api/event/report/${data.id}`
+
+}
+
 function getReportsInfo(data, count) {
 
     var getCell = text => {
@@ -82,16 +99,19 @@ function getReportsInfo(data, count) {
 
     var linkCell = getCell('')
     var link = document.createElement('a')
-    link.href=`/api/event/report/${data.id}`
-    link.textContent = data.filename
+    // link.href=`/api/event/report/${data.id}`
+    link.href = '#'
+    link.dataset.toggle = 'modal'
+    link.dataset.target = '#reportInfoModal'
+    link.textContent = data.name
+    link.addEventListener(
+        'click',
+        () => {
+            showReportInfo(data)
+        }
+    )
 
     linkCell.appendChild(link)
-
-    var statuses = {
-        unseen: 'На модерации',
-        approved: 'Одобрен',
-        declined: 'Отклонен'
-    }
 
     var statusCell = getCell(statuses[data.status])
     statusCell.classList.add('report-status')
