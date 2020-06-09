@@ -12,13 +12,14 @@ function tagBadge (name) {
 
 function removeTag(value, select, display, target) { // TODO
 
-    var oldTags = target.dataset.tags
+    var tags = target.dataset.tags
+    
+    var tagsSet =   new Set(
+                        tags ? JSON.parse(target.dataset.tags) : undefined
+                    )
+    tagsSet.delete(value)
 
-    var regexp = new RegExp(`(^|\\s)${value}(\\s|$)`, 'g')
-
-    var newTags = oldTags.replace(regexp, ' ').trim()
-
-    target.dataset.tags = newTags
+    target.dataset.tags = JSON.stringify(Array.from(tagsSet))
 
     var badges = display.querySelectorAll('.badge')
 
@@ -33,9 +34,6 @@ function removeTag(value, select, display, target) { // TODO
     var option = Array.from(options).find(
         el => el.textContent == value
     )
-
-    console.log(options)
-    console.log(option)
 
     option.style.display = ''
 
@@ -54,9 +52,14 @@ function tagsSelection(select, display, target) {
     display.appendChild(badge)
     display.appendChild(document.createTextNode (' '));
 
+    var tags = target.dataset.tags
+    var tagsSet =
+        new Set(
+            tags ? JSON.parse(target.dataset.tags) : undefined
+        )
+        .add(value)
 
-    target.dataset.tags =
-        target.dataset.tags ? target.dataset.tags + ` ${value}` : value
+    target.dataset.tags = JSON.stringify(Array.from(tagsSet))
 
     var option = select.querySelector(`option[value="${value}"]`)
     option.style.display = 'none'
