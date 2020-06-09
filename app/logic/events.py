@@ -11,6 +11,7 @@ from datetime import date, time, timezone
 import requests
 import os
 import nanoid
+import json
 
 def update_event_status(event):
     now = datetime.utcnow().date()
@@ -106,7 +107,7 @@ def get_events(offset=None, size=None):
 
 def search(name, tags):
     if tags is not None:
-        tags = tags.split(' ')
+        tags = json.loads(tags)
     with get_session() as s:
         query = s.query(Event)
 
@@ -121,7 +122,7 @@ def search(name, tags):
                 )
             )
 
-        if tags is not None:
+        if tags is not None and len(tags) != 0:
             query = query.filter(Event.tags.any(Tag.name.in_(tags)))
 
         events = query.order_by(Event.start_date).all()

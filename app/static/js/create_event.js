@@ -15,7 +15,7 @@ function createEvent(event) {
     }
 
     if (event.target.dataset.tags != undefined) {
-        data.tags = event.target.dataset.tags.split(' ')
+        data.tags = JSON.parse(event.target.dataset.tags)
     }
 
     fetch("/api/event",
