@@ -122,7 +122,7 @@ def search(name, tags):
                 )
             )
 
-        if tags is not None:
+        if tags is not None and len(tags) != 0:
             query = query.filter(Event.tags.any(Tag.name.in_(tags)))
 
         events = query.order_by(Event.start_date).all()
